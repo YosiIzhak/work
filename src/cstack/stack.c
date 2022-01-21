@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../inc/cstack/stack.h"
+#include "../../inc/stack.h"
 
 
 struct Stack

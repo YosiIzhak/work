@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../inc/cstack/stack.h"
-#include "mu_test.h"
+#include "../../inc/stack.h"
+#include "../mu_test.h"
 #define TRUE 1
 #define FALSE 0
 
@@ -43,6 +43,14 @@ BEGIN_TEST(top)
     StackPush (stack, 3);
     StackTop (stack, &item);
     ASSERT_EQUAL(item, 3);
+END_TEST
+
+BEGIN_TEST(DoubleFree)
+    int stackSize = 4;
+    Stack* stack = StackCreate(stackSize);
+    StackDestroy(&stack);
+    StackDestroy(&stack);
+    ASSERT_PASS();
 END_TEST
 
 
