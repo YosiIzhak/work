@@ -59,6 +59,7 @@ BEGIN_SUITE(不耻下问 this is a description)
     TEST(push)
     TEST(empty)
     TEST(top)
+    TEST(DoubleFree)
 END_SUITE
 
 
