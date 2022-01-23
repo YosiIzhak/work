@@ -39,6 +39,18 @@ BEGIN_TEST(Sub)
     ASSERT_EQUAL(35, b);
     
 END_TEST
+
+BEGIN_TEST(SubNeg)
+	int a, b;
+    Rational num(5, 7);
+    Rational num1(-2, 5);
+    Rational res = num.sub(num1);
+    a = res.get_num();
+    b = res.get_den();
+    ASSERT_EQUAL(39, a);
+    ASSERT_EQUAL(35, b);
+    
+END_TEST
 BEGIN_TEST(Inverse)
 	int a, b;
     Rational num(2, 4);
@@ -68,6 +80,7 @@ BEGIN_SUITE(不耻下问 this is a description)
    TEST(Multi)
    TEST(Sub)
    TEST(AddNeg)
+   TEST(SubNeg)
 END_SUITE
 
 
