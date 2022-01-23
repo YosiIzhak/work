@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../inc/stack.h"
+#include "stack.h"
 #define MAGIC_NUMBER 942199
 
 struct Stack

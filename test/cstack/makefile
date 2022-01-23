@@ -20,6 +20,32 @@ clean:
 	rm -f $(TARGET) $(OBJS)
 	
 
+#PATH_SOURCE = ../../src
+#PATH_TESTSTACK = ../../test/cstack
+#PATH_HEADER =../../inc
+
+#TARGET= stack.out
+#CC= g++
+#CFLAGS= -ansi -pedantic -g
+#OBJS= cstack.o cstackTest.o 
+
+#$(TARGET):$(OBJS)
+#	$(CC) -o $(TARGET) $(OBJS) 
+
+#cstack.o:$(PATH_SOURCE)/cstack.c $(PATH_HEADER)/cstack.h 
+#	$(CC) $(CFLAGS) -c -I$(PATH_HEADER) $(PATH_SOURCE)/cstack.c 
+
+#cstackTest.o:$(PATH_TESTSTACK)/cstackTest.c $(PATH_HEADER)/cstack.h $(PATH_HEADER)/mu_test.h
+#	$(CC) $(CFLAGS) -c -I$(PATH_HEADER) -I$(PATH_HEADER) $(PATH_TESTSTACK)/cstackTest.c
+
+#chack: $(TARGET)
+#	./$(TARGET) -v
+	
+#clean:
+#	@$(RM) $(TARGET) $(OBJS)
+	
+#.PHONY: chack clean
+
 
 	
 	

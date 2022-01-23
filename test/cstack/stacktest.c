@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../inc/stack.h"
-#include "../mu_test.h"
+#include "stack.h"
+#include "mu_test.h"
 #define TRUE 1
 #define FALSE 0
 
@@ -48,9 +48,15 @@ END_TEST
 BEGIN_TEST(DoubleFree)
     int stackSize = 4;
     Stack* stack = StackCreate(stackSize);
-    StackDestroy(&stack);
-    StackDestroy(&stack);
+    StackDestroy (stack);
+    StackDestroy (stack);
     ASSERT_PASS();
+END_TEST
+
+BEGIN_TEST(loop_lala)
+    for(size_t i = 10; i >=0; --i){
+        TRACE(i);
+    }    ASSERT_PASS();
 END_TEST
 
 
