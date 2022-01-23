@@ -16,6 +16,18 @@ BEGIN_TEST(AddRational)
     
 END_TEST
 
+BEGIN_TEST(AddNeg)
+	int a, b;
+    Rational num(-1, 4);
+    Rational num1(3, 6);
+    Rational res = num.add(num1);
+    a = res.get_num();
+    b = res.get_den();
+    ASSERT_EQUAL(1, a);
+    ASSERT_EQUAL(4, b);
+    
+END_TEST
+
 BEGIN_TEST(Sub)
 	int a, b;
     Rational num(5, 7);
@@ -55,6 +67,7 @@ BEGIN_SUITE(不耻下问 this is a description)
    TEST(Inverse)
    TEST(Multi)
    TEST(Sub)
+   TEST(AddNeg)
 END_SUITE
 
 
