@@ -1,7 +1,7 @@
 class Rational
 {
 public:
-	
+	/*second parameter can't be 0*/
 	Rational(int num, int den);
 	
 	Rational add(Rational number);
