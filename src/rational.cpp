@@ -170,14 +170,7 @@ double num2 = a_rational.getNumerator()/a_rational.getDenominator();
 axioms();
 return 0;
 
-	/*if(getNumerator() == a_rational.getNumerator() && getDenominator() == a_rational.getDenominator())
-	{
-		axioms();
-		return 1;
-	}
 
-axioms();
-return 0;*/
 }
 
 /******equal*******/

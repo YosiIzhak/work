@@ -2,8 +2,8 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "../inc/stack.hpp"// initial value of m_tos ==0 && m_capacity 
-Stack::Stack(int size)
+#include "../inc/stack.hpp"
+Stack::Stack(size_t size)
 {
     m_tos = 0;
     m_capacity = size;
@@ -11,15 +11,15 @@ Stack::Stack(int size)
     assert(m_elements != NULL);
 }
 
-bool Stack::isEmpty()
+bool Stack::isEmpty() const
 {
     return m_tos == 0;
 }
-bool Stack::isFull()
+bool Stack::isFull() const
 {
     return m_tos == m_capacity;
 }
-int Stack::size()
+size_t Stack::size() const
 {
     return m_tos;
 }
@@ -27,21 +27,31 @@ int Stack::pop()
 {
     assert(!isEmpty());
     return m_elements[--m_tos];
-}void Stack::push(int value)
+}
+void Stack::push(int value)
 {
     assert(!isFull());
     m_elements[m_tos++] = value;
 }
-void Stack::dumpElements()
+void Stack::dumpElements() const
 {
-    for (int i = 0; i < m_tos; i++)
+    for (size_t i = 0; i < m_tos; i++)
     {
         printf("%d ", m_elements[i]);
     }
 }
-void Stack::dump()
+void Stack::dump() const
 {
-    printf("tos: %d,  cap: %d\n", m_tos, m_capacity);
+    printf("tos: %ld,  cap: %ld\n", m_tos, m_capacity);
     dumpElements();
     printf("\n");
+}
+void Stack::empty()
+{
+	m_tos = 0;
+}
+
+void Stack::axioms() const
+{
+	assert(m_tos < m_capacity);
 }

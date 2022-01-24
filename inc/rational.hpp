@@ -4,7 +4,7 @@
 class Rational
 {
 public:
-	Rational(int a_numerator = 0, int a_denominator = 1, bool a_redused = true);
+	Rational(int a_numerator = 0, int a_denominator = 1, bool a_reduced = true);
 
 	void add(Rational a_rational);
 	void sub(Rational a_rational);
