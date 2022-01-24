@@ -1,84 +1,262 @@
 #include <cstdio>
 #include <cassert>
+#include <cstdlib>
 #include "../inc/rational.hpp"
-Rational::Rational(int _num, int _den)
-{
-    m_num = _num;
-	assert(_den != 0);
-	m_den = _den;
-}
 
-Rational Rational::add(Rational number)
-{
-	int div; 
-	Rational c(0,1);
-	c.m_num = m_num*number.m_den + m_den * number.m_num;
-	c.m_den = m_den*number.m_den;
-	div = gcd(c.m_num, c.m_den);
-	c.m_num /= div;
-	c.m_den /= div;
-	return c;
-}
-Rational Rational::sub(Rational number)
-{
-   int div; 
-   Rational c(0,1);
-    c.m_num = m_num*number.m_den - m_den * number.m_num;
-    c.m_den = m_den*number.m_den;
-    div = gcd(c.m_num, c.m_den);
-	c.m_num /= div;
-	c.m_den /= div;
-    return c;
-}	
-Rational Rational::mul(Rational number)
-{
-	int div; 
-	Rational c(0,1);
-	c.m_num = m_num * number.m_num;
-    c.m_den = m_den * number.m_den;
-    div = gcd(c.m_num, c.m_den);
-	c.m_num /= div;
-	c.m_den /= div;
-    return c;
-}
-Rational Rational::inv()
-{
-	int div; 
-	Rational c(1,1);
-	c.m_num =  m_den;
-	c.m_den = m_num;
-	assert(c.m_den != 0);
-	div = gcd(c.m_num, c.m_den);
-	c.m_num /= div;
-	c.m_den /= div;
-	 return c;
-}
-int Rational::get_num()
-{
-	return m_num;
-}
+/******Constructor*******/
 
-int Rational::get_den()
+Rational::Rational(int a_numerator, int a_denominator, bool a_reduced)
+  :m_numerator(a_numerator)
+  ,m_denominator (a_denominator)
 {
-	return m_den;
-}
-
-void Rational::display()
-{
-	printf("%d/%d\n", m_num, m_den);
-}
-int Rational::gcd(int x, int y)
-{
-	if(y == 0)
+	assert(a_denominator != 0);
+	if(a_denominator < 0)
 	{
-		return x;
+		m_numerator *= (-1);
+		m_denominator *= (-1);
 	}
-	else
+
+	if(a_numerator == 0)
 	{
-		return gcd(y, x%y);
-	} 
+		m_denominator = 1;
+		return;
+	}
+
+	if(a_reduced)
+	{
+		reduce();
+	}
 }
 
+/******add*******/
+
+void Rational::add(Rational a_rational)
+{
+	m_numerator = (m_numerator * a_rational.m_denominator) + (m_denominator * a_rational.m_numerator);
+    m_denominator = m_denominator * a_rational.m_denominator;
+	reduce();
+	axioms();
+}
+
+/******sub*******/
+
+void Rational::sub(Rational a_rational)
+{
+	m_numerator = (m_numerator * a_rational.m_denominator) - (m_denominator * a_rational.m_numerator);
+    m_denominator = m_denominator * a_rational.m_denominator;
+	reduce();
+	axioms();
+}
+
+/******mul*******/
+
+void Rational::mul(Rational a_rational)
+{	
+	m_numerator = a_rational.m_numerator * m_numerator; 
+	m_denominator = a_rational.m_denominator * m_denominator;
+	reduce();
+	axioms();
+}
+
+/******div*******/
+
+void Rational::div(Rational a_rational)
+{	
+	m_numerator = (m_numerator * a_rational.m_denominator);
+    m_denominator =  (m_denominator * a_rational.m_numerator);
+	
+	if(m_denominator < 0)
+	{
+		m_numerator *= (-1);
+		m_denominator *= (-1);
+	}
+	reduce();
+	axioms();
+}
+
+/******reduce*******/
+
+void Rational::reduce()
+{
+int num1 = (int) abs((double)m_numerator);
+int num2 = (int) abs((double)m_denominator);
+int min;
+int max;
+
+	if(m_numerator == 0)
+	{
+		m_denominator = 1;
+		return;
+	}
+
+	 if(num1 <= num2)
+	 {
+		 min = num1;
+		 max = num2;
+	 }
+	 else
+	 {
+		min = num2;
+		max = num1;
+	 }
+		
+	for(int i = min; i > 0; i--)
+	{
+		if(min % i == 0 && max % i == 0)
+		{
+			m_numerator = m_numerator/i;
+			m_denominator = m_denominator/i;
+			break;
+		}
+	}
+
+	axioms();
+}
+
+/******inverse*******/
+
+void Rational::inverse()
+{	
+	assert(m_numerator != 0);
+	int temp = 	m_numerator;
+	m_numerator = m_denominator;
+	m_denominator = temp;
+	reduce();
+	axioms();
+}
+
+/******display*******/
+
+void Rational::display() const
+{
+	printf("%d/%d\n", m_numerator, m_denominator);
+	axioms();
+}
+
+/******getNumerator*******/
+
+int Rational::getNumerator() const
+{
+	axioms();
+	return m_numerator;
+}
+
+/******getDenominator*******/
+
+int Rational::getDenominator() const
+{
+	axioms();
+	return m_denominator;
+}
+
+/******compare*******/
+
+int Rational::compare(Rational a_rational) const
+{
+double num1 = getNumerator()/getDenominator();
+double num2 = a_rational.getNumerator()/a_rational.getDenominator();
+
+	if(num1 > num2)
+	{
+		axioms();
+		return 1;
+	}
+	if(num1 < num2)
+	{
+		axioms();
+		return -1;
+	}
+
+axioms();
+return 0;
+
+	/*if(getNumerator() == a_rational.getNumerator() && getDenominator() == a_rational.getDenominator())
+	{
+		axioms();
+		return 1;
+	}
+
+axioms();
+return 0;*/
+}
+
+/******equal*******/
+
+bool Rational::equal(Rational a_rational) const
+{
+	bool result = (getNumerator() == a_rational.getNumerator() && getDenominator() == a_rational.getDenominator());
+	axioms();
+	return result;
+}
+
+/******notEqual*******/
+
+ bool Rational::notEqual(Rational a_rational) const
+ {
+	bool result = ( !!! (getNumerator() == a_rational.getNumerator() && getDenominator() == a_rational.getDenominator()));
+	axioms();
+	return result;
+ }
+
+/******axioms*******/
+
+void Rational::axioms() const
+{
+	assert(m_denominator != 0);
+}
+
+/******add*******/
+
+Rational add(Rational a, Rational b)
+{
+int numerator = (a.getNumerator() * b.getDenominator()) + (a.getDenominator() * b.getNumerator());
+int denominator =  a.getDenominator() * b.getDenominator();
+
+	Rational result(numerator, denominator);
+	result.reduce();
+
+return result;
+}
+
+/******sub*******/
+
+Rational sub(Rational a, Rational b)
+{
+int numerator = (a.getNumerator() * b.getDenominator()) - (a.getDenominator() * b.getNumerator());
+int denominator =  a.getDenominator() * b.getDenominator();
+
+	Rational result(numerator, denominator);
+	result.reduce();
+
+return result;
+}
+
+/******mul*******/
+
+Rational mul(Rational a, Rational b)
+{
+int numerator = a.getNumerator() * b.getNumerator();
+int denominator = a.getDenominator() * b.getDenominator();
+
+	Rational result (numerator, denominator);
+	result.reduce();
+
+return result;
+}
+
+/******div*******/
+
+Rational div(Rational a, Rational b)
+{
+int numerator = a.getNumerator() * b.getDenominator();
+int denominator = a.getDenominator() * b.getNumerator();
+
+	Rational result (numerator, denominator);
+	result.reduce();
+
+return result;
+
+}
 
 
 

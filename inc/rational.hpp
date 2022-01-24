@@ -1,26 +1,38 @@
+#ifndef RATIONAL_H
+#define RATIONAL_H
+
 class Rational
 {
 public:
-	/*second parameter can't be 0*/
-	Rational(int num, int den);
-	
-	Rational add(Rational number);
-	
-	Rational sub(Rational number);
-	
-	Rational mul(Rational number);
-	
-	Rational inv();
-	
-	int get_num();
-	
-	int get_den();
-	
-	void display();
-	
-	int gcd(int x, int y);
+	Rational(int a_numerator = 0, int a_denominator = 1, bool a_redused = true);
+
+	void add(Rational a_rational);
+	void sub(Rational a_rational);
+	void mul(Rational a_rational);
+	void div(Rational a_rational);
+
+	void reduce();
+	void inverse();
+	void display() const;
+
+	int getNumerator() const;
+	int getDenominator() const;
+
+	int compare(Rational a_rational) const;
+	bool equal(Rational a_rational) const;
+	bool notEqual(Rational a_rational) const;
 
 private:
-	int m_num;
-	int m_den;
+	void axioms() const;
+
+private:
+	int m_numerator;
+	int m_denominator;
 };
+
+Rational add(Rational a, Rational b);
+Rational sub(Rational a, Rational b);
+Rational mul(Rational a, Rational b);
+Rational div(Rational a, Rational b);
+
+#endif /*#ifndef RATIONAL_H */
