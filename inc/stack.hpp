@@ -14,14 +14,16 @@ public:
     ~Stack();
     //mutators:
     void push(int* x, size_t arrSize);
+     void push(int x);
     int* pop(int a_arr[], size_t a_arrSize);
+    int pop();
     //accessors
     size_t size() const;
     bool isEmpty() const;
     bool isFull() const;
     void dump() const;
     void empty(); //empties stack
-    
+    Stack(const Stack &a_stack);
 private: //private functions
     void dumpElements() const;
     void axioms() const;
@@ -31,5 +33,7 @@ private: //struct members
     size_t m_tos;
     size_t m_capacity;
 };
+
+Stack mergeTwoStacks(Stack a_first, Stack a_second);
 
 #endif //_STACK_HPP_
