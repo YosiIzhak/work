@@ -8,10 +8,13 @@ public:
     //special member functions
     //Constructor, ctor
     Stack(size_t n);
+    Stack(int a_arr[], size_t a_size);
+    Stack(int a_arr[], size_t a_fromArr, size_t a_size);
     // member functions
+    ~Stack();
     //mutators:
-    void push(int x);
-    int pop();
+    void push(int* x, size_t arrSize);
+    int* pop(int a_arr[], size_t a_arrSize);
     //accessors
     size_t size() const;
     bool isEmpty() const;

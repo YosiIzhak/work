@@ -5,7 +5,7 @@
 
 /******Constructor*******/
 
-Rational::Rational(int a_numerator, int a_denominator, bool a_reduced)
+Rational::Rational(int a_numerator, int a_denominator, bool a_redused)
   :m_numerator(a_numerator)
   ,m_denominator (a_denominator)
 {
@@ -22,7 +22,7 @@ Rational::Rational(int a_numerator, int a_denominator, bool a_reduced)
 		return;
 	}
 
-	if(a_reduced)
+	if(a_redused)
 	{
 		reduce();
 	}
@@ -64,7 +64,7 @@ void Rational::div(Rational a_rational)
 {	
 	m_numerator = (m_numerator * a_rational.m_denominator);
     m_denominator =  (m_denominator * a_rational.m_numerator);
-	
+
 	if(m_denominator < 0)
 	{
 		m_numerator *= (-1);
@@ -121,6 +121,12 @@ void Rational::inverse()
 	int temp = 	m_numerator;
 	m_numerator = m_denominator;
 	m_denominator = temp;
+
+	if(m_denominator < 0)
+	{
+		m_numerator *= (-1);
+		m_denominator *= (-1);
+	}
 	reduce();
 	axioms();
 }
@@ -153,8 +159,8 @@ int Rational::getDenominator() const
 
 int Rational::compare(Rational a_rational) const
 {
-double num1 = getNumerator()/getDenominator();
-double num2 = a_rational.getNumerator()/a_rational.getDenominator();
+ double num1 =  (double) getNumerator()/getDenominator(); 
+ double num2 =  (double) a_rational.getNumerator()/a_rational.getDenominator(); 
 
 	if(num1 > num2)
 	{
@@ -169,7 +175,6 @@ double num2 = a_rational.getNumerator()/a_rational.getDenominator();
 
 axioms();
 return 0;
-
 
 }
 
@@ -206,7 +211,6 @@ int numerator = (a.getNumerator() * b.getDenominator()) + (a.getDenominator() * 
 int denominator =  a.getDenominator() * b.getDenominator();
 
 	Rational result(numerator, denominator);
-	result.reduce();
 
 return result;
 }
@@ -219,7 +223,6 @@ int numerator = (a.getNumerator() * b.getDenominator()) - (a.getDenominator() * 
 int denominator =  a.getDenominator() * b.getDenominator();
 
 	Rational result(numerator, denominator);
-	result.reduce();
 
 return result;
 }
@@ -232,7 +235,6 @@ int numerator = a.getNumerator() * b.getNumerator();
 int denominator = a.getDenominator() * b.getDenominator();
 
 	Rational result (numerator, denominator);
-	result.reduce();
 
 return result;
 }
@@ -245,10 +247,8 @@ int numerator = a.getNumerator() * b.getDenominator();
 int denominator = a.getDenominator() * b.getNumerator();
 
 	Rational result (numerator, denominator);
-	result.reduce();
 
 return result;
-
 }
 
 
