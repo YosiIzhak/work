@@ -151,7 +151,7 @@ BEGIN_TEST(merge_two_stacks)
 	
 	ASSERT_THAT(b.size() == 5);
 	Stack c(10);
-	c = mergeTwoStacks(a, b);
+	c = combine(a, b);
 	ASSERT_THAT(c.size() == 10);
 	c.dump();
 	

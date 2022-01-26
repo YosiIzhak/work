@@ -13,15 +13,19 @@ public:
     // member functions
     ~Stack();
     //mutators:
-    void push(int* x, size_t arrSize);
+    void push(int const* x, size_t arrSize);
      void push(int x);
     int* pop(int a_arr[], size_t a_arrSize);
     int pop();
+    void drain(Stack* a_source);
+   void ensureCapacity(size_t a_cap);
     //accessors
+    size_t capacity() const;
     size_t size() const;
     bool isEmpty() const;
     bool isFull() const;
     void dump() const;
+    int top() const;
     void empty(); //empties stack
     Stack(const Stack &a_stack);
 private: //private functions
@@ -34,6 +38,6 @@ private: //struct members
     size_t m_capacity;
 };
 
-Stack mergeTwoStacks(Stack a_first, Stack a_second);
+Stack combine(Stack &a_first, Stack &a_second);
 
 #endif //_STACK_HPP_
