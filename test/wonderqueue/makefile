@@ -14,7 +14,7 @@ CPPFLAGS = -I$(INC_DIR)
 INC_DIR = ../../inc
 
 TARGET = utest
-OBJS = utest.o ../../src/stack_cxx.o
+OBJS = utest.o ../../src/wonderqueue.o ../../src/stack_cxx.o
 
 $(TARGET): $(OBJS)
 
@@ -24,4 +24,5 @@ check: $(TARGET)
 clean:
 	@$(RM) $(TARGET) $(OBJS)
 
-.PHONY: clean check
+.PHONY: clean check.
+

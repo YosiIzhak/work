@@ -142,7 +142,10 @@ void Stack::popToArray(int *a_array, size_t a_nItems, size_t a_arrSize)
 /*---------------------------------------------*/
 void Stack::ensureCapacity(size_t a_capacity)
 {
-    if(capacity() >= a_capacity){return;} 
+    if(capacity() >= a_capacity)
+    {
+    	return;
+    } 
     int *newArray = new int[a_capacity];
     memcpy(newArray, m_elements, sizeof(m_elements[0]) * m_tos);
     int *oldArray = m_elements; 

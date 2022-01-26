@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <string.h>
 
-#include "../inc/minstack.hpp"
+#include "minstack.hpp"
 const size_t arraySize  = 100;
 /******Constructor*******/
 

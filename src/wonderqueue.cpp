@@ -2,8 +2,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <string.h>
-
-#include "../inc/wonderqueue.hpp"
+#include "wonderqueue.hpp"
 
 /******Constructor*******/
 
@@ -14,15 +13,15 @@ WonderQueue::WonderQueue(size_t a_capacity)
 ,m_size(0)
 {
    m_firstStack = new Stack(a_capacity);
-   m_secondStack = = new Stack(a_capacity);
+   m_secondStack = new Stack(a_capacity);
     axioms();
 }
 /******destroy*******/
 
 WonderQueue::~WonderQueue()
 {
-  delete[]m_firstStack;
-  delete[]m_secondStack;
+  delete m_firstStack;
+  delete m_secondStack;
 }
 
 /******axioms*******/
@@ -31,20 +30,23 @@ void WonderQueue::axioms() const
 {
    /* assert(m_tos >= 0 && m_tos <= m_capacity);*/
     assert(m_size >= 0 && m_size <= 100000000);
-    assert(m_size >= 0);
 }
 /******enqueue*******/
 void WonderQueue::enqueue(int a_item)
 {
-	m_firstStack.push(a_item);
+	m_firstStack->push(a_item);
+	m_size++;
 }
 /******dequeue*******/
 int WonderQueue::dequeue()
 {
-	assert(m_secondStack->m_tos == 0);
-	m_secondStack.drain(m_firstStack);
-	m_secondStack.pop();
-	m_firstStack.drain(m_secondStack);
+	int item;
+	assert(m_secondStack->size() == 0);
+	m_secondStack->drain(*m_firstStack);
+	item = m_secondStack->pop();
+	m_firstStack->drain(*m_secondStack);
+	m_size--;
+	return item;
 }
  
 /******isEmpty*******/
@@ -77,7 +79,7 @@ size_t WonderQueue::capacity() const
 
 void WonderQueue::dumpElements() const
 {
-    m_firstStack.dumpElements();
+    m_firstStack->dumpElements();
 	axioms();
 }
 
