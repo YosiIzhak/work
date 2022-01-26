@@ -8,8 +8,6 @@
 
 WonderQueue::WonderQueue(size_t a_capacity)
 :m_capacity(a_capacity)
-,m_head(0)
-,m_tail(0)
 ,m_size(0)
 {
    m_firstStack = new Stack(a_capacity);

@@ -4,78 +4,92 @@
 #include <string.h>
 
 #include "minstack.hpp"
-const size_t arraySize  = 100;
+
 /******Constructor*******/
 
 minStack::minStack(size_t a_capacity)
-:m_tos(0)
+:m_size(0)
+,m_minSize(0)
 ,m_capacity(a_capacity)
 {
     assert(a_capacity >= 0);
-	m_elements = new int [a_capacity];
+	m_stack = new Stack(a_capacity);
+    m_minStack = new Stack(a_capacity);
     axioms();
 }
 /******destroy*******/
 
 minStack::~minStack()
 {
-  delete[]m_elements;
+  delete m_stack;
+  delete m_minStack;
 }
 
 /******axioms*******/
 
-void Stack::axioms() const
+void minStack::axioms() const
 {
-    assert(m_tos >= 0 && m_tos <= m_capacity);
+    assert(m_size >= 0 && m_size <= m_capacity);
     assert(m_capacity >= 0 && m_capacity <= 100000000);
-    assert(m_elements != 0);
 }
 
 /******isEmpty*******/
 
-bool Stack::isEmpty() const
+bool minStack::isEmpty() const
 {
-    return m_tos == 0;
+    return m_size == 0;
 }
 
 /*******isFull*******/
 
-bool Stack::isFull() const
+bool minStack::isFull() const
 {
-    return m_tos == m_capacity;
+    return m_size == m_capacity;
 }
 
 /*******size*******/
 
-size_t Stack::size() const
+size_t minStack::size() const
 {
-    return m_tos;
+    return m_size;
 }
 /*******capacity*******/
 
-size_t Stack::capacity() const
+size_t minStack::capacity() const
 {
     return m_capacity;
 }
 /*******pop*******/
 
 
-int Stack::pop()
+int minStack::pop()
 {
-    assert(!isEmpty());
-    int result = m_elements[--m_tos];
+    assert(!m_stack->isEmpty());
+    int result = m_stack->top();
+    m_size--;
+    if(result == m_minStack->top())
+    {
+    	m_minSize--;
+    }
     axioms();
     return result;
 }
 
 /*******push*******/
-void Stack::push(int a_item)
+void minStack::push(int a_item)
 {
-    assert(!isFull());
-    m_elements[m_tos++] = a_item;
-    if (a_item <= m_stack->m_stack.top())
+    assert(!m_stack->isFull());
+    m_stack->push(a_item);
+    m_size++;
+    if (m_minStack->isEmpty())
     {
-    	m_stack.push(a_item);
+    	m_minStack->push(a_item);
+    	m_minSize++;
+    }
+    else if(a_item <= m_minStack->top())
+    {
+    	m_minStack->push(a_item);
+    	m_minSize++;
     }
    
      axioms();
@@ -83,20 +97,17 @@ void Stack::push(int a_item)
 
 /*******dumpElements*******/
 
-void Stack::dumpElements() const
+void minStack::dumpElements() const
 {
-    for (size_t i = 0; i < m_tos; i++)
-    {
-        printf("%d ", m_elements[i]);
-    }
+   m_stack->dumpElements();
      axioms();
 }
 
 /*******dump*******/
 
-void Stack::dump() const
+void minStack::dump() const
 {
-    printf("tos: %ld,  cap: %ld\n", m_tos, m_capacity);
+    printf("size: %ld,  cap: %ld\n", m_size, m_capacity);
     dumpElements();
     printf("\n");
      axioms();
@@ -104,13 +115,15 @@ void Stack::dump() const
 
 
 /*******top*******/
-int Stack::top() const
+int minStack::top() const
 {
-   return m_elements[m_tos];
+   return m_stack->top();
 }
 /*******min*******/
-int Stack::min() const
-
+int minStack::min() const
+{
+	return m_minStack->top();
+}
 
 
 

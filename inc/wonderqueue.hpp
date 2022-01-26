@@ -32,8 +32,7 @@ private: //private functions
 private: //struct members
      size_t  m_capacity;
    
-    size_t  m_head;      /* Index of head in m_que. */
-    size_t  m_tail;      /* Index of tail in m_que. */
+        /* Index of tail in m_que. */
     size_t  m_size;
     Stack*  m_firstStack;
     Stack*  m_secondStack;
