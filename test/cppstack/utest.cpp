@@ -1,175 +1,179 @@
-#include "../mu_test.h"
-#include "../../inc/stack.hpp"
+#include "mu_test.h"
+#include "stack.hpp"
+#include <cstdio>
+#include <cstdlib>
+#include <cassert>
 
-/*BEGIN_TEST(new_stack_is_empty)
-    Stack stack(5); 
+/*------------------------------------*/
+BEGIN_TEST(push_items)
+    Stack stack;
+
+    ASSERT_EQUAL(stack.size(), 0);
+    stack.push(4);
+    stack.push(9);
+    stack.push(42);
+    ASSERT_EQUAL(stack.size(), 3);
+    stack.dump();
+END_TEST
+
+/*------------------------------------*/
+BEGIN_TEST(pop_items)
+    Stack stack;
+
+    stack.push(4);
+    stack.push(9);
+    stack.push(42);
+    ASSERT_EQUAL(stack.size(), 3);
+    stack.pop();
+    stack.pop();
+    stack.pop();
+    ASSERT_EQUAL(stack.size(), 0);
+    stack.dump();
+END_TEST
+
+/*------------------------------------*/
+BEGIN_TEST(empty_stack)
+    Stack stack;
+
+    stack.push(4);
+    stack.push(9);
+    stack.push(42);
+    //stack.dump();
+	stack.empty();
+    ASSERT_EQUAL(stack.size(), 0);
+    ASSERT_THAT(stack.isEmpty());
+    stack.dump();
+END_TEST
+
+/*------------------------------------*/
+BEGIN_TEST(is_empty)
+    Stack stack;
     bool r = stack.isEmpty();
-    ASSERT_THAT(r);  
+    ASSERT_THAT(r);
     ASSERT_THAT(stack.isEmpty());
     ASSERT_EQUAL(stack.size(), 0);
     stack.push(4);
     stack.push(9);
-    stack.push(42);    
+    stack.push(42);
+    ASSERT_EQUAL(stack.isEmpty(), false);
     stack.dump();
 END_TEST
 
-BEGIN_TEST(stack_is_full)
-	Stack stack(5);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(1);
-	stack.push(2);
-	stack.push(3);
-	stack.push(4);
-	stack.push(5);	
-	ASSERT_THAT(stack.isFull());
+/*------------------------------------*/
+BEGIN_TEST(is_stack_full)
+    Stack stack(3);
+
+    stack.push(4);
+    stack.push(9);
+    ASSERT_EQUAL(stack.isFull(), false);
+    stack.push(42);
+
+    ASSERT_EQUAL(stack.isFull(), true);
     stack.dump();
 END_TEST
 
-BEGIN_TEST(stack_size_standard)
-	Stack stack(5);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(42);
-	ASSERT_THAT(stack.size() == 1);
-	stack.dump();
+/*------------------------------------*/
+BEGIN_TEST(stack_destruction)
+    Stack stack(80);
+
+    stack.push(4);
+    stack.push(9);
+
+	ASSERT_PASS();
 END_TEST
 
-BEGIN_TEST(stack_push_pop)
-	Stack stack(4);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(42);
-	int num = stack.pop();
-	ASSERT_THAT(num == 42);
-	stack.dump();
+/*------------------------------------*/
+BEGIN_TEST(push_array_to_stack)
+    Stack s1, s2;
+    int array[10];
+    
+    for(int i = 0; i < 10; i++)
+    {
+        array[i] = i;
+    }
+    
+    s1.pushArray(array, 10, 10);
+    ASSERT_EQUAL(s1.size(), 10);
+    s1.dump();
+
+    s2.pushArray(array, 7, 10);
+    ASSERT_EQUAL(s2.size(), 7);
+    s2.dump();
+
 END_TEST
 
-BEGIN_TEST(stack_empty)
-	Stack stack(3);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(4);
-	stack.push(9);
-	stack.push(42);
-	ASSERT_THAT(stack.isFull());
-	stack.empty();
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(2);
-	stack.push(9);
-	stack.push(42);
-    stack.dump();
+/*------------------------------------*/
+BEGIN_TEST(pop_stack_into_array)
+    int array[] = {1,2,3,4,5,6,7,8,9,10}; 
+    int flippedArr[] = {10,9,8,7,6,5,4,3,2,1};
+    int popArr[20];        
+    Stack s1(array,10,10,10);
+    Stack flippedStack(flippedArr,10,10,10);
+
+    s1.popToArray(popArr, 10, 20);
+    ASSERT_EQUAL(s1.size(), 0);
+    s1.dump();
+    ASSERT_EQUAL(memcmp(popArr, flippedArr, sizeof(flippedArr)), 0);
+
+END_TEST
+/*------------------------------------*/
+
+BEGIN_TEST(combine_two_stacks)
+    int array[10], array2[10];
+    Stack comb(15);
+
+    for(int i = 0; i < 10; i++)
+    {
+        array[i] = i;
+        array2[i] = i * (-1);
+    }
+    
+    Stack s1(array,10);
+    Stack s2(array2,10);
+
+    combine(comb ,s1, s2);
+
+    ASSERT_EQUAL(comb.size(), 20);
+    ASSERT_THAT(comb.isFull());
+    ASSERT_EQUAL(s1.size(), 0);
+    ASSERT_EQUAL(s2.size(), 0);
+    comb.dump();
+
 END_TEST
 
-BEGIN_TEST(stack_fill_empty)
-	size_t n= 10;
-	Stack stack(n);
-	ASSERT_EQUAL(stack.isEmpty(), true);
-	for(size_t i=0; i<n; i++)
-	{
-		ASSERT_EQUAL(stack.isFull(), false);
-		ASSERT_EQUAL(stack.size(), i);
-		stack.push((int)i);
-		ASSERT_EQUAL(stack.isEmpty(), false);
-	}
-	ASSERT_EQUAL(stack.isFull(), true);
-	for(size_t i=n-1; i>=0; --i)
-	{
-		if(i>n)
-		{
-			break;
-		}
-		ASSERT_EQUAL(stack.isEmpty(), false);
-		int x = stack.pop();
-		ASSERT_EQUAL(x, (int)i);
-		ASSERT_EQUAL(stack.isFull(), false);
-	}
-	ASSERT_EQUAL(stack.isEmpty(), true);
-END_TEST*/
-BEGIN_TEST(stack_constractor_size)
-	
-	int arr[10] = {2,4,3,5,6,7,5,8,9,1};
-	Stack stack(arr, 10);
-	ASSERT_THAT(stack.size() == 10);
-	stack.dump();
+/*------------------------------------*/
+BEGIN_TEST(combine_with_empty_stack)
+    int array[] = {1,2,3,4,5,6,7,8,9,10}; 
+    int array2[] = {99}; 
+    Stack comb(5);
+    
+    Stack s1(array,10);
+    Stack s2(array2,1);
+
+    combine(comb ,s1, s2);
+
+    ASSERT_EQUAL(comb.size(), 11);
+    ASSERT_THAT(comb.isFull());
+    ASSERT_EQUAL(s1.size(), 0);
+    ASSERT_EQUAL(s2.size(), 0);
+    comb.dump();
+
 END_TEST
 
-BEGIN_TEST(stack_constractor_size_copy)
-	int arr[100];
-	for(size_t i =0; i< 100; i++)
-	{
-		arr[i] = i;
-	}
-	Stack stack(arr, 32, 128);
-	ASSERT_THAT(stack.size() == 32);
-	/*stack.dump();*/
-END_TEST
+/*####################################*/
+BEGIN_SUITE(ה¸ט€»ה¸‹י—® this is a description)
+	TEST(push_items)
+	TEST(pop_items)
+    TEST(is_empty)
+    TEST(empty_stack)
+    TEST(is_stack_full)
+    TEST(stack_destruction)
+    TEST(push_array_to_stack)
+    TEST(pop_stack_into_array)
+    TEST(combine_two_stacks)
+    TEST(combine_with_empty_stack)
 
-BEGIN_TEST(push_array)
-	int arr[10] = {2,4,3,5,6,7,5,8,9,1};
-	Stack stack(15);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(arr, 10);
-	stack.dump();
-END_TEST
-
-BEGIN_TEST(push_array_small_size)
-	int arr[10] = {2,4,3,5,6,7,5,8,9,1};
-	Stack stack(7);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(arr, 10);
-	stack.dump();
-END_TEST
-
-BEGIN_TEST(pop_to_array)
-	int arr[10] = {2,4,3,5,6,7,5,8,9,1};
-	int arrPop[10];
-	Stack stack(17);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(arr, 10);
-	stack.pop(arrPop, 10);
-	stack.dump();
-END_TEST
-
-BEGIN_TEST(pop_to_array_small)
-	int arr[10] = {2,4,3,5,6,7,5,8,9,1};
-	int arrPop[10];
-	Stack stack(5);
-	ASSERT_THAT(stack.isEmpty());
-	stack.push(arr, 10);
-	ASSERT_THAT(stack.size() == 5);
-	stack.pop(arrPop, 10);
-	stack.dump();
-END_TEST
-
-BEGIN_TEST(merge_two_stacks)
-	int arr[5] = {1,2,3,4,5};
-	Stack a(5);
-	ASSERT_THAT(a.isEmpty());
-	a.push(arr, 5);
-	
-	ASSERT_THAT(a.size() == 5);
-	Stack b(5);
-	ASSERT_THAT(b.isEmpty());
-	b.push(arr, 5);
-	
-	ASSERT_THAT(b.size() == 5);
-	Stack c(10);
-	c = combine(a, b);
-	ASSERT_THAT(c.size() == 10);
-	c.dump();
-	
-END_TEST
-
-BEGIN_SUITE(不耻下问 this is a description)
- 	/*TEST(stack_constractor_size)
- 	TEST(stack_constractor_size_copy)
- 	TEST(push_array)
- 	TEST(push_array_small_size)
- 	TEST(pop_to_array)
- 	TEST(pop_to_array_small)*/
- 	 TEST(merge_two_stacks)
-   /*TEST(new_stack_is_empty)
-    TEST(stack_is_full)
-    TEST(stack_size_standard)
-    TEST(stack_push_pop)
-    TEST(stack_empty)
-    TEST(stack_fill_empty)
-   */ 
 END_SUITE
+
+
+

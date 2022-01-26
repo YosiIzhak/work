@@ -1,43 +1,45 @@
-#ifndef _STACK_HPP_
-#define _STACK_HPP_
-
+#ifndef STACK_HPP
+#define STACK_HPP
+#include <cstdlib> //size_t
 
 class Stack
 {
 public:
-    //special member functions
-    //Constructor, ctor
-    Stack(size_t n);
-    Stack(int a_arr[], size_t a_size);
-    Stack(int a_arr[], size_t a_fromArr, size_t a_size);
-    // member functions
+	//constructors
+	Stack(size_t a_capacity = 64);
+    Stack(int const *a_array, size_t a_arrSize);   
+    Stack(int const *a_array, size_t a_arrSize, size_t a_nItems, size_t a_stackSize); 
     ~Stack();
-    //mutators:
-    void push(int const* x, size_t arrSize);
-     void push(int x);
-    int* pop(int a_arr[], size_t a_arrSize);
+	
+	//methods
+    void push(int x);
+    void pushArray(int const *a_array, size_t a_nItems, size_t a_arrSize);
     int pop();
-    void drain(Stack* a_source);
-   void ensureCapacity(size_t a_cap);
-    //accessors
-    size_t capacity() const;
-    size_t size() const;
+    void popToArray(int *a_array, size_t a_nItems, size_t a_arrSize);
+    void empty(); 
+    void ensureCapacity(size_t a_capacity); //enlarge capacity if needed
+    void drain(Stack &a_source);
+    
+    int size() const;
     bool isEmpty() const;
     bool isFull() const;
     void dump() const;
-    int top() const;
-    void empty(); //empties stack
-    Stack(const Stack &a_stack);
-private: //private functions
     void dumpElements() const;
+    size_t capacity() const;
+    int top() const;
+    
+private:
     void axioms() const;
+    
     // data member
-private: //struct members
-    int* m_elements;
-    size_t m_tos;
+private:
     size_t m_capacity;
+    int *m_elements;
+    size_t m_tos;
+
 };
 
-Stack combine(Stack &a_first, Stack &a_second);
+void combine(Stack &a_destination, Stack &a_first, Stack &a_second);
 
-#endif //_STACK_HPP_
+#endif
+

@@ -1,210 +1,177 @@
 #include <cstdio>
+#include <cstdlib> //size_t
 #include <cassert>
-#include <cstdlib>
-#include <string.h>
+#include <cstring>
+#include "stack.hpp"
 
-#include "../inc/stack.hpp"
-const size_t arraySize  = 100;
-/******Constructor*******/
-
+/*--------------- constructors ---------------*/
 Stack::Stack(size_t a_capacity)
-:m_tos(0)
-,m_capacity(a_capacity)
+: m_capacity(a_capacity)
+, m_elements(new int[m_capacity])
+, m_tos(0)
 {
-    assert(a_capacity >= 0);
-	m_elements = new int [a_capacity];
     axioms();
 }
 
-Stack::Stack(int a_arr[], size_t a_size)
-:m_tos(0)
+Stack::Stack(int const *a_array, size_t a_arrSize)
+: m_capacity(a_arrSize)
+, m_elements(new int[a_arrSize])
+, m_tos(0)
 {
-	/*assert(a_size <= arraySize);*/
-	
-	m_capacity = a_size;
-	
-	m_elements = new int [m_capacity];
-	for(size_t i = 0; i < a_size; i++)
-	{
-		/*m_elements[i] = a_arr[i];*/
-		
-		push(a_arr[i]);
-		
-	}
-    axioms();
+    assert(a_array != NULL);
+    pushArray(a_array, a_arrSize, a_arrSize);
 }
-Stack::Stack(int a_arr[], size_t a_fromArr, size_t a_size)
-:m_tos(0)
-{
-	assert(a_fromArr <= arraySize);
-	
-	m_capacity = a_size;
-	assert(m_capacity >= 0);
-	m_elements = new int [m_capacity];
-	for(size_t i = 0; i < a_fromArr; i++)
-	{
-		/*m_elements[i] = a_arr[i];*/
-		push(a_arr[i]);
-	}
-    axioms();
-}
-/******destroy*******/
 
+Stack::Stack(int const *a_array, size_t a_arrSize, size_t a_nItems, size_t a_stackSize)
+: m_capacity(a_stackSize)
+, m_elements(new int[a_stackSize])
+, m_tos(0)
+{
+    assert(a_array != NULL);
+    pushArray(a_array, a_nItems, a_arrSize);
+}
+/*-------------- de-constructor -------------*/
 Stack::~Stack()
 {
-  delete[]m_elements;
+	delete[] m_elements;
 }
-
-/******axioms*******/
-
+/*------- private function --------------------*/
 void Stack::axioms() const
 {
-    assert(m_tos >= 0 && m_tos <= m_capacity);
-    assert(m_capacity >= 0 && m_capacity <= 100000000);
-    assert(m_elements != 0);
+    assert(m_elements != NULL);
+    assert(m_capacity >= 0);
+    assert(m_tos >=0 && m_tos <= m_capacity);
 }
-
-/******isEmpty*******/
+/*----------------- functions -----------------*/
 
 bool Stack::isEmpty() const
 {
+    axioms();
     return m_tos == 0;
 }
-
-/*******isFull*******/
-
+/*---------------------------------------------*/
 bool Stack::isFull() const
 {
+    axioms();
     return m_tos == m_capacity;
 }
-
-/*******size*******/
-
-size_t Stack::size() const
+/*---------------------------------------------*/
+int Stack::size() const
 {
+    axioms();
     return m_tos;
 }
-/*******capacity*******/
-
+/*---------------------------------------------*/
 size_t Stack::capacity() const
 {
+    axioms();
     return m_capacity;
 }
-/*******pop*******/
-int* Stack::pop(int a_arr[], size_t a_arrSize)
-{
-	 assert(!isEmpty());
-	  for (size_t i = 0; i < a_arrSize; i++)
-	  {
-	  		a_arr[i] = m_elements[m_tos--];
-     		axioms();
-	 		if (m_tos == 0)
-	 		{
-	 			break;
-	 		}
-	  }
-	  return a_arr;
-} 
-
+/*---------------------------------------------*/
 int Stack::pop()
 {
     assert(!isEmpty());
-    int result = m_elements[--m_tos];
-    axioms();
-    return result;
+    int r = m_elements[--m_tos];
+	axioms();   
+    return r;
 }
-
-/*******push*******/
-void Stack::push(int const* a_arr, size_t a_arrSize)
-{
-	 assert(!isFull());
-	 for (size_t i = 0; i < a_arrSize; i++)
-	 {
-	  	m_elements[m_tos++] = a_arr[i];
-     	axioms();
-	 	if (m_tos == m_capacity)
-	 	{
-	 		break;
-	 	}
-	 }
-}
-
-void Stack::push(int a_item)
+/*---------------------------------------------*/
+void Stack::push(int value)
 {
     assert(!isFull());
-    m_elements[m_tos++] = a_item;
-     axioms();
+    m_elements[m_tos++] = value;
+    axioms();   
 }
-
-/*******dumpElements*******/
-
+/*---------------------------------------------*/
+void Stack::empty() 
+{
+	m_tos = 0;
+	axioms();
+}
+/*---------------------------------------------*/
+int Stack::top() const
+{
+    assert(!isEmpty());   
+	axioms();   
+    return m_elements[m_tos-1];
+}
+/*---------------------------------------------*/
 void Stack::dumpElements() const
 {
     for (size_t i = 0; i < m_tos; i++)
     {
-        printf("%d ", m_elements[i]);
+        printf("%d, ", m_elements[i]);
     }
-     axioms();
 }
-
-/*******dump*******/
-
+/*---------------------------------------------*/
 void Stack::dump() const
 {
-    printf("tos: %ld,  cap: %ld\n", m_tos, m_capacity);
+    printf("tos: %ld, cap: %ld\n", m_tos, m_capacity);
     dumpElements();
     printf("\n");
-     axioms();
 }
-
-/*******empty*******/
-
-void Stack::empty()
+/*---------------------------------------------*/
+void Stack::pushArray(int const *a_array, size_t a_nItems, size_t a_arrSize)
 {
-   m_tos = 0;
-   axioms();
+    assert(a_array != NULL);  
+    assert(a_nItems <= a_arrSize);
+    assert(a_nItems <= m_capacity);
+
+    //memcpy(); change later
+    for(size_t i = 0; i < a_nItems; i++)
+    {
+        push(a_array[i]);
+    }
+    axioms();
 }
-/*******top*******/
-int Stack::top() const
+/*---------------------------------------------*/   
+void Stack::popToArray(int *a_array, size_t a_nItems, size_t a_arrSize)
 {
-   return m_elements[m_tos];
+    size_t i = 0; 
+
+    assert(a_array != NULL);
+    assert(a_nItems <= m_tos);
+
+    while(i < a_nItems && i < a_arrSize)
+    {
+        a_array[i] = pop();
+        i++;
+    }
+    axioms();
 }
-/*******drain*******/
-void Stack::drain(Stack* a_source)
+/*---------------------------------------------*/
+void Stack::ensureCapacity(size_t a_capacity)
 {
-	while (!a_source->isEmpty())
-	{
-		push(a_source->pop());
-	}
+    if(capacity() >= a_capacity){return;} 
+    int *newArray = new int[a_capacity];
+    memcpy(newArray, m_elements, sizeof(m_elements[0]) * m_tos);
+    int *oldArray = m_elements; 
+    m_elements = newArray;
+    m_capacity = a_capacity;
+    delete[] oldArray;
+    axioms(); 
 }
-/*******ensureCapacity*******/
-void Stack::ensureCapacity(size_t a_cap)
+/*---------------------------------------------*/
+void Stack::drain(Stack &a_source)
 {
-	m_capacity = a_cap;
-	m_elements = new int [m_capacity];
+    ensureCapacity(a_source.capacity());
+    
+    while(a_source.m_tos != 0)
+    {
+        push(a_source.pop());
+    }
+    axioms(); 
 }
-/*******combine*******/
-Stack combine(Stack &a_first, Stack &a_second)
+/*---------------------------------------------*/
+void combine(Stack &a_destination, Stack &a_first, Stack &a_second) 
 {
-	if (!a_first || !a_second)
-	{
-		return 0;
-	}
-	size_t totalSize = a_first.size() + a_second.size();
-	Stack newStack(totalSize);
-	newStack.drain(&a_first);
-	newStack.drain(&a_second);
-	assert(newStack.size() == totalSize);
-	return newStack;
+    size_t totalCapacity = a_first.size() + a_second.size();
+
+    a_destination.ensureCapacity(totalCapacity);
+
+    a_destination.drain(a_first);
+    a_destination.drain(a_second);
 }
-
-
-
-
-
-
-
-
 
 
 

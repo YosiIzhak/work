@@ -25,4 +25,3 @@ clean:
 	@$(RM) $(TARGET) $(OBJS)
 
 .PHONY: clean check
-
