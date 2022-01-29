@@ -12,7 +12,7 @@ public:
     WonderQueue(size_t n);
    
     // member functions
-    ~WonderQueue();
+   
     //mutators:
    
     void enqueue(int x);
@@ -30,12 +30,11 @@ private: //private functions
     void axioms() const;
     // data member
 private: //struct members
+     Stack  m_firstStack;
+     Stack  m_secondStack;
      size_t  m_capacity;
+     size_t  m_size;
    
-        /* Index of tail in m_que. */
-    size_t  m_size;
-    Stack*  m_firstStack;
-    Stack*  m_secondStack;
 };
 
 

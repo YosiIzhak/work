@@ -7,10 +7,10 @@ class minStack
 public:
     //special member functions
     //Constructor, ctor
-    minStack(size_t n);
+    minStack(size_t size);
    
     // member functions
-    ~minStack();
+   
     //mutators:
     
      void push(int x);
@@ -33,8 +33,8 @@ private: //private functions
     
     // data member
 private: //struct members
-    Stack*   m_stack;
-    Stack*   m_minStack;
+    Stack  m_stack;
+    Stack  m_minStack;
     size_t m_size;
     size_t m_minSize;
     size_t m_capacity;
