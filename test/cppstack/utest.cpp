@@ -160,6 +160,47 @@ BEGIN_TEST(combine_with_empty_stack)
 
 END_TEST
 
+/*------------------------------------*/
+BEGIN_TEST(check_copy_constructor)
+    int array[] = {1,2,3,4,5,6,7,8,9,10}; 
+
+    Stack s1(array,10);
+    Stack s2(s1);
+
+    //ASSERT_EQUAL(memcmp(&s2, &s1, sizeof(s2)), 0);  //check why doesn't work
+
+    s1.dump();
+    s2.dump();
+    ASSERT_EQUAL(s1.size(), s2.size());
+    ASSERT_EQUAL(s1.capacity(), s2.capacity());
+    
+    for(int i = 1; i <= 10; i++)
+    {
+        ASSERT_EQUAL(s1.pop(), s2.pop());
+    }
+
+END_TEST
+
+/*------------------------------------*/
+BEGIN_TEST(check_copy_assignment_operator)
+    int array[] = {1,2,3,4,5,6,7,8,9,10}; 
+
+    Stack s1(array,10);
+    Stack s2(10);
+
+    s2 = s1;
+    s1.dump();
+    s2.dump();
+    ASSERT_EQUAL(s1.size(), s2.size());
+    ASSERT_EQUAL(s1.capacity(), s2.capacity());
+    
+    for(int i = 1; i <= 10; i++)
+    {
+        ASSERT_EQUAL(s1.pop(), s2.pop());
+    }
+
+END_TEST
+
 /*####################################*/
 BEGIN_SUITE(ה¸ט€»ה¸‹י—® this is a description)
 	TEST(push_items)
@@ -172,6 +213,8 @@ BEGIN_SUITE(ה¸ט€»ה¸‹י—® this is a description)
     TEST(pop_stack_into_array)
     TEST(combine_two_stacks)
     TEST(combine_with_empty_stack)
+    TEST(check_copy_constructor)
+    TEST(check_copy_assignment_operator)
 
 END_SUITE
 

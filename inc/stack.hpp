@@ -10,6 +10,8 @@ public:
     Stack(int const *a_array, size_t a_arrSize);   
     Stack(int const *a_array, size_t a_arrSize, size_t a_nItems, size_t a_stackSize); 
     ~Stack();
+    Stack(Stack const& a_source);       //copy constructor
+    Stack& operator=(Stack const& a_source); 
 	
 	//methods
     void push(int x);
