@@ -1,68 +1,129 @@
 #include "mu_test.h"
+#include "single_list.hpp"
 
-#include "stack.h"
+BEGIN_TEST(empty_list)
 
+	LinkedList list;
+	ASSERT_EQUAL(list.size(), 0);
+	ASSERT_EQUAL(list.isEmpty(), true);
 
-BEGIN_TEST(add_small_int)
-    int a = 4;
-    int b = 6;
-
-    int r = add(&a, &b);
-    ASSERT_EQUAL(r, 10);
-
-    ASSERT_NOT_EQUAL(r, 0);
-    ASSERT_THAT(r > 0);
-    ASSERT_THAT(r < 20);
+	int r = list.first();
+	r = list.last();
+	ASSERT_EQUAL(r, 0);
 
 END_TEST
 
+BEGIN_TEST(add_and_remove)
 
-BEGIN_TEST(add_array_elemnts)
-    int a[5] = {1,2,3,4,5};
+	LinkedList list;
+	ASSERT_EQUAL(list.size(), 0);
+	ASSERT_EQUAL(list.isEmpty(), true);
 
+	for (int i = 1; i < 11; i++)
+	{
+		list.add(i);
+	}
+	ASSERT_EQUAL(list.size(), 10);
+	ASSERT_EQUAL(list.isEmpty(), false);
 
-    int r = add(a+1, a+2);
-    ASSERT_EQUAL(r, 5);
-
-    r = add(a, a+3);
-    ASSERT_EQUAL(r, 5);
-END_TEST
-
-
-BEGIN_TEST(add_elem_and_null)
-    int a = 7;
-
-    int r = add(&a, 0);
-
-    ASSERT_EQUAL(r, 10);
-END_TEST
-
-
-BEGIN_TEST(add_with_FAIL)
-    int a = 7;
-
-    int r = add(0, 0);
-    if(r < -100){
-        ASSERT_EQUAL(r, -42);
-    }else{
-        ASSERT_FAIL("should not be here");
-    }
+	for (int i = 1; i < 11; i++)
+	{
+		list.remove();
+	}
+	ASSERT_EQUAL(list.size(), 0);
+	ASSERT_EQUAL(list.isEmpty(), true);
 
 END_TEST
 
-BEGIN_TEST(fake_test)
-    int a = 8;
-    int b = 7;
-    int r = add(&a, &b);
-    ASSERT_PASS();
+BEGIN_TEST(all_function)
+
+	LinkedList list;
+	ASSERT_EQUAL(list.size(), 0);
+	ASSERT_EQUAL(list.isEmpty(), true);
+
+	Iterator it;
+	it = list.begin();
+	ASSERT_EQUAL(it.data(), 0);
+	it = list.end();
+	ASSERT_EQUAL(it.data(), 0);
+	ASSERT_EQUAL(it.equal(list.begin()), true);
+	ASSERT_EQUAL(it.notEqual(list.begin()), false);
+
+	for (int i = 1; i < 11; i++)
+	{
+		list.add(i);
+	}
+	ASSERT_EQUAL(list.size(), 10);
+	ASSERT_EQUAL(list.isEmpty(), false);
+	ASSERT_EQUAL(list.first(), 10);
+	ASSERT_EQUAL(list.last(), 1);
+
+	it = list.begin();
+	ASSERT_EQUAL(it.data(), 10);
+	it = it.next();
+	ASSERT_EQUAL(it.data(), 9);
+	it = list.end();
+	ASSERT_EQUAL(it.data(), 0);
+	ASSERT_EQUAL(it.equal(list.begin()), false);
+	ASSERT_EQUAL(it.notEqual(list.begin()), true);
+
+	it = list.begin();
+	int r;
+	for (int i = 10; i > 0; i--)
+	{
+		r = it.data();
+		ASSERT_EQUAL(r, i);
+		it = it.next();
+	}
+
+	for (int i = 1; i < 11; i++)
+	{
+		list.remove();
+	}
+	ASSERT_EQUAL(list.size(), 0);
+	ASSERT_EQUAL(list.isEmpty(), true);
+
+	it = list.end();
+	ASSERT_EQUAL(it.data(), 0);
 
 END_TEST
 
+void addOne(LinkedList a_list)
+{
+	a_list.add(1);
+}
 
-BEGIN_SUITE(不耻下问 this is a description)
-    TEST(add_elem_and_null)
-    IGNORE_TEST(add_small_int)
-    TEST(add_array_elemnts)
-    TEST(add_with_FAIL)
-    TEST(fake_test)
+BEGIN_TEST(test_cctor)
+
+	LinkedList list;
+	ASSERT_THAT(list.isEmpty());
+	addOne(list);
+	ASSERT_EQUAL(list.size(), 0);
+
+END_TEST
+
+BEGIN_TEST(test_operator_equal)
+
+	LinkedList a;
+	LinkedList b;
+
+	for (size_t i = 1; i < 6; i++)
+	{
+		b.add(i);
+	}
+
+	a = b;
+	ASSERT_EQUAL(b.size(), 5);
+	ASSERT_EQUAL(a.size(), 5);
+
+END_TEST
+
+BEGIN_SUITE(Its what you learn after you know it all that counts)
+
+IGNORE_TEST(empty_list)
+TEST(add_and_remove)
+TEST(all_function)
+TEST(test_cctor)
+TEST(test_operator_equal)
+
 END_SUITE
