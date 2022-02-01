@@ -21,6 +21,10 @@ $(TARGET): $(OBJS)
 check: $(TARGET)
 	./$(TARGET) -v
 
+debug: $(TARGET)
+	valgrind --leak-check=full ./${TARGET} -v
+	gdb -q ${TARGET}
+	
 clean:
 	@$(RM) $(TARGET) $(OBJS)
 
