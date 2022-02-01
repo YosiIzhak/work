@@ -12,9 +12,9 @@ Node::Node(int a_data)
    // axioms();
 }
 
-void Node::setNext(Node& a_next)
+void Node::setNext(Node* a_next)
 {
-    m_next = &a_next;
+    m_next = a_next;
 }
 
 void Node::setData(int a_data)
@@ -31,27 +31,27 @@ Node* Node::getNext() const
 {
     return m_next;
 }
-Node* Node::setNext(Node* ptr)
-{
-    m_next = ptr;
-}
+
 /*---------------list constructors ---------------*/
 List::List(size_t size)
 :m_size(0)
 ,m_head(new Node(0))
 ,m_end(new Node(0))
+,m_tail(new Node(0))
 {
     m_head->setNext(m_end); 
     m_end->setNext(m_end); 
+     m_tail->setNext(m_end); 
    // axioms();
 }
 
 /*---------------------------------------------*/
 // copy constructor
 List::List(List const& a_source)
-:  m_size()
+:m_size()
 ,m_head()
-,m_end(0) 
+,m_end(0)
+,m_tail(0)
 {
     copyList(a_source);
     m_size = a_source.size();
@@ -61,35 +61,51 @@ List::List(List const& a_source)
 /*-------------- de-constructor -------------*/
 List::~List()
 {
-	delete m_head;
+    while(!isEmpty())
+    {
+        remove();
+    }
+
     delete m_end;
+    axioms();
 }
 /*------- private function --------------------*/
-//void List::axioms() const
-//{
- //   assert(m_elements != NULL);
-   // assert(m_capacity >= 0);
-//}
-/*----------------- functions -----------------*/
-/*------------ copy-assignment operator -------*/
-List& List::operator=(List const& a_source)
+void List::axioms() const
 {
-    this->m_end->setData(0);
-    this->m_end->setNext(m_end);
-    
-    copyList(a_source);
-    
-    m_size = a_source.size();
-    
-    axioms();
-    //printf("pointer1: %p \npointer2: %p\n", (void*)m_head, (void*)a_source.m_head);
+    assert(m_head != 0);
+    assert(m_tail != 0);
+}
+/*------------ copy-assignment operator -------*/
+List &List::operator=(List const &source)
+{
+    m_end = new Node(0);
+    m_head = m_end;
+    m_tail = m_end;
+    m_end -> setNext(m_end);
+
+    Node* node = source.m_head;
+    List list;
+    while (node != source.m_end)
+    {
+        list.add(node -> getData());
+        node = node -> getNext();
+    }
+
+    node = list.m_head;
+    while (node != list.m_end)
+    {
+        add(node -> getData());
+        node = node -> getNext();
+    }
+
+    m_size = source.size();
+    axioms(); 
     return *this;
 }
-
 /*----------------------------------------------*/
 void List::copyList(List const& a_source)
 {
-    assert(a_source.size() > 0);
+   // assert(a_source.size() > 0);
     Node* current = a_source.m_head;
     List copyList;
 
@@ -105,7 +121,7 @@ void List::copyList(List const& a_source)
         add(current->getData());   
         current = current->getNext();
     }
-   // axioms();
+    axioms();
 }
 bool List::isEmpty() const
 {
@@ -129,72 +145,85 @@ Node* List::getEnd() const
     return m_end;
 }
 
-void List::remove()
+int List::remove()
 {
     assert(!isEmpty());
-    m_head->setNext(m_head->getNext()->getNext());
+    Node* node = m_head;
+    int data = m_head -> getData();
+    m_head = m_head-> getNext();
     m_size--;
-//	axioms();   
+    delete node;
+    return data;
 }
 
 void List::add(int a_value)
 {
-   Node* newNode = new Node(a_value);
-   newNode->setNext(m_head->getNext());
-   m_head->setNext(newNode);
-  
+   if (m_size == 0)
+   {
+       m_tail->setData(a_value);
+       m_head->setNext(m_tail);
+   }
+   else
+   {
+       Node* newNode = new Node(a_value);
+       newNode->setNext(m_head->getNext());
+       m_head->setNext(newNode);
+   }
+   m_size++;
    // axioms();   
 }
-
-ListItr List::begin(List* a_list)
+void List::print() const
 {
-	if (a_list == 0) 
-	{
-        return;
-   	}
+    assert(m_size > 0);
+    Node* current = m_head->getNext();
+    
+    printf("\n");
+    while(current != m_end)
+    {
+        printf("%d, ", current->getData());
+        current = current->getNext();
+    }
+    printf("\n\n");
+}
+
+ListItr List::begin()
+{
 	ListItr itr;
-    itr.set(a_list->getHead()->getNext());
+    itr.set(m_head->getNext());
     return itr;
 }
 
-ListItr List::end(List* a_list)
+ListItr List::end()
 {
-	if (a_list == NULL) 
-	{
-        	return;
-   	}
-	 ListItr itr;
-     itr.set(a_list->getEnd());  
+	ListItr itr;
+    itr.set(m_end);  
 	return itr;
 }
-int ListItr::first(List* a_list) 
+int List::first() const
 {
-   	//axioms();   
-    ListItr itr;
-    itr.set(a_list->getHead()->getNext());
-    int data = itr.m_node->getData();
-    return data;
+   return m_head->getNext()->getData();
 }
 
-int ListItr::last(List* a_list) 
+int List::last() const
 {
-    ListItr itr;
-    itr.set(a_list->getHead());
-    ListItr itrEnd;
-    itrEnd.set(a_list->getEnd());
-    while(itr.equals(itrEnd) == false)
-    {
-        itr.next(); 
-    }
-    int data = itr.m_node->getData();
-    return data;
+    return m_tail->getData();
 }
 
-Node* ListItr::next()
+ListItr ListItr::next()
 {
-     return this->m_node->getNext();
+    ListItr next(m_node->getNext());
+    return next;
+}
+ListItr::ListItr()
+:m_node()
+{
+
 }
 
+ListItr::ListItr(Node* a_node)
+{
+    m_node = a_node;
+}
 ListItr ListItr::set(Node * a_node)
 {
     this->m_node = a_node;

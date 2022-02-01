@@ -8,12 +8,25 @@ public:
     Node(int size);
     int getData() const;
     Node* getNext() const;
-    Node* setNext(Node* ptr);
     void setData(int a_data);
-    void setNext(Node& a_next);
+    void setNext(Node* a_next);
 private:
     int       m_data;
     Node*     m_next;
+};
+
+class ListItr
+{
+public:
+    ListItr();
+    ListItr(Node* node);
+        bool equals(const ListItr a_itr) const;
+    ListItr next();
+    int get() const;
+    ListItr set(Node * a_node);
+    
+private:
+    Node* m_node;
 };
 
 class List
@@ -26,7 +39,7 @@ public:
     List& operator=(List const& a_source);
 	
 	//methods
-    void remove();
+    int remove();
     void add(int x);
     int size() const;
     bool isEmpty() const;
@@ -35,8 +48,11 @@ public:
     void copyList(List const& a_source);
     Node* getHead() const;
     Node* getEnd() const;
-    ListItr begin(List* _list);
-    ListItr end(List* _list);
+    ListItr begin();
+    ListItr end();
+    void print() const;
+    int last() const;
+    int first() const;
     
     
 private:
@@ -47,24 +63,13 @@ private:
     size_t m_size;
     Node* m_head;
     Node* m_end;
+    Node* m_tail;
 
 };
 
-class ListItr
-{
-public:
-    ListItr();
-    bool equals(const ListItr a_itr) const;
-    Node* next();
-    int get() const;
-    ListItr set(Node * a_node);
-     int first(List* _list);
-    int last(List* _list);
-private:
-    Node* m_node;
-};
 
- #include "./inl/single_list.hxx"   
+
+ 
 
 #endif
 
