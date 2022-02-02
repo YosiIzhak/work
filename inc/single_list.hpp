@@ -3,7 +3,25 @@
 
 #include <cstddef>
 
-class Node;
+class Node
+{
+public:
+    Node(int a_data, Node* a_next);
+    Node(int a_data);
+    int getData() const;
+    Node* getNext() const;
+
+    void setData(int a_data);
+    void setNext(Node* a_next);
+
+private:
+    void axioms()const;    
+
+private:
+    int m_data;
+    Node* m_next;
+};
+
 
 class Iterator
 {
@@ -36,7 +54,7 @@ public:
     void print() const;
     Iterator begin() const;
     Iterator end() const;
-
+    Node* getHead () const;
     size_t size() const;
     bool isEmpty() const;
    

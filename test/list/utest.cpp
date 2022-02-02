@@ -135,7 +135,7 @@ BEGIN_TEST(test_united)
 
 	LinkedList a;
 	LinkedList b;
-    LinkedList c;
+    
 	for (size_t i = 1; i < 6; i++)
 	{
 		a.add(i);
@@ -146,10 +146,11 @@ BEGIN_TEST(test_united)
 		b.add(i);
         b.print();
 	}
-    c = interSec(a, b);
+    LinkedList c = interSec(a, b);
     c.print();
     	
 END_TEST
+
 BEGIN_SUITE(Its counts)
 
 IGNORE_TEST(empty_list)

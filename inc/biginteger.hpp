@@ -2,30 +2,29 @@
 #define BIG_INTEGER_HPP
 
 #include <cstddef>
+#include "single_list.hpp"
 
-
-class bigInteger
+class BigInteger
 {
 public:
-    bigInteger();
-   
-   
-   
-    
-  
+  BigInteger();
+  BigInteger(long a_num);
+  BigInteger(char* a_str);
 
-    bigInteger add();
-    bigInteger sub();
-   
+ BigInteger add(BigInteger const&  a_integer); 
+ BigInteger sub(BigInteger a_integer); 
+ BigInteger mul(BigInteger a_integer); 
+ char* toString();
+
+ Node * solve(Node * list1, Node * list2);
+ void printList();
+LinkedList getList();
+LinkedList flip();
+    
 private:
-    void axioms();    
   
-private:
-    Node* m_sentinal;
-    Node * m_head;
-    Node * m_tail;
-    size_t m_size;
+    LinkedList m_list;
 };
 
-
+ 
 #endif  // LINKED_LIST_HPP

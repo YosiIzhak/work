@@ -4,24 +4,12 @@
 #include <cstdio>
 #include <cstring>
 
-class Node
+/*--------------- Node constructors -----------*/
+Node::Node(int a_data)
+: m_data(a_data)
+, m_next()
 {
-public:
-    Node(int a_data, Node* a_next);
-
-    int getData() const;
-    Node* getNext() const;
-
-    void setData(int a_data);
-    void setNext(Node* a_next);
-
-private:
-    void axioms()const;    
-
-private:
-    int m_data;
-    Node* m_next;
-};
+}
 
 Node::Node(int a_data, Node* a_next)
 : m_data(a_data)
@@ -156,7 +144,7 @@ LinkedList &a_second)
         {
             dest.add(data);
         }
-        start.next();                                                                                                                                                                                                     
+        start = start.next();                                                                                                                                                                                                     
     }
     return dest;
 }
@@ -211,7 +199,10 @@ int LinkedList::last() const
     assert(!isEmpty());
     return m_tail -> getData();
 } 
-
+ Node* LinkedList::getHead() const
+ {
+     return m_head;
+ }
 void LinkedList::axioms()
 {
     assert(m_size >= 0);
