@@ -13,7 +13,7 @@ public:
 
  BigInteger add(BigInteger const&  a_integer); 
  BigInteger sub(BigInteger a_integer); 
- BigInteger mul(BigInteger a_integer); 
+ BigInteger mul(BigInteger const& a_integer); 
  char* toString();
 
  Node * solve(Node * list1, Node * list2);

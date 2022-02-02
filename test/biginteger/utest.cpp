@@ -28,9 +28,19 @@ BEGIN_TEST(add_bigs_overflow)
 
 END_TEST
 
+BEGIN_TEST(mul_bigs)
+    BigInteger a(15);
+	BigInteger b(15);
+	BigInteger c;
+	c = a.mul(b);
+	c.printList();
+	LinkedList d = c.getList(); 
+	ASSERT_EQUAL(d.first(), 2);
+
+END_TEST
 
 BEGIN_SUITE(iption)
 	TEST(add_bigs)
 	TEST(add_bigs_overflow)
-
+	TEST(mul_bigs)
 END_SUITE

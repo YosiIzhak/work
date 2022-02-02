@@ -98,4 +98,45 @@ BigInteger BigInteger::add(BigInteger const& a_num)
   return newSum;
 }
 
-
+BigInteger BigInteger::mul(BigInteger const& a_num) 
+{
+  BigInteger newSum;
+  int carry = 0, mult = 0, count = 0;
+  Iterator firstIt = this->m_list.begin();
+  Iterator secIt = a_num.m_list.begin();
+  Iterator firstEnd = this->m_list.end();
+  Iterator secEnd = a_num.m_list.end();
+  while (firstIt.notEqual(firstEnd)) 
+  {
+      secIt = a_num.m_list.begin();
+      BigInteger temp;
+      for (int i = 0; i < count; i++)
+      {
+        temp.m_list.add(0);
+        printf("%d**\n", count);
+      }
+      while(secIt.notEqual(secEnd))
+      {
+        mult = carry;
+        mult += (firstIt.data() * secIt.data());
+        carry = mult /10;
+        mult %= 10;
+        secIt = secIt.next();
+        printf("%d\n", mult);
+        temp.m_list.add(mult);
+      }
+      if (carry > 0)
+      {
+       temp.m_list.add(carry);
+      }
+      newSum.add(temp);
+      for (size_t j = 0; j < temp.m_list.size(); j++)
+      {
+          temp.m_list.remove();
+      }
+      firstIt = firstIt.next();
+      count++;
+  }
+ 
+  return newSum;
+}    
