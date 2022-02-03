@@ -67,8 +67,10 @@ private:
     Node * m_tail;
     size_t m_size;
 };
-LinkedList interSec(LinkedList &a_first, 
-LinkedList &a_second); 
+LinkedList interSec(LinkedList &a_first, LinkedList &a_second); 
+bool contains(LinkedList const& a_list, int a_element);
+bool contains(Iterator a_begin, Iterator a_end, int a_element);
+
 #include "./inl/single_list.hxx"
 
 #endif  // LINKED_LIST_HPP

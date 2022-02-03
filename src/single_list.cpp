@@ -142,8 +142,6 @@ bool LinkedList::contains(int a_element) const
     return false;
 }
 
-//bool contains(LinkedList const& a_list, int a_element);
-//bool contains(ListIterator a_begin, ListIterator a_end, int a_element);
 
 // bool LinkedList::isExist (int a_data) 
 // {
@@ -159,23 +157,7 @@ bool LinkedList::contains(int a_element) const
 //     return 0;
 // }
 
-LinkedList interSec(LinkedList &a_first,
-LinkedList &a_second)
-{
-    Iterator start = a_first.begin();
-    Iterator last = a_first.end();
-    LinkedList dest;
-    while (start.notEqual(last))
-    {
-        int data = start.data();
-        if (a_second.contains(data))
-        {
-            dest.add(data);
-        }
-        start = start.next();                                                                                                                                                                                                     
-    }
-    return dest;
-}
+
 void LinkedList::add(int a_data)
 {
     if(isEmpty())
@@ -242,7 +224,6 @@ void LinkedList::axioms()
 Iterator::Iterator(Node* a_node)
 : m_current(a_node)
 {
-
 }
 
 Iterator& Iterator::next() 
@@ -254,4 +235,36 @@ Iterator& Iterator::next()
 int Iterator::data() const
 {
     return m_current -> getData();
+}
+LinkedList interSec(LinkedList &a_first, LinkedList &a_second)
+{
+    Iterator start = a_first.begin();
+    Iterator last = a_first.end();
+    LinkedList dest;
+    while (start.notEqual(last))
+    {
+        int data = start.data();
+        if (a_second.contains(data))
+        {
+            dest.add(data);
+        }
+        start = start.next();                                                                                                                                                                                                     
+    }
+    return dest;
+}
+bool contains(LinkedList const& a_list, int a_element)
+{
+    return a_list.contains(a_element);
+}
+bool contains(Iterator a_begin, Iterator a_end, int a_element)
+{
+     while (a_begin.notEqual(a_end))
+    {
+        if (a_begin.data() == a_element)
+        {
+           return true;
+        }
+         a_begin.next();                                                                                                                                                                                                     
+    }
+    return false;
 }

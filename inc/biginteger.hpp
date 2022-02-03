@@ -24,6 +24,7 @@ LinkedList flip();
 private:
   
     LinkedList m_list;
+    char m_sign;
 };
 
  
