@@ -20,11 +20,10 @@ BigInteger::BigInteger(long a_num)
        digit = a_num % 10;
        m_list.add(digit);
        a_num = a_num/ 10;
-      
-       m_list = this->flip();
    }
+    m_list = this->flip();
 }
-LinkedList BigInteger::getList()
+LinkedList& BigInteger::getList()
 {
     return m_list;
 }
@@ -34,11 +33,6 @@ LinkedList BigInteger::flip()
     Iterator it = m_list.begin();
     Iterator end = m_list.end();
 
-    if(m_list.size() <= 1)
-    {
-        return m_list;
-    }
-    
     while(it.notEqual(end))
     {
         flipped.add(it.data());
@@ -57,19 +51,21 @@ void BigInteger::printList()
         it = it.next();
     }
 }
-BigInteger BigInteger::add(BigInteger const& a_num) 
+BigInteger& BigInteger::add(BigInteger const& a_num) 
 {
-  BigInteger newSum;
+  LinkedList sumList;
   int carry = 0, sum = 0;
-  Iterator firstIt = this->m_list.begin();
+  Iterator firstIt = m_list.begin();
   Iterator secIt = a_num.m_list.begin();
-  Iterator firstEnd = this->m_list.end();
+  Iterator firstEnd = m_list.end();
   Iterator secEnd = a_num.m_list.end();
   while (firstIt.notEqual(firstEnd) || secIt.notEqual(secEnd)) 
   {
     sum = carry;
     sum += firstIt.data();
+    //printf("%d firstIt:\n", sum);
     sum += secIt.data();
+   // printf("%d secIt:\n", sum);
     if (sum >= 10)
     {
       carry = 1;
@@ -79,7 +75,9 @@ BigInteger BigInteger::add(BigInteger const& a_num)
       carry = 0;
     }
     sum %= 10;
-    newSum.m_list.add(sum);
+    sumList.add(sum);
+
+   // printf("%d sum:\n", sum);
     if (firstIt.notEqual(firstEnd))
     {
       firstIt = firstIt.next();
@@ -91,29 +89,33 @@ BigInteger BigInteger::add(BigInteger const& a_num)
   }
   if (carry > 0)
   {
-       newSum.m_list.add(carry);
+       sumList.add(carry);
   }
-  LinkedList temp = newSum.flip();
-  newSum.m_list = temp;
-  return newSum;
+  
+   m_list = sumList;
+  return *this;
 }
 
-BigInteger BigInteger::mul(BigInteger const& a_num) 
+BigInteger& BigInteger::mul(BigInteger const& a_num) 
 {
-  BigInteger newSum;
+  BigInteger newSum = *this;
+  BigInteger second = a_num;
   int carry = 0, mult = 0, count = 0;
-  Iterator firstIt = this->m_list.begin();
-  Iterator secIt = a_num.m_list.begin();
-  Iterator firstEnd = this->m_list.end();
-  Iterator secEnd = a_num.m_list.end();
+  //newSum.m_list = newSum.flip();
+  //second.m_list = second.flip();
+  BigInteger res, temp;
+  Iterator firstIt = newSum.m_list.begin();
+  Iterator secIt = second.m_list.begin();
+  Iterator firstEnd = newSum.m_list.end();
+  Iterator secEnd = second.m_list.end();
   while (firstIt.notEqual(firstEnd)) 
   {
-      secIt = a_num.m_list.begin();
-      BigInteger temp;
+      secIt = second.m_list.begin();
+     
       for (int i = 0; i < count; i++)
       {
         temp.m_list.add(0);
-        printf("%d**\n", count);
+      // printf("%d**\n", count);
       }
       while(secIt.notEqual(secEnd))
       {
@@ -122,21 +124,30 @@ BigInteger BigInteger::mul(BigInteger const& a_num)
         carry = mult /10;
         mult %= 10;
         secIt = secIt.next();
-        printf("%d\n", mult);
         temp.m_list.add(mult);
+       // printf("%d mult\n", mult);
       }
       if (carry > 0)
       {
        temp.m_list.add(carry);
       }
-      newSum.add(temp);
-      for (size_t j = 0; j < temp.m_list.size(); j++)
+    
+      temp.m_list = temp.flip();
+       //printf("temp:\n");
+      //temp.printList();
+      res.add(temp);
+      res.m_list = res.flip();
+      //printf("res:\n");
+      //res.printList();
+      size_t k = res.m_list.size();
+      for (size_t j = 0; j < k; j++)
       {
           temp.m_list.remove();
       }
       firstIt = firstIt.next();
       count++;
   }
- 
-  return newSum;
+  res.m_list = res.flip();
+  m_list = res.m_list;
+  return *this;
 }    

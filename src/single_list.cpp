@@ -82,6 +82,11 @@ LinkedList::LinkedList(LinkedList const &source)
 
 LinkedList &LinkedList::operator=(LinkedList const &source)
 {
+    while (size() > 0)
+    {
+        remove();
+    }
+     
     m_sentinal = new Node(0, m_sentinal);
     m_head = m_sentinal;
     m_tail = m_sentinal;
@@ -117,19 +122,42 @@ LinkedList::~LinkedList()
     delete m_sentinal;
     axioms();
 }
-bool LinkedList::isExist (int a_data) 
+
+bool LinkedList::contains(int a_element) const
 {
     Node* current = m_head;
-    while(current != m_sentinal)
-    {
-      if (current->getData() == a_data)
+    m_sentinal->setData(a_element);
+    
+    for (int index = 0; ; index++)
+	{
+      if (current->getData() == a_element)
       {
-          return 1;
+          if(current != m_sentinal)
+          {
+            return true;
+          }
       }
       current = current->getNext();
     }
-    return 0;
+    return false;
 }
+
+//bool contains(LinkedList const& a_list, int a_element);
+//bool contains(ListIterator a_begin, ListIterator a_end, int a_element);
+
+// bool LinkedList::isExist (int a_data) 
+// {
+//     Node* current = m_head;
+//     while(current != m_sentinal)
+//     {
+//       if (current->getData() == a_data)
+//       {
+//           return 1;
+//       }
+//       current = current->getNext();
+//     }
+//     return 0;
+// }
 
 LinkedList interSec(LinkedList &a_first,
 LinkedList &a_second)
@@ -140,7 +168,7 @@ LinkedList &a_second)
     while (start.notEqual(last))
     {
         int data = start.data();
-        if (a_second.isExist(data))
+        if (a_second.contains(data))
         {
             dest.add(data);
         }
@@ -217,9 +245,10 @@ Iterator::Iterator(Node* a_node)
 
 }
 
-Iterator Iterator::next() const
+Iterator& Iterator::next() 
 {
-    return Iterator(m_current -> getNext());
+    m_current = m_current->getNext();
+    return *this;
 }
 
 int Iterator::data() const

@@ -28,7 +28,7 @@ class Iterator
 public:
     Iterator(Node *a_node = 0);
 
-    Iterator next() const;
+    Iterator& next();
     int data() const;
 
     bool equal(Iterator const& a_itr) const;
@@ -48,7 +48,7 @@ public:
     
     void add(int a_data); 
     int remove(); 
-    bool isExist (int a_data);
+    bool contains(int a_element) const;
     int first() const;  
     int last() const;  
     void print() const;
