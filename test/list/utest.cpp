@@ -126,8 +126,8 @@ BEGIN_TEST(test_find)
 		a.add(i);
 	}
 
-	ASSERT_THAT(a.isExist(5));
-	ASSERT_THAT(!a.isExist(15));
+	ASSERT_THAT(a.contains(5));
+	ASSERT_THAT(!a.contains(15));
 
 END_TEST
 
@@ -139,15 +139,17 @@ BEGIN_TEST(test_united)
 	for (size_t i = 1; i < 6; i++)
 	{
 		a.add(i);
-        a.print();
+        //a.print();
 	}
-	for (size_t i = 1; i < 6; i++)
+	for (size_t i = 3; i < 7; i++)
 	{
 		b.add(i);
-        b.print();
+       // b.print();
 	}
-    LinkedList c = interSec(a, b);
-    c.print();
+    LinkedList c;
+	size_t res = intersect(a, b, c);
+    //c.print();
+	ASSERT_EQUAL(res, 3);
     	
 END_TEST
 

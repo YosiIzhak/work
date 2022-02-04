@@ -9,7 +9,7 @@ class BigInteger
 public:
   BigInteger();
   BigInteger(long a_num);
-  BigInteger(char* a_str);
+  BigInteger(const char* a_str);
 
  BigInteger& add(BigInteger const&  a_integer); 
  BigInteger sub(BigInteger a_integer); 

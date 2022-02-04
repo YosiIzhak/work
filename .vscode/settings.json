@@ -9,6 +9,14 @@
         "initializer_list": "cpp",
         "limits": "cpp",
         "type_traits": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "random": "cpp",
+        "cstring": "cpp",
+        "*.tcc": "cpp",
+        "memory": "cpp",
+        "istream": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp"
     }
 }

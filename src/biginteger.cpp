@@ -4,15 +4,18 @@
 #include <cassert>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
 
 
 BigInteger::BigInteger()
 :m_list()
+,m_sign(0)
 {
    
 }
 BigInteger::BigInteger(long a_num)
 :m_list()
+,m_sign(0)
 {
    int digit;
    while (a_num > 0)
@@ -20,8 +23,40 @@ BigInteger::BigInteger(long a_num)
        digit = a_num % 10;
        m_list.add(digit);
        a_num = a_num/ 10;
+       if (a_num < 0)
+       {
+           m_sign = 1;
+       }
    }
     m_list = this->flip();
+}
+BigInteger::BigInteger(const char* a_str)
+:m_list()
+,m_sign(0)
+{
+    char curr;
+    int digit;
+   
+   if (*a_str == '-')
+   {
+       m_sign = 1;
+       a_str++;
+   }
+   while (*a_str)
+   {
+       curr = *a_str - '0';
+       if (curr < 0 || curr > 9)
+       {
+          break;
+       }
+      else
+      {
+        digit = curr;
+        m_list.add(digit);
+        a_str++;
+      }
+     
+   }
 }
 LinkedList& BigInteger::getList()
 {
@@ -125,7 +160,6 @@ BigInteger& BigInteger::mul(BigInteger const& a_num)
         mult %= 10;
         secIt = secIt.next();
         temp.m_list.add(mult);
-       // printf("%d mult\n", mult);
       }
       if (carry > 0)
       {
@@ -133,12 +167,8 @@ BigInteger& BigInteger::mul(BigInteger const& a_num)
       }
     
       temp.m_list = temp.flip();
-       //printf("temp:\n");
-      //temp.printList();
       res.add(temp);
       res.m_list = res.flip();
-      //printf("res:\n");
-      //res.printList();
       size_t k = res.m_list.size();
       for (size_t j = 0; j < k; j++)
       {

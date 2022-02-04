@@ -58,6 +58,7 @@ public:
     size_t size() const;
     bool isEmpty() const;
    
+   
 private:
     void axioms();    
   
@@ -70,7 +71,11 @@ private:
 LinkedList interSec(LinkedList &a_first, LinkedList &a_second); 
 bool contains(LinkedList const& a_list, int a_element);
 bool contains(Iterator a_begin, Iterator a_end, int a_element);
-
+size_t HashFunc(void *_data);
+int EqualityInt(void *_Data1, void *_Data2);
+void PrintInt(void *_data);
+ LinkedList flipList(LinkedList a_list); 
+size_t intersect(LinkedList const& a_first, LinkedList const& a_second, LinkedList& a_result);
 #include "./inl/single_list.hxx"
 
 #endif  // LINKED_LIST_HPP

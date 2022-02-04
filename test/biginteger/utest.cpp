@@ -9,11 +9,6 @@
 BEGIN_TEST(add_bigs)
     BigInteger a(75);
 	BigInteger b(150);
-	a.printList();
-	printf("\n*****8\n");
-	b.printList();
-	printf("\n*****8\n");
-	printf("\n*****8\n");
 	a.add(b);
 	a.printList();
 	LinkedList s = a.getList();
@@ -43,8 +38,23 @@ BEGIN_TEST(mul_bigs)
 
 END_TEST
 
+BEGIN_TEST(add_string)
+    BigInteger a("-75");
+	a.printList();
+	printf("-----------\n");
+	BigInteger b("150");
+	b.printList();
+	printf("-----------\n");
+	a.add(b);
+	a.printList();
+	LinkedList s = a.getList();
+	ASSERT_EQUAL(s.first(),2);
+
+END_TEST
+
 BEGIN_SUITE(iption)
-	//TEST(add_bigs)
-	//TEST(add_bigs_overflow)
-	TEST(mul_bigs)
+	IGNORE_TEST(add_bigs)
+	IGNORE_TEST(add_bigs_overflow)
+	IGNORE_TEST(mul_bigs)
+	TEST(add_string)
 END_SUITE
