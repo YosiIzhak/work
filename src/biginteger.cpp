@@ -1,5 +1,6 @@
 #include "biginteger.hpp"
 #include "single_list.hpp"
+#include "hashset.hpp"
 #include <cstddef>
 #include <cassert>
 #include <cstdio>
@@ -9,13 +10,13 @@
 
 BigInteger::BigInteger()
 :m_list()
-,m_sign(0)
+,m_sign(1)
 {
    
 }
 BigInteger::BigInteger(long a_num)
 :m_list()
-,m_sign(0)
+,m_sign(1)
 {
    int digit;
    while (a_num > 0)
@@ -25,21 +26,21 @@ BigInteger::BigInteger(long a_num)
        a_num = a_num/ 10;
        if (a_num < 0)
        {
-           m_sign = 1;
+           m_sign = -1;
        }
    }
     m_list = this->flip();
 }
 BigInteger::BigInteger(const char* a_str)
 :m_list()
-,m_sign(0)
+,m_sign(1)
 {
     char curr;
     int digit;
    
    if (*a_str == '-')
    {
-       m_sign = 1;
+       m_sign = -1;
        a_str++;
    }
    while (*a_str)
@@ -57,6 +58,25 @@ BigInteger::BigInteger(const char* a_str)
       }
      
    }
+}
+char& BigInteger::getSign()
+{
+  return m_sign;
+}
+char BigInteger::setSignMul(BigInteger const& a_integer)
+{
+  if (m_sign == 1 && a_integer.m_sign == -1)
+  {
+    return -1;
+  }
+  if (m_sign == -1 && a_integer.m_sign == 1)
+  {
+    return -1;
+  }
+  else 
+  {
+    return 1;
+  }
 }
 LinkedList& BigInteger::getList()
 {
@@ -80,9 +100,13 @@ void BigInteger::printList()
 {
     Iterator it = this->m_list.begin();
     Iterator end = this->m_list.end();
+    if (m_sign == -1)
+    {
+       printf("- ");
+    }
     while (it.notEqual(end))
     {
-       printf("%d, ",it.data());
+       printf("%d ",it.data());
         it = it.next();
     }
 }
@@ -136,13 +160,12 @@ BigInteger& BigInteger::mul(BigInteger const& a_num)
   BigInteger newSum = *this;
   BigInteger second = a_num;
   int carry = 0, mult = 0, count = 0;
-  //newSum.m_list = newSum.flip();
-  //second.m_list = second.flip();
   BigInteger res, temp;
   Iterator firstIt = newSum.m_list.begin();
   Iterator secIt = second.m_list.begin();
   Iterator firstEnd = newSum.m_list.end();
   Iterator secEnd = second.m_list.end();
+  newSum.m_sign = setSignMul(a_num);
   while (firstIt.notEqual(firstEnd)) 
   {
       secIt = second.m_list.begin();

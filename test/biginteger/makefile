@@ -14,7 +14,7 @@ CPPFLAGS = -I$(INC_DIR)
 INC_DIR = ../../inc
 
 TARGET = utest
-OBJS = utest.o ../../src/biginteger.o ../../src/single_list.o
+OBJS = utest.o ../../src/biginteger.o ../../src/single_list.o ../../src/hashset.o
 
 $(TARGET): $(OBJS)
 
