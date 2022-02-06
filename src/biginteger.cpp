@@ -120,7 +120,7 @@ void BigInteger::printList()
         it = it.next();
     }
 }
-bool BigInteger::equal(BigInteger const& a_num)
+bool BigInteger::equal(BigInteger const& a_num) const
 {
   if (m_sign != a_num.m_sign)
   {
@@ -132,13 +132,11 @@ bool BigInteger::equal(BigInteger const& a_num)
   }
    BigInteger first = *this;
    BigInteger second = a_num;
-   first.m_list = first.flip();
-   second.m_list = second.flip();
    Iterator firstIt = first.m_list.begin();
    Iterator secIt = second.m_list.begin();
    Iterator firstEnd = first.m_list.end();
   
-   while (firstIt.notEqual(firstEnd))
+   while (firstIt.notEqual(firstEnd)) 
    {
      if (firstIt.data() != secIt.data())
      {
@@ -149,11 +147,11 @@ bool BigInteger::equal(BigInteger const& a_num)
    }
   return true;
 }
-bool BigInteger::notEqual(BigInteger const& a_num)
+bool BigInteger::notEqual(BigInteger const& a_num) const
 {
   return !equal(a_num);
 }
-bool BigInteger::less(BigInteger const& a_num)
+bool BigInteger::less(BigInteger const& a_num) const
 {
   if (m_sign == 1 && a_num.m_sign == -1)
   {
@@ -194,7 +192,7 @@ bool BigInteger::less(BigInteger const& a_num)
    }
    return false;
 }
-bool BigInteger::greater(BigInteger const& a_num)
+bool BigInteger::greater(BigInteger const& a_num) const
 {
   if (equal(a_num) || less(a_num))
   {
@@ -202,7 +200,7 @@ bool BigInteger::greater(BigInteger const& a_num)
   }
   return true;
 }
-bool BigInteger::equalOrGreater(BigInteger const& a_num)
+bool BigInteger::equalOrGreater(BigInteger const& a_num) const
 {
   if (equal(a_num) || greater(a_num))
   {
@@ -210,7 +208,7 @@ bool BigInteger::equalOrGreater(BigInteger const& a_num)
   }
   return false;
 }
-bool BigInteger::lessOrEqual(BigInteger const& a_num)
+bool BigInteger::lessOrEqual(BigInteger const& a_num) const
 {
   if (equal(a_num) || less(a_num))
   {

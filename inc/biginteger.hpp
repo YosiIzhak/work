@@ -22,12 +22,12 @@ public:
  void printList();
 LinkedList& getList();
 LinkedList flip();
-bool equal(BigInteger const& a_num);
-bool notEqual(BigInteger const& a_num);
-bool less(BigInteger const& a_num);
-bool greater(BigInteger const& a_num);
-bool equalOrGreater(BigInteger const& a_num); 
-bool lessOrEqual(BigInteger const& a_num);
+bool equal(BigInteger const& a_num) const;
+bool notEqual(BigInteger const& a_num) const;
+bool less(BigInteger const& a_num) const;
+bool greater(BigInteger const& a_num) const;
+bool equalOrGreater(BigInteger const& a_num) const; 
+bool lessOrEqual(BigInteger const& a_num) const;
 private:
   
     LinkedList m_list;
