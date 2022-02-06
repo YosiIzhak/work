@@ -9,7 +9,8 @@ class BigInteger
 public:
   BigInteger();
   BigInteger(long a_num);
-  BigInteger(const char* a_str);
+  explicit BigInteger(const char* a_str);
+  BigInteger &operator=(long const& a_source);
  char& getSign();
  char setSignMul(BigInteger const& a_integer);
  BigInteger& add(BigInteger const& a_integer); 
@@ -21,12 +22,25 @@ public:
  void printList();
 LinkedList& getList();
 LinkedList flip();
-    
+bool equal(BigInteger const& a_num);
+bool notEqual(BigInteger const& a_num);
+bool less(BigInteger const& a_num);
+bool greater(BigInteger const& a_num);
+bool equalOrGreater(BigInteger const& a_num); 
+bool lessOrEqual(BigInteger const& a_num);
 private:
   
     LinkedList m_list;
     char m_sign;
+    size_t m_numOfDigits;
 };
 
- 
+BigInteger add(BigInteger const& a_integer, long const& a_num);
+BigInteger mul(BigInteger const& a_integer, long const& a_num); 
+bool equal(BigInteger const& a_first, long const& a_second);
+bool notEqual(BigInteger const& a_first, long const& a_second);
+bool less(BigInteger const& a_first, long const& a_second); 
+bool greater(BigInteger const& a_first, long const& a_second); 
+bool equalOrGreater(BigInteger const& a_first, long const& a_second); 
+bool lessOrEqual(BigInteger const& a_first, long const& a_second); 
 #endif  // LINKED_LIST_HPP

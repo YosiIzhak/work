@@ -11,18 +11,21 @@
 BigInteger::BigInteger()
 :m_list()
 ,m_sign(1)
+,m_numOfDigits(0)
 {
    
 }
 BigInteger::BigInteger(long a_num)
 :m_list()
 ,m_sign(1)
+,m_numOfDigits(0)
 {
    int digit;
    while (a_num > 0)
    {
        digit = a_num % 10;
        m_list.add(digit);
+       m_numOfDigits++;
        a_num = a_num/ 10;
        if (a_num < 0)
        {
@@ -54,10 +57,17 @@ BigInteger::BigInteger(const char* a_str)
       {
         digit = curr;
         m_list.add(digit);
+        m_numOfDigits++;
         a_str++;
       }
      
    }
+}
+BigInteger& BigInteger::operator=(long const& a_source)
+{
+  BigInteger newBig(a_source);
+  *this = newBig;
+  return *this;
 }
 char& BigInteger::getSign()
 {
@@ -110,6 +120,105 @@ void BigInteger::printList()
         it = it.next();
     }
 }
+bool BigInteger::equal(BigInteger const& a_num)
+{
+  if (m_sign != a_num.m_sign)
+  {
+    return false;
+  }
+  if (m_numOfDigits != a_num.m_numOfDigits)
+  {
+    return false;
+  }
+   BigInteger first = *this;
+   BigInteger second = a_num;
+   first.m_list = first.flip();
+   second.m_list = second.flip();
+   Iterator firstIt = first.m_list.begin();
+   Iterator secIt = second.m_list.begin();
+   Iterator firstEnd = first.m_list.end();
+  
+   while (firstIt.notEqual(firstEnd))
+   {
+     if (firstIt.data() != secIt.data())
+     {
+       return false;
+     }
+     firstIt.next();
+     secIt.next();
+   }
+  return true;
+}
+bool BigInteger::notEqual(BigInteger const& a_num)
+{
+  return !equal(a_num);
+}
+bool BigInteger::less(BigInteger const& a_num)
+{
+  if (m_sign == 1 && a_num.m_sign == -1)
+  {
+    return false;
+  }
+  if (m_sign == -1 && a_num.m_sign == 1)
+  {
+    return true;
+  }
+  if (m_numOfDigits > a_num.m_numOfDigits)
+  {
+    return false;
+  }
+  if (m_numOfDigits < a_num.m_numOfDigits)
+  {
+    return true;
+  }
+   BigInteger first = *this;
+   BigInteger second = a_num;
+   first.m_list = first.flip();
+   second.m_list = second.flip();
+   Iterator firstIt = first.m_list.begin();
+   Iterator secIt = second.m_list.begin();
+   Iterator firstEnd = first.m_list.end();
+  
+   while (firstIt.notEqual(firstEnd))
+   {
+     if (firstIt.data() > secIt.data())
+     {
+       return false;
+     }
+      if (firstIt.data() < secIt.data())
+     {
+       return true;
+     }
+      firstIt.next();
+      secIt.next();
+   }
+   return false;
+}
+bool BigInteger::greater(BigInteger const& a_num)
+{
+  if (equal(a_num) || less(a_num))
+  {
+    return false;
+  }
+  return true;
+}
+bool BigInteger::equalOrGreater(BigInteger const& a_num)
+{
+  if (equal(a_num) || greater(a_num))
+  {
+    return true;
+  }
+  return false;
+}
+bool BigInteger::lessOrEqual(BigInteger const& a_num)
+{
+  if (equal(a_num) || less(a_num))
+  {
+    return true;
+  }
+  return false;
+}
+
 BigInteger& BigInteger::add(BigInteger const& a_num) 
 {
   LinkedList sumList;
@@ -203,4 +312,47 @@ BigInteger& BigInteger::mul(BigInteger const& a_num)
   res.m_list = res.flip();
   m_list = res.m_list;
   return *this;
-}    
+}
+   
+BigInteger add(BigInteger const& a_integer, long const& a_num)
+{
+  BigInteger first = a_integer;
+  first.add(a_num);
+  return first;
+}
+BigInteger mul(BigInteger const& a_integer, long const& a_num)
+{
+  BigInteger first = a_integer;
+   first.mul(a_num);
+  return first;
+}
+bool equal(BigInteger const& a_first, long const& a_second)
+{
+  BigInteger first = a_first;
+  return first.equal(a_second);
+}
+bool notEqual(BigInteger const& a_first, long const& a_second)
+{
+   BigInteger first = a_first;
+   return first.notEqual(a_second);
+}
+bool less(BigInteger const& a_first, long const& a_second)
+{
+   BigInteger first = a_first;
+   return first.less(a_second);
+}
+bool greater(BigInteger const& a_first, long const& a_second)
+{
+    BigInteger first = a_first;
+   return first.greater(a_second);
+}
+bool equalOrGreater(BigInteger const& a_first, long const& a_second)
+{
+    BigInteger first = a_first;
+    return first.equalOrGreater(a_second);
+} 
+bool lessOrEqual(BigInteger const& a_first, long const& a_second)
+{
+    BigInteger first = a_first;
+   return first.lessOrEqual(a_second);
+}
