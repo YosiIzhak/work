@@ -244,6 +244,7 @@ BEGIN_TEST(global_add_operator)
     ASSERT_EQUAL(c.getDenominator(), 12); 
       
 END_TEST
+
 BEGIN_SUITE(Its what you learn after you know it all that counts)
 
 	

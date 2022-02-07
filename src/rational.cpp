@@ -223,7 +223,6 @@ Rational& Rational::operator/(Rational& a_rational)
 {
 	return this->div(a_rational);
 }
-
 Rational& Rational::operator+=(Rational& a_rational)
 {
 	return this->add(a_rational);

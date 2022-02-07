@@ -46,6 +46,7 @@ public:
 	bool operator>(Rational& a_rational) const;
 	bool operator>=(Rational& a_rational) const;
 	bool operator<=(Rational& a_rational) const;
+	
 private:
 	void axioms() const;
 
