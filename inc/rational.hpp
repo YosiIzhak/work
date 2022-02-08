@@ -1,6 +1,7 @@
 #ifndef RATIONAL_H
 #define RATIONAL_H
-
+#include <iostream>
+namespace numbers {
 class Rational
 {
 public:
@@ -46,7 +47,7 @@ public:
 	bool operator>(Rational& a_rational) const;
 	bool operator>=(Rational& a_rational) const;
 	bool operator<=(Rational& a_rational) const;
-
+	std::ostream& print(std::ostream& os) const;
 private:
 	void axioms() const;
 
@@ -63,4 +64,6 @@ Rational operator+(Rational const& a_first, Rational const& a_second);
 Rational operator-(Rational const& a_first, Rational const& a_second);
 Rational operator*(Rational const& a_first, Rational const& a_second);
 Rational operator/(Rational const& a_first, Rational const& a_second);
+}
+
 #endif /*#ifndef RATIONAL_H */

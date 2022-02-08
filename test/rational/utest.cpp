@@ -6,7 +6,7 @@
 
 
 BEGIN_TEST(add_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational b(1, 3);
 	a = a + b;
@@ -19,7 +19,7 @@ BEGIN_TEST(add_operator)
 END_TEST
 
 BEGIN_TEST(sub_operator)
-
+	using numbers::Rational;
  	Rational a(1, 2);
 	Rational b(1, 3);
 	a = a - b;
@@ -32,7 +32,7 @@ BEGIN_TEST(sub_operator)
 END_TEST
 
 BEGIN_TEST(mul_operator)
-
+	using numbers::Rational;
  	Rational a(1, 2);
 	Rational b(3, 4);
 	a = a * b;
@@ -45,7 +45,7 @@ BEGIN_TEST(mul_operator)
 END_TEST
 
 BEGIN_TEST(div_operator)
-
+	using numbers::Rational;
  	Rational a(6, 8);
 	Rational b(3, 1);
 	a = a / b;
@@ -57,7 +57,7 @@ BEGIN_TEST(div_operator)
    
 END_TEST
 BEGIN_TEST(add_operator_assign)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational b(1, 3);
 	 a += b;
@@ -69,7 +69,7 @@ BEGIN_TEST(add_operator_assign)
    
 END_TEST
 BEGIN_TEST(sub_operator_assign)
-
+	using numbers::Rational;
  	Rational a(1, 2);
 	Rational b(1, 3);
 	 a -= b;
@@ -82,7 +82,7 @@ BEGIN_TEST(sub_operator_assign)
 END_TEST
 
 BEGIN_TEST(mul_operator_assign)
-
+	using numbers::Rational;
  	Rational a(1, 2);
 	Rational b(3, 4);
 	 a *= b;
@@ -95,7 +95,7 @@ BEGIN_TEST(mul_operator_assign)
 END_TEST
 
 BEGIN_TEST(div_operator_assign)
-
+	using numbers::Rational;
  	Rational a(6, 8);
 	Rational b(3, 1);
 	 a /= b;
@@ -107,7 +107,7 @@ BEGIN_TEST(div_operator_assign)
    
 END_TEST
 BEGIN_TEST(inc_operator_pre)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r = ++a;
 
@@ -119,7 +119,7 @@ BEGIN_TEST(inc_operator_pre)
    
 END_TEST
 BEGIN_TEST(inc_operator_post)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r = a++;
 
@@ -131,7 +131,7 @@ BEGIN_TEST(inc_operator_post)
    
 END_TEST
 BEGIN_TEST(dec_operator_pre)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r = --a;
 
@@ -143,7 +143,7 @@ BEGIN_TEST(dec_operator_pre)
    
 END_TEST
 BEGIN_TEST(dec_operator_post)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r = a--;
 
@@ -155,7 +155,7 @@ BEGIN_TEST(dec_operator_post)
    
 END_TEST
 BEGIN_TEST(inv_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r = -a;
 
@@ -167,7 +167,7 @@ BEGIN_TEST(inv_operator)
    
 END_TEST
 BEGIN_TEST(equal_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(3, 12);
 
@@ -178,7 +178,7 @@ BEGIN_TEST(equal_operator)
      
 END_TEST
 BEGIN_TEST(not_equal_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(2, 12);
 
@@ -190,7 +190,7 @@ BEGIN_TEST(not_equal_operator)
    
 END_TEST
 BEGIN_TEST(less_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(2, 12);
 
@@ -201,7 +201,7 @@ BEGIN_TEST(less_operator)
       
 END_TEST
 BEGIN_TEST(greater_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(2, 12);
 
@@ -212,7 +212,7 @@ BEGIN_TEST(greater_operator)
       
 END_TEST
 BEGIN_TEST(greater_equal_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(2, 12);
 
@@ -223,7 +223,7 @@ BEGIN_TEST(greater_equal_operator)
       
 END_TEST
 BEGIN_TEST(less_equal_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational r(2, 12);
 
@@ -234,12 +234,12 @@ BEGIN_TEST(less_equal_operator)
       
 END_TEST
 BEGIN_TEST(global_add_operator)
-
+	using numbers::Rational;
  	Rational a(1, 4);
 	Rational b(2, 12);
 	Rational c = a + b;
 	c.reduce();
-	c.display();
+	c.print(std::cout);
     ASSERT_EQUAL(c.getNumerator(), 5); 
     ASSERT_EQUAL(c.getDenominator(), 12); 
       

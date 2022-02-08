@@ -1,10 +1,11 @@
 #include <cstdio>
 #include <cassert>
 #include <cstdlib>
+#include <iostream>
 #include "rational.hpp"
 
 /******Constructor*******/
-
+namespace numbers {
 Rational::Rational(int a_numerator, int a_denominator, bool a_reduced)
   :m_numerator(a_numerator)
   ,m_denominator (a_denominator)
@@ -207,6 +208,11 @@ void Rational::axioms() const
 	assert(m_denominator != 0);
 }
 
+std::ostream&  Rational::print(std::ostream& os) const
+{
+     os << "[ " << m_numerator << "," << m_denominator <<" ]";
+     return os;
+}
 Rational& Rational::operator+(Rational& a_rational)
 {
 	return this->add(a_rational);
@@ -382,4 +388,5 @@ Rational operator/(Rational const& a_first, Rational const& a_second)
 	Rational res = a_first;
 	res.div(a_second);
 	return res;
+}
 }
