@@ -261,10 +261,11 @@ Rational Rational::operator--(int a)
       m_numerator -= m_denominator;
 	  return temp;
 } 
-Rational& Rational::operator-()
+Rational Rational::operator-()
 {
-	m_numerator *= -1;
-	return *this;
+	Rational r(*this);
+	r.m_numerator *= -1;
+	return r;
 }
 Rational& Rational::operator+()
 {

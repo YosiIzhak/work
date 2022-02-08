@@ -37,7 +37,7 @@ public:
 	Rational operator++(int a);
 	Rational& operator--();
 	Rational operator--(int a);
-	Rational& operator-();
+	Rational operator-();
 	Rational& operator+();
 
 	bool operator==(Rational& a_rational) const;
@@ -46,7 +46,7 @@ public:
 	bool operator>(Rational& a_rational) const;
 	bool operator>=(Rational& a_rational) const;
 	bool operator<=(Rational& a_rational) const;
-	
+
 private:
 	void axioms() const;
 
