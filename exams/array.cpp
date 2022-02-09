@@ -53,3 +53,14 @@ inline bool Array::isExist(int const& data) const
      m_arr[m_size] = data;
      m_size++;
  }
+ void Array::remove(int const& index)
+ {
+    if (index > m_size)
+    {
+        return;
+    }
+    for (size_t i = index; i < m_size; i++)
+    {
+        m_arr[i] = m_arr[i+1];
+        m_size--;
+    }

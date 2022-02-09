@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib> 
 #include <cstring>
+#include <sys/socket.h>
 #include "socket.hpp"
 
 struct Message{
@@ -16,9 +17,9 @@ int wrapMessage(struct Message* a_struct, char* a_buffer)
 }
 
 
-void sendMesege(Socket a_socket, struct Message* a_message)
+void sendMesege(int a_socketId, struct Message* a_message)
 {
    char* buffer = new char[sizeof(a_message)+1];
    int length = wrapMessage(a_message, buffer);
-   a_socket.clientSend(buffer, length);
+   send(a_socketId, buffer, length, 0);
 }

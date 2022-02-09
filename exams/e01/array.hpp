@@ -12,6 +12,7 @@ public:
     inline size_t arraySize() const;
     inline bool isEmpty() const;
     void add(int const& data);
+    void remove(int const& index);
     inline bool isExist(int const& data) const;
 
 private:
