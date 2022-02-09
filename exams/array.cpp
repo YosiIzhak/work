@@ -62,5 +62,6 @@ inline bool Array::isExist(int const& data) const
     for (size_t i = index; i < m_size; i++)
     {
         m_arr[i] = m_arr[i+1];
-        m_size--;
     }
+     m_size--;
+ }
