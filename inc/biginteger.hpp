@@ -41,6 +41,6 @@ bool equal(BigInteger const& a_first, long const& a_second);
 bool notEqual(BigInteger const& a_first, long const& a_second);
 bool less(BigInteger const& a_first, long const& a_second); 
 bool greater(BigInteger const& a_first, long const& a_second); 
-bool equalOrGreater(BigInteger const& a_first, long const& a_second); 
+bool equalOrGreater(BigInteger const& a_first, long const& a_second);
 bool lessOrEqual(BigInteger const& a_first, long const& a_second); 
 #endif  // LINKED_LIST_HPP
