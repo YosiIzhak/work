@@ -14,6 +14,7 @@ public:
     ~Queue();
     void enqueue(T const& item);
     T dequeue();
+    T getHead();
     bool isEmpty() const;
     bool isFull() const;
     size_t size() const;
@@ -22,7 +23,7 @@ public:
 
 private:
     size_t m_capacity;
-    T* m_arr;
+    T* m_array;
     size_t m_size;
     size_t m_head;
     size_t m_tail;
