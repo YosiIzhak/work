@@ -56,9 +56,9 @@ bool operator<(Point<T> const& a_first, Point<T> const& a_second)
 }
 
 template <typename T>
-void swap(Point<T>& a ,Point<T>& b)
+void swap(Point<T>& a_first ,Point<T>& a_second)
 {
-    a.swap(b);
+    a_first.swap(a_second);
 }
 
 }//namespace

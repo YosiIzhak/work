@@ -7,7 +7,7 @@ namespace cpp
 
 
 Ball::Ball(char a_color, int a_radius)
-:m_color(a_color)
+: m_color(a_color)
 , m_radius(a_radius)
 {
 }
@@ -34,9 +34,9 @@ bool operator<(Ball const& a_first, Ball const& a_second)
 	return (a_first.getRadius() < a_second.getRadius());
 }
 
-void swap(Ball& a ,Ball& b)
+void swap(Ball& a_first ,Ball& a_second)
 {
-    a.swap(b);
+    a_first.swap(a_second);
 }
 
 
