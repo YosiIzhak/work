@@ -3,6 +3,8 @@
 
 #include <cassert>
 #include <iostream>
+#include <iomanip>
+#include <algorithm>
 
 namespace cpp
 {
@@ -11,11 +13,21 @@ namespace details_impl
 {
 
 template <typename T>
-static void swap(T& a, T& b)
+static void findBigger(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last)
 {
-	T temp = a;
-	a = b;
-	b = temp;
+	while(a_start <= a_last && a_array[a_start] < a_pivot)
+	{
+		a_start++;
+	}
+}
+
+template <typename T>
+static void findSmaller(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last)
+{
+	while(!(a_last <= a_start) && !(a_array[a_last] < a_pivot)) 
+	{
+		a_last--;
+	}
 }
 
 template <typename T>
@@ -23,33 +35,21 @@ static int partition(T* a_array, size_t a_start, size_t a_last, T& a_pivot)
 {
     size_t start = a_start + 1;
     size_t last = a_last;
-	T leftItem;
-	T rightItem;
-   
+
 	while(start <= last)
 	{
-		rightItem =  a_array[last];
-    	leftItem =  a_array[start];
+		findBigger( a_array,  a_pivot, start, a_last);	
 		
-		while(start <= a_last && leftItem <= a_pivot)
-		{
-			start++;
-            leftItem = a_array[start];
-		}
-		
-		while(last > a_start && rightItem > a_pivot)
-		{
-			last--;
-            rightItem = a_array[last];
-		}
+		findSmaller(a_array, a_pivot, a_start, last);
 
 		if(start <= last)
 		{
-			a_array[last] = leftItem;
-            a_array[start] = rightItem;
+			using std::swap;
+			swap(a_array[start], a_array[last]);
 		}	
 	}
 
+	using std::swap;
 	swap(a_pivot,  a_array[last]);
 	return last;
 }
@@ -61,7 +61,7 @@ T& selectPivot(T* a_array, size_t a_start, size_t a_last)
 }
 
 template <typename T>
-static void quickSortRec(T* a_array, size_t a_start, size_t a_last)
+static void quickRec(T* a_array, size_t a_start, size_t a_last)
 {
 	if(a_start >= a_last)
 	{
@@ -72,9 +72,9 @@ static void quickSortRec(T* a_array, size_t a_start, size_t a_last)
 	size_t pivotIndex = partition(a_array, a_start, a_last, pivot);
 	if(pivotIndex >= 1)
 	{
-		quickSortRec(a_array, a_start, pivotIndex -1);
+		quickRec(a_array, a_start, pivotIndex -1);
 	}
-	quickSortRec(a_array, pivotIndex + 1, a_last);
+	quickRec(a_array, pivotIndex + 1, a_last);
 }
 
 
@@ -83,7 +83,12 @@ static void quickSortRec(T* a_array, size_t a_start, size_t a_last)
 template <typename T>
 inline void quickSort(T* a_array, size_t a_length)
 {
-	details_impl::quickSortRec(a_array, 0, a_length -1);	
+	if(!a_array || a_length < 2)
+	{
+		return;
+	}
+
+	details_impl::quickRec(a_array, 0, a_length -1);	
 }
 
 

@@ -5,9 +5,8 @@
 namespace cpp
 {
 
-
-
 template <typename T>
+//
 inline void quickSort(T* a_array, size_t a_length);
 
 

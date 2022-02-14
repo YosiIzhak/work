@@ -1,5 +1,5 @@
 #include <cstddef>
-
+#include <algorithm>
 #include "ball.hpp"
 
 namespace cpp
@@ -22,34 +22,22 @@ void Ball::setRadius(int a_radius)
     m_radius = a_radius;
 }
 
-bool operator==(Ball const& a_first, Ball const& a_second)
+void Ball::swap(Ball& a_other)
 {
-	return a_first.getRadius() == a_second.getRadius();
-}
-
-bool operator!=(Ball const& a_first, Ball const& a_second)
-{
-	return !(a_first == a_second);
+    using std::swap;
+    swap(this->m_color, a_other.m_color);
+    swap(this->m_radius, a_other.m_radius);
 }
 
 bool operator<(Ball const& a_first, Ball const& a_second)
 {
-    return a_first.getRadius() - a_second.getRadius() < 0;
+	return (a_first.getRadius() < a_second.getRadius());
 }
 
-bool operator>(Ball const& a_first, Ball const& a_second)
+void swap(Ball& a ,Ball& b)
 {
-	return !(a_first < a_second);
+    a.swap(b);
 }
 
-bool operator>=(Ball const& a_first, Ball const& a_second)
-{
-	return (a_first > a_second) || (a_first == a_second);
-}
-
-bool operator<=(Ball const& a_first, Ball const& a_second)
-{
-	return (a_first < a_second) || (a_first == a_second);
-}
 
 } //cpp namespace

@@ -33,6 +33,7 @@ void Point<T>::setPoint(T a_x, T a_y)
     m_x = a_x;
     m_y = a_y;
 }
+
 template <typename T>
 int Point<T>::getDistance() const
 {
@@ -42,40 +43,22 @@ int Point<T>::getDistance() const
 }
 
 template <typename T>
-bool operator==(Point<T> const& a_first, Point<T> const& a_second)
+void Point<T>::swap(Point<T>& a_other)
 {
-	return a_first.getDistance() == a_second.getDistance();
+    using std::swap;
+    swap(this->m_x, a_other.m_x);
+    swap(this->m_y, a_other.m_y);
 }
-
-template <typename T>
-bool operator!=(Point<T> const& a_first, Point<T> const& a_second)
-{
-	return !(a_first == a_second);
-}
-
 template <typename T>
 bool operator<(Point<T> const& a_first, Point<T> const& a_second)
 {
-    return a_first.getDistance() - a_second.getDistance() < 0;
+	return (a_first.getDistance() < a_second.getDistance());
 }
 
 template <typename T>
-bool operator>(Point<T> const& a_first, Point<T> const& a_second)
+void swap(Point<T>& a ,Point<T>& b)
 {
-	return !(a_first.getDistance() < a_second.getDistance());
+    a.swap(b);
 }
 
-template <typename T>
-bool operator>=(Point<T> const& a_first, Point<T> const& a_second)
-{
-	return (a_first.getDistance() > a_second.getDistance()) || 
-    (a_first.getDistance() == a_second.getDistance());
-}
-
-template <typename T>
-bool operator<=(Point<T> const& a_first, Point<T> const& a_second)
-{
-	return (a_first.getDistance() < a_second.getDistance()) || 
-    (a_first.getDistance() == a_second.getDistance());
-}
 }//namespace

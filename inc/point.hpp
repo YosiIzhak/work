@@ -13,7 +13,7 @@ public:
     int getX() const;
     int getY() const;
     int getDistance() const;
-
+    void swap(Point& a_other);
 private:
    int m_x;
    int m_y;
@@ -21,17 +21,10 @@ private:
 };
 
 template <typename T>
-bool operator==(Point<T> const& a_first, Point<T> const& a_second);
-template <typename T>
-bool operator!=(Point<T> const& a_first, Point<T> const& a_second);
-template <typename T>
 bool operator<(Point<T> const& a_first, Point<T> const& a_second);
+
 template <typename T>
-bool operator>(Point<T> const& a_first, Point<T> const& a_second);
-template <typename T>
-bool operator>=(Point<T> const& a_first, Point<T> const& a_second);
-template <typename T>
-bool operator<=(Point<T> const& a_first, Point<T> const& a_second);
+void swap(Point<T>& a_first, Point<T>& a_second);
 }// namespace
 #include "./inl/point.hxx"
 
