@@ -23,13 +23,13 @@ BEGIN_TEST(char_sort_test)
 
 	using namespace cpp;
 
-	char arr[] = "nmlkjihgfedcba";
+	char array[] = "nmlkjihgfedcba";
 
-	quickSort<char>(arr, 14);
+	quickSort<char>(array, 14);
 
 	for (int i = 0; i < 14; i++)
 	{
-		std::cout << "arr[" << i << "] :" << arr[i] << "\n";
+		std::cout << "arr[" << i << "] :" << array[i] << "\n";
 	}
 	ASSERT_PASS();
 
@@ -40,23 +40,27 @@ BEGIN_TEST(ball_sort_test)
 
 	using namespace cpp;
 
-	Ball arr[10];
-	arr[0].setRadius(4);
-	arr[1].setRadius(7);
-	arr[2].setRadius(3);
-	arr[3].setRadius(8);
-	arr[4].setRadius(5);
-	arr[5].setRadius(6);
-	arr[6].setRadius(2);
-	arr[7].setRadius(9);
-	arr[8].setRadius(1);
-	arr[9].setRadius(10);
+	Ball array[10];
+	array[0].setRadius(4);
+    array[0].setColor('red');
+	array[1].setRadius(7);
+	array[1].setColor('blue');
+    array[2].setRadius(3);
+	array[2].setColor('yellow');
+    array[3].setRadius(8);
+	array[3].setColor('green');
+    array[4].setRadius(5);
+	array[5].setRadius(6);
+	array[6].setRadius(2);
+	array[7].setRadius(9);
+	array[8].setRadius(1);
+	array[9].setRadius(10);
 
-	quickSort<Ball>(arr, 10);
+	quickSort<Ball>(array, 10);
 
 	for (int i = 0; i < 10; i++)
 	{
-		std::cout << "arr[" << i << "] :" << arr[i].getRadius() << "\n";
+		std::cout << "arr[" << i << "] :" << array[i].getRadius() << "\n";
 	}
 
 	ASSERT_PASS();
@@ -67,23 +71,23 @@ BEGIN_TEST(point_sort_test)
 
 	using namespace cpp;
 
-	Point<double> arr[10];
-	arr[0].setPoint(4, 4);
-	arr[1].setPoint(1, 1);
-	arr[2].setPoint(10, 10);
-	arr[3].setPoint(7, 7);
-	arr[4].setPoint(6, 6);
-	arr[5].setPoint(9, 9);
-	arr[6].setPoint(3, 3);
-	arr[7].setPoint(2, 2);
-	arr[8].setPoint(5, 5);
-	arr[9].setPoint(8, 8);
+	Point<double> array[10];
+	array[0].setPoint(4, 4);
+	array[1].setPoint(1, 1);
+	array[2].setPoint(10, 10);
+	array[3].setPoint(7, 7);
+	array[4].setPoint(6, 6);
+	array[5].setPoint(9, 9);
+	array[6].setPoint(3, 3);
+	array[7].setPoint(2, 2);
+	array[8].setPoint(5, 5);
+	array[9].setPoint(8, 8);
 
-	quickSort<Point<double> >(arr, 10);
+	quickSort<Point<double> >(array, 10);
 
 	for (int i = 0; i < 10; i++)
 	{
-		std::cout << "arr[" << i << "] :" << arr[i].getX() << ", " << arr[i].getY() << "\n";
+		std::cout << "array[" << i << "] :" << array[i].getX() << ", " << array[i].getY() << "\n";
 	}
 	
 	ASSERT_PASS();

@@ -17,11 +17,20 @@ int Ball::getRadius()const
     return m_radius;
 }
 
+char Ball::getColor() const
+{
+     return m_color;
+}
+
 void Ball::setRadius(int a_radius)
 {
     m_radius = a_radius;
 }
 
+void Ball::setColor(char a_color)
+{
+    m_color = a_color;
+}
 void Ball::swap(Ball& a_other)
 {
     using std::swap;

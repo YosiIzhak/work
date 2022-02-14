@@ -12,6 +12,8 @@ public:
     explicit Ball(char a_color = 'A', int a_radius = 1); //to fix
     int getRadius()const;
     void setRadius(int a_radius);
+    char getColor()const;
+    void setColor(char a_color);
     void swap(Ball& a_other);
 private:
     char m_color;
