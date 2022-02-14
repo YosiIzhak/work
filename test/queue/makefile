@@ -21,10 +21,12 @@ OBJS = utest.o ../../inc/queue.hpp
 check: $(TARGET)
 	./$(TARGET) -v
 
-debug: $(TARGET)
-	valgrind --leak-check=full ./${TARGET} -v
-	gdb -q ${TARGET}
-	
+# vala: $(TARGET)
+# 	valgrind --leak-check=full ./${TARGET} -v
+# 	gdb -q ${TARGET}
+vala: $(TARGET)
+	valgrind --log-file=V1.log ./$(TARGET)
+	valgrind --log-file=V2.log --leak-check=full --track-origins=yes ./$(TARGET)	
 clean:
 	@$(RM) $(TARGET) $(OBJS)
 

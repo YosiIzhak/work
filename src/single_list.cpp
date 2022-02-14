@@ -50,7 +50,9 @@ LinkedList::LinkedList()
 , m_tail(m_sentinal) 
 , m_size(0)
 {
+    printf("new sentinal ,%p\n", (void*)m_sentinal);
     m_sentinal->setNext(m_sentinal);
+    
     axioms();
 }
   
@@ -87,10 +89,7 @@ LinkedList &LinkedList::operator=(LinkedList const &source)
     {
         remove();
     }
-     
-    m_sentinal = new Node(0, m_sentinal);
-    m_head = m_sentinal;
-    m_tail = m_sentinal;
+        
     m_sentinal->setNext(m_sentinal);
 
     Node* node = source.m_head;
@@ -115,11 +114,12 @@ LinkedList &LinkedList::operator=(LinkedList const &source)
 
 LinkedList::~LinkedList()
 {
+   
     while(!isEmpty())
     {
         remove();
     }
-
+    printf("delete sentinal ,%p\n", (void*)m_sentinal);
     delete m_sentinal;
     axioms();
 }

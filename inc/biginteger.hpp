@@ -11,6 +11,7 @@ public:
   BigInteger(long a_num);
   explicit BigInteger(const char* a_str);
   BigInteger &operator=(long const& a_source);
+ ~BigInteger();
  char& getSign();
  char setSignMul(BigInteger const& a_integer);
  BigInteger& add(BigInteger const& a_integer); 

@@ -2,7 +2,7 @@
 #define WonderStack_HPP__
 #include <cstddef> 
 #include "queue.hpp"
-namespace Cppp {
+namespace Cpp {
 
 template <typename T>
 class WonderStack

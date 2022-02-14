@@ -1,5 +1,5 @@
-#ifndef QUEUE_HPP__
-#define QUEUE_HPP__
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 #include <cstddef> 
 
 namespace Cpp {
@@ -29,7 +29,7 @@ private:
     size_t m_tail;
 
 };
-}
+}//namespace
 #include "./inl/queue.hxx"
 
 #endif

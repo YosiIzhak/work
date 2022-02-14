@@ -25,7 +25,7 @@ Queue<T>::Queue(Queue const& a_source)
 , m_head(a_source.m_head)
 , m_tail(a_source.m_tail)
 {
- for(size_t i = 0; i < m_capacity; i++)
+ for(size_t i = m_head; i != m_tail; i = (i+1) % m_capacity)
  {
         m_array[i] = a_source.m_array[i];
  }
@@ -39,7 +39,7 @@ Queue<T>& Queue<T>::operator=(Queue<T> const& a_source)
     T* arr = new T[m_capacity];
     m_head = a_source.m_head;
     m_tail = a_source.m_tail;
-    for(size_t i = 0; i < m_capacity; i++)
+    for(size_t  i = m_head; i != m_tail; i = (i+1) % m_capacity)
     {
         arr[i] = a_source.m_array[i];
     }

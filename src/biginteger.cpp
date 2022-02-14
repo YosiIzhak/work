@@ -69,6 +69,9 @@ BigInteger& BigInteger::operator=(long const& a_source)
   *this = newBig;
   return *this;
 }
+BigInteger::~BigInteger()
+{
+}
 char& BigInteger::getSign()
 {
   return m_sign;
@@ -95,6 +98,7 @@ LinkedList& BigInteger::getList()
 LinkedList BigInteger::flip() 
 {
     LinkedList flipped;
+    printf("filp create\n");
     Iterator it = m_list.begin();
     Iterator end = m_list.end();
 
@@ -103,7 +107,7 @@ LinkedList BigInteger::flip()
         flipped.add(it.data());
         it = it.next();
     } 
-
+    printf("filp return\n");
     return flipped;  
 }
 void BigInteger::printList()
@@ -119,6 +123,7 @@ void BigInteger::printList()
        printf("%d ",it.data());
         it = it.next();
     }
+    printf("\n");
 }
 bool BigInteger::equal(BigInteger const& a_num) const
 {

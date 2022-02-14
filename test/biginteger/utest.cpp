@@ -58,8 +58,8 @@ BEGIN_TEST(equal_bigs)
 	BigInteger b(75);
 	b.printList();
 	bool res = a.equal(b);
-	
-	ASSERT_EQUAL(res, true);
+	 ASSERT_EQUAL(res, true);
+	 printf("test_finish\n");
 
 END_TEST
 

@@ -5,7 +5,7 @@
 #include <iterator>
 #include <numeric>
 
-namespace Cppp {
+namespace Cpp {
 
 template <typename T>
 WonderStack<T>::WonderStack(size_t a_value)

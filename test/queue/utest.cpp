@@ -99,6 +99,20 @@ BEGIN_TEST(queue_queue)
 	ASSERT_EQUAL(copy.isFull(), false);
 
 END_TEST
+
+BEGIN_TEST(claer_test)
+using Cpp::Queue;
+    Queue<Dog> a(10);
+    Dog d;
+    Dog d1;
+	a.enqueue(d);
+    a.enqueue(d1);
+    
+    a.dequeue();
+    a.clear();
+    ASSERT_EQUAL(a.isEmpty(), true);
+	ASSERT_EQUAL(a.isFull(), false);
+END_TEST
 BEGIN_SUITE(option)
 	
 	TEST(new_queue)
@@ -106,4 +120,5 @@ BEGIN_SUITE(option)
     TEST(dequeue_items)
     TEST(dog_items)
     TEST(queue_queue)
+    TEST(claer_test)
 END_SUITE
