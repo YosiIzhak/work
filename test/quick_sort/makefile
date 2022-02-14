@@ -1,4 +1,8 @@
-xCXX = g++
+SRC_DIR = ../../src
+TEST_DIR  = ../../test/quick_sort
+INC_DIR = ../../inc
+
+CXX = g++
 CC = $(CXX)
 
 WARNINGS = -pedantic
@@ -11,25 +15,18 @@ CXXFLAGS = $(WARNINGS) $(DEBUG) -std=$(CXX_STD)
 
 CPPFLAGS = -I$(INC_DIR)
 
-INC_DIR = ../../inc
-
 TARGET = utest
-OBJS = utest.o #../../inc/quick_sort.hpp ../../inc/ball.hpp ../../inc/point.hpp
+OBJS = utest.o  $(SRC_DIR)/ball.o 
 
-$(TARGET): $(OBJS)
+$(TARGET):$(OBJS)
+
+utest.o : $(INC_DIR)/quick_sort.hpp $(INC_DIR)/ball.hpp
+$(SRC_DIR)/ball.o: $(INC_DIR)/ball.hpp
 
 check: $(TARGET)
 	./$(TARGET) -v
-
-# vala: $(TARGET)
-# 	valgrind --leak-check=full ./${TARGET} -v
-# 	gdb -q ${TARGET}
-vala: $(TARGET)
-	valgrind --log-file=V1.log ./$(TARGET)
-	valgrind --log-file=V2.log --leak-check=full --track-origins=yes ./$(TARGET)	
+	
 clean:
 	@$(RM) $(TARGET) $(OBJS)
-
-.PHONY: clean check
-
-
+	
+.PHONY: check clean

@@ -1,26 +1,31 @@
 #ifndef BALL_HPP
 #define BALL_HPP
-#include <cstddef> 
 
-namespace cpp {
+#include <cstddef>
 
+namespace cpp
+{
 
 class Ball
 {
 public:
-    Ball(char a_color[10] = "blue", int a_size = 16);
-    // Ball(Ball const& a_source);
-    // Ball& operator=(Ball const& a_source);
-    // ~Ball();
-    int getRadius() const;
-    char* getColor() const;
+    Ball(char a_color = 'A', int a_radius = 1);
+    int getRadius()const;
+    void setRadius(int a_radius);
 
 private:
-   char*  m_color;
-   int m_radius;
-
+    char m_color;
+    int m_radius;
 };
-}// namespace
-#include "./inl/ball.hxx"
 
-#endif
+bool operator==(Ball const& a_first, Ball const& a_second);
+bool operator!=(Ball const& a_first, Ball const& a_second);
+bool operator<(Ball const& a_first, Ball const& a_second);
+bool operator>(Ball const& a_first, Ball const& a_second);
+bool operator>=(Ball const& a_first, Ball const& a_second);
+bool operator<=(Ball const& a_first, Ball const& a_second);
+
+} //cpp namespace
+
+
+#endif /*#ifndefBALL_H122*/
