@@ -16,11 +16,11 @@ CXXFLAGS = $(WARNINGS) $(DEBUG) -std=$(CXX_STD)
 CPPFLAGS = -I$(INC_DIR)
 
 TARGET = utest
-OBJS = utest.o  $(SRC_DIR)/ball.o 
+OBJS = utest.o  $(SRC_DIR)/ball.o $(SRC_DIR)/utils.o 
 
 $(TARGET):$(OBJS)
 
-utest.o : $(INC_DIR)/quick_sort.hpp $(INC_DIR)/ball.hpp
+utest.o : $(INC_DIR)/quick_sort.hpp $(INC_DIR)/ball.hpp $(INC_DIR)/utils.hpp 
 $(SRC_DIR)/ball.o: $(INC_DIR)/ball.hpp
 
 check: $(TARGET)
