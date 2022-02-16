@@ -5,6 +5,9 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include "utils.hpp"
+
+const int THRESHOLD = 15;
 
 namespace cpp
 {
@@ -12,35 +15,62 @@ namespace cpp
 namespace details_impl
 {
 
-template <typename T>
-static void findBigger(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last)
+template <typename T, typename LessComparator>
+static void insertionSort(T* a_array, size_t a_start, size_t a_last, LessComparator less = NaturalLess<T>())
 {
-	while(a_start <= a_last && a_array[a_start] < a_pivot)
+	size_t checkIndex = a_start + 1;
+	T checkItem, runningItem;
+	
+	for(size_t i = a_start; i < a_last; i++)
+	{
+		checkItem = a_array[checkIndex];
+		for(size_t j = checkIndex; j > 0; j--)
+		{
+			runningItem = a_array[j - 1];
+			if(less(checkItem, runningItem))
+			{
+				a_array[j - 1] = checkItem;
+				a_array[j] = runningItem;
+       		}
+			else
+			{
+				break;
+			}	
+		}
+		checkIndex++;		
+	}
+}
+
+template <typename T, typename LessComparator>
+static size_t scanLeft(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last, LessComparator less = NaturalLess<T>())
+{
+	while(a_start <= a_last && less(a_array[a_start], a_pivot))
 	{
 		a_start++;
 	}
+    return a_start;
 }
 
-template <typename T>
-static void findSmaller(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last)
+template <typename T, typename LessComparator>
+static size_t scanRight(T* a_array, T& a_pivot, size_t& a_start, size_t& a_last, LessComparator less = NaturalLess<T>())
 {
-	while(!(a_last <= a_start) && !(a_array[a_last] < a_pivot)) 
+	while(!(a_last <= a_start) && !(less(a_array[a_last], a_pivot))) // instead of ">"
 	{
 		a_last--;
 	}
+    return a_last;
 }
 
-template <typename T>
-static int partition(T* a_array, size_t a_start, size_t a_last, T& a_pivot)
+template <typename T, typename LessComparator>
+static size_t partition(T* a_array, size_t a_start, size_t a_last, T& a_pivot, LessComparator less = NaturalLess<T>())
 {
     size_t start = a_start + 1;
     size_t last = a_last;
 
 	while(start <= last)
 	{
-		findBigger( a_array,  a_pivot, start, a_last);	
-		
-		findSmaller(a_array, a_pivot, a_start, last);
+		start = scanLeft( a_array,  a_pivot, start, a_last, less);	
+		last = scanRight(a_array, a_pivot, a_start, last, less);
 
 		if(start <= last)
 		{
@@ -60,8 +90,8 @@ T& selectPivot(T* a_array, size_t a_start, size_t a_last)
 	return a_array[a_start];
 }
 
-template <typename T>
-static void quickRec(T* a_array, size_t a_start, size_t a_last)
+template <typename T, typename LessComparator>
+static void quickSortRec(T* a_array, size_t a_start, size_t a_last, LessComparator less = NaturalLess<T>())
 {
 	if(a_start >= a_last)
 	{
@@ -69,26 +99,39 @@ static void quickRec(T* a_array, size_t a_start, size_t a_last)
 	}
 	
 	T& pivot = selectPivot(a_array, a_start, a_last);
-	size_t pivotIndex = partition(a_array, a_start, a_last, pivot);
-	if(pivotIndex >= 1)
+	size_t pivotIndex = partition(a_array, a_start, a_last, pivot, less);
+
+	if((pivotIndex -1) - a_start < THRESHOLD)
 	{
-		quickRec(a_array, a_start, pivotIndex -1);
+		insertionSort(a_array, a_start, pivotIndex -1, less);
 	}
-	quickRec(a_array, pivotIndex + 1, a_last);
+	else if(pivotIndex >= 1)
+	{
+		quickSortRec(a_array, a_start, pivotIndex -1, less);
+	}
+
+	if(a_last - (pivotIndex + 1) < THRESHOLD)
+	{
+		insertionSort(a_array, pivotIndex + 1, a_last, less);
+	}
+	else
+	{
+		quickSortRec(a_array, pivotIndex + 1, a_last, less);
+	}
 }
 
 
 } //details_impl namespace
 
-template <typename T>
-inline void quickSort(T* a_array, size_t a_length)
+template <typename T, typename LessComparator>
+inline void quickSort(T* a_array, size_t a_length, LessComparator less = NaturalLess<T>())
 {
 	if(!a_array || a_length < 2)
 	{
 		return;
 	}
 
-	details_impl::quickRec(a_array, 0, a_length -1);	
+	details_impl::quickSortRec(a_array, 0, a_length -1, less);	
 }
 
 

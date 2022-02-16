@@ -9,14 +9,14 @@ namespace cpp
 class Ball
 {
 public:
-    explicit Ball(char a_color = 'A', int a_radius = 1); //to fix
+    Ball();
+    explicit Ball(const char* a_color, int a_radius = 1);
     int getRadius()const;
     void setRadius(int a_radius);
-    char getColor()const;
-    void setColor(char a_color);
+    const char* getColor() const;
     void swap(Ball& a_other);
 private:
-    char m_color;
+    char m_color[10];
     int m_radius;
 };
 
