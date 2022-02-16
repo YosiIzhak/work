@@ -124,7 +124,7 @@ static void quickSortRec(T* a_array, size_t a_start, size_t a_last, LessComparat
 } //details_impl namespace
 
 template <typename T, typename LessComparator>
-inline void quickSort(T* a_array, size_t a_length, LessComparator less = NaturalLess<T>())
+void quickSort(T* a_array, size_t a_length, LessComparator less)
 {
 	if(!a_array || a_length < 2)
 	{

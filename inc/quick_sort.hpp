@@ -6,9 +6,9 @@
 namespace cpp
 {
 
-template <typename T>
+template <typename T, typename LessComparator>
 //requires: <, swap, less(T const&, T const&,).
-void quickSort(T* a_array, size_t a_length);
+void quickSort(T* a_array, size_t a_length, LessComparator less = NaturalLess<T>());
 
 }//end of namespace
 
