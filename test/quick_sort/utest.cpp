@@ -7,7 +7,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-
+#include <cstdlib>
 
 BEGIN_TEST(int_sort_test)
 
