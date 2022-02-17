@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <cstddef>
+#include <map>
+#include <string>
 
 #define arraySize(T) sizeof(T)/sizeof(T[0])
 
@@ -23,5 +25,7 @@ void arrCopy(int* a_first, int* a_second, size_t n);
 
 int* randomIntArray(size_t n);
 
+//template <typename T>
+void letterFrequency(std::map<char, int> &a_map, std::string const& a_file);
 
 #endif /*#ifndefUTILS_H*/

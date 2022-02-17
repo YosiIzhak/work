@@ -178,17 +178,5 @@ size_t countCommontStrange(std::vector<T> &a_first, std::vector<T> &a_second, st
 #endif // QUICK_SORT_HXX
 
 
-// template <typename T>
-// //requires: value's range in array size
-// int firstDuplicate(std::vector<T> a_vector)
-// {
-//     for (size_t i = 0; i < a_vector.size(); i++)
-//     {
-//         if (a_vector[abs(a_vector[i]) - 1] < 0)
-//             return abs(a_vector[i]);
-//         else
-//             a_vector[abs(a_vector[i]) - 1] = -a_vector[abs(a_vector[i]) - 1];
-//     }
-//     return -1;
-// }  
+
 

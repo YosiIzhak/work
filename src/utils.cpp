@@ -1,6 +1,30 @@
 #include <cstdio>
 #include <cstdlib>
 #include "utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+
+void letterFrequency(std::map<char, int> &a_map, std::string const& a_file )
+{
+    FILE* input_file = fopen(a_file.c_str(), "r");
+    if (input_file == 0)
+    {
+       return;
+    }
+    char c;
+    while ((c = fgetc(input_file)) != EOF) 
+    {
+       if (c == ' ')
+       {
+           continue;
+       }
+       ++a_map[c];
+    }
+    fclose(input_file);
+}
+
 
 void reverseIntArr(int* a_arr, size_t a_arrSize)
 {

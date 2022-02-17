@@ -4,6 +4,11 @@
 #include "linear_algo.hpp"
 #include "quick_sort.hpp"
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+
 BEGIN_TEST(random_vector)
    
     using std::vector;
@@ -157,6 +162,22 @@ BEGIN_TEST(count_test)
         
 END_TEST
 
+BEGIN_TEST(freq_letter)
+   
+    using std::map;
+	using namespace cpp;
+    using std::string;
+    std::map<char, int> letterMap;
+    string filename("../text.txt");
+    letterFrequency(letterMap ,filename);
+    for (std::map<char, int>::iterator it = letterMap.begin(); it != letterMap.end(); ++it) 
+    {
+      std::cout << it->first << " occurred "<< it->second << " times.\n";
+    }
+    ASSERT_PASS();
+
+END_TEST
+
 BEGIN_SUITE(TEST)
 
 	TEST(random_vector)
@@ -167,5 +188,6 @@ BEGIN_SUITE(TEST)
     TEST(min_max_2)
     TEST(firstDuplicate_test)
     TEST(count_test)
+    TEST(freq_letter)
 	
 END_SUITE
