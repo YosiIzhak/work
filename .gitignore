@@ -6,6 +6,7 @@
 # Prerequisites
 *.d
 
+book.txt
 utest
 # Object files
 *.o
