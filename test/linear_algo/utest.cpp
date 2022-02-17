@@ -168,7 +168,7 @@ BEGIN_TEST(freq_letter)
 	using namespace cpp;
     using std::string;
     std::map<char, int> letterMap;
-    string filename("../text.txt");
+    string filename("../book.txt");
     letterFrequency(letterMap ,filename);
     for (std::map<char, int>::iterator it = letterMap.begin(); it != letterMap.end(); ++it) 
     {

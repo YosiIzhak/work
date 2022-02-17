@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 
-void letterFrequency(std::map<char, int> &a_map, std::string const& a_file )
+void letterFrequency(std::map<char, int> &a_map, std::string const& a_file)
 {
     FILE* input_file = fopen(a_file.c_str(), "r");
     if (input_file == 0)
@@ -20,7 +20,7 @@ void letterFrequency(std::map<char, int> &a_map, std::string const& a_file )
        {
            continue;
        }
-       ++a_map[c];
+       ++a_map[tolower(c)];
     }
     fclose(input_file);
 }
