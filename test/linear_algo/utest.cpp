@@ -132,6 +132,31 @@ BEGIN_TEST(firstDuplicate_test)
 
 END_TEST
 
+BEGIN_TEST(count_test)
+    
+    using std::vector;
+    using namespace cpp;
+    
+    int const N = 10;
+    int v1[] = {1,2,3,4,5,6,7,8,9,10};
+    vector<int> first(v1, v1+10);
+    int v2[] = {1,3,5,7,9,11,34,65,19,14};
+    vector<int> second(v2, v2+10);
+    int v3[] = {1,2,40,60,4,74,71,8,9,12};
+    vector<int> third(v3, v3+10);
+    first.reserve(N);
+    second.reserve(N);
+    third.reserve(N);
+    ASSERT_EQUAL(first.size(), N);
+    ASSERT_EQUAL(second.size(), N);
+    ASSERT_EQUAL(third.size(), N);
+
+    size_t res;
+    res = countCommontStrange(first, second, third);
+    std::cout << res <<" res\n ";
+        
+END_TEST
+
 BEGIN_SUITE(TEST)
 
 	TEST(random_vector)
@@ -141,5 +166,6 @@ BEGIN_SUITE(TEST)
     TEST(duplicate_int)
     TEST(min_max_2)
     TEST(firstDuplicate_test)
+    TEST(count_test)
 	
 END_SUITE

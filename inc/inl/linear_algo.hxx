@@ -157,8 +157,21 @@ size_t firstDuplicate(std::vector<T> const& a_vector)
     return duplicate;
 }
 
-
-
+template<typename T>
+size_t countCommontStrange(std::vector<T> &a_first, std::vector<T> &a_second, std::vector<T> &a_third)
+{
+    size_t count = 0;
+    for (std::vector<int>::iterator it = a_first.begin() ; it != a_first.end(); ++it)
+    {
+        if  ((std::find(a_second.begin(), a_second.end(), *it) != a_second.end()) &&
+        !(std::find(a_third.begin(), a_third.end(), *it) != a_third.end())) 
+        {
+            count++;
+        }
+    }
+    
+    return count;
+}
 
 } //cpp namespace
 
