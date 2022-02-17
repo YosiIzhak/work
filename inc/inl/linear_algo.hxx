@@ -7,19 +7,21 @@
 #include <algorithm>
 #include <vector>
 #include "utils.hpp"
-
+#include <map>
 
 
 namespace cpp
 {
 
-template <typename T>
-void createChaos(std::vector<T> &a_vector, size_t a_size)
+template<typename T>
+void createChaos(std::vector<T>& a_vector, size_t a_size, size_t a_max)
 {
+    a_vector.reserve(a_size);
+    T random;
     for(size_t i = 0; i < a_size; i++)
     {
-        T number =  T(random()) / T(RAND_MAX) + random();
-        a_vector.push_back(number);
+        random = T(rand())/T(RAND_MAX) + rand()%a_max;
+        a_vector.push_back(random);
     }
 }
 
@@ -128,19 +130,32 @@ std::pair<size_t, size_t> extremes2(std::vector<T> const& a_vector)
     }
     return minMax;
 }
-template <typename T>
-//requires: value's range in array size
-int firstDuplicate(std::vector<T> a_vector)
+
+template<typename T>
+size_t firstDuplicate(std::vector<T> const& a_vector) 
 {
-    for (size_t i = 0; i < a_vector.size(); i++)
+    using std::map;
+    map<T, size_t> mapT;
+    size_t size = a_vector.size();
+    size_t duplicate = a_vector.size();
+
+     for(size_t i = 0; i < size; i++)
     {
-        if (a_vector[abs(a_vector[i]) - 1] < 0)
-            return abs(a_vector[i]);
+        T element = a_vector[i];
+        if(mapT[element] == 0)
+        {
+            mapT[element] = i;
+        }
         else
-            a_vector[abs(a_vector[i]) - 1] = -a_vector[abs(a_vector[i]) - 1];
+        {
+            if(i < duplicate)
+            {
+                duplicate = mapT[element];
+            }
+        }
     }
-    return -1;
-}  
+    return duplicate;
+}
 
 
 
@@ -148,4 +163,19 @@ int firstDuplicate(std::vector<T> a_vector)
 } //cpp namespace
 
 #endif // QUICK_SORT_HXX
+
+
+// template <typename T>
+// //requires: value's range in array size
+// int firstDuplicate(std::vector<T> a_vector)
+// {
+//     for (size_t i = 0; i < a_vector.size(); i++)
+//     {
+//         if (a_vector[abs(a_vector[i]) - 1] < 0)
+//             return abs(a_vector[i]);
+//         else
+//             a_vector[abs(a_vector[i]) - 1] = -a_vector[abs(a_vector[i]) - 1];
+//     }
+//     return -1;
+// }  
 

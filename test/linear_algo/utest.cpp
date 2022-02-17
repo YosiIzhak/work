@@ -8,11 +8,11 @@ BEGIN_TEST(random_vector)
    
     using std::vector;
 	using namespace cpp;
-
+     size_t const MAX = 10000;
     int const N = 100;
     vector<double> double_vector;
     double_vector.reserve(N);
-    createChaos(double_vector, N);
+    createChaos(double_vector, N, MAX);
     ASSERT_EQUAL(double_vector.size(), N);
 END_TEST
 
@@ -21,11 +21,11 @@ BEGIN_TEST(sum_random_vector)
     
     using std::vector;
     using namespace cpp;
-
+    size_t const MAX = 10000;
     int const N = 100;
     vector<double> double_vector;
     double_vector.reserve(N);
-    createChaos(double_vector, N);
+    createChaos(double_vector, N, MAX);
     ASSERT_EQUAL(double_vector.size(), N);
     double res = sum(double_vector, N);
     std::cout << res <<" res ";
@@ -35,11 +35,11 @@ BEGIN_TEST(odd_out)
     
     using std::vector;
     using namespace cpp;
-
+     size_t const MAX = 10000;
     int const N = 10;
     vector<int> int_vector;
     int_vector.reserve(N);
-    createChaos(int_vector, N);
+    createChaos(int_vector, N, MAX);
     ASSERT_EQUAL(int_vector.size(), N);
     oddsOut(int_vector, N);
     for (size_t i = 0; i < int_vector.size(); i++)
@@ -56,7 +56,7 @@ BEGIN_TEST(min_max)
 
     int const N = 10;
     int numbs[] = {1,2,4,6,3,7,7,8,9,1};
-    vector<int> int_vector(numbs, numbs+10);
+    vector<size_t> int_vector(numbs, numbs+10);
     int_vector.reserve(N);
     
     ASSERT_EQUAL(int_vector.size(), N);
@@ -83,6 +83,8 @@ BEGIN_TEST(min_max_2)
     
 END_TEST
 
+
+
 BEGIN_TEST(duplicate_int)
     
     using std::vector;
@@ -101,29 +103,34 @@ BEGIN_TEST(duplicate_int)
         
 END_TEST
 
-// BEGIN_TEST(ball_duplicate)
+BEGIN_TEST(firstDuplicate_test)
 
-//      using std::vector;
-// 	using namespace cpp;
+    using std::vector;
+	using namespace cpp;
 
-//      int const N = 10;
-// 	Ball array[10];
-// 	array[0].setRadius(4);
-// 	array[1].setRadius(7);
-// 	array[2].setRadius(3);
-// 	array[3].setRadius(8);
-// 	array[4].setRadius(5);
-// 	array[5].setRadius(6);
-// 	array[6].setRadius(2);
-// 	array[7].setRadius(9);
-// 	array[8].setRadius(7);
-// 	array[9].setRadius(10);
-//     ASSERT_EQUAL(array.size(), N);
-//     int first;
-//     first = firstDuplicate(array);
-//     std::cout << first <<" first\n ";
+	size_t const N = 10000;
+    vector<Ball> vec;
+    vec.reserve(N);
 
-// END_TEST
+	for(size_t i = 0; i < N; i++)
+	{
+		vec.push_back(Ball('w', i));
+		if(i == N/2)
+		{
+			vec.push_back(Ball('w', i - 30));
+			vec.push_back(Ball('w', i - 20));
+			vec.push_back(Ball('w', i - 10));
+			vec.push_back(Ball('w', i + 30));
+			vec.push_back(Ball('w', i + 20));
+			vec.push_back(Ball('w', i + 10));
+			vec.push_back(Ball('w', i));
+		}
+	}
+	size_t result = firstDuplicate<Ball>(vec);
+
+	ASSERT_EQUAL(result,N/2 - 30);
+
+END_TEST
 
 BEGIN_SUITE(TEST)
 
@@ -133,6 +140,6 @@ BEGIN_SUITE(TEST)
     TEST(min_max)
     TEST(duplicate_int)
     TEST(min_max_2)
-    //TEST(ball_duplicate)
+    TEST(firstDuplicate_test)
 	
 END_SUITE
