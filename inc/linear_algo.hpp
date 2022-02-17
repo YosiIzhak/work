@@ -7,8 +7,6 @@
 namespace cpp
 {
 
-using std::vector;
-
 template <typename T>
 void createChaos(std::vector<T> &a_vector, size_t a_size);
 
@@ -16,14 +14,16 @@ template <typename T>
 double sum(std::vector<T> &a_vector, size_t a_size);
 
 template <typename T>
-void oddOut(std::vector<T> &a_vector, size_t a_size);
+void oddsOut(std::vector<T> &a_vector, size_t a_size);
 
 template <typename T>
-void extremes(std::vector<T> &a_vector, int& a_min, int& a_max);
+std::pair<size_t, size_t> extremes(std::vector<T> const& a_vector);
 
 template <typename T>
 int firstDuplicate(std::vector<T> a_vector);
 
+template <typename T>
+std::pair<size_t, size_t> extremes2(std::vector<T> const& a_vector);
 }//end of namespace
 #include "./inl/linear_algo.hxx"
 

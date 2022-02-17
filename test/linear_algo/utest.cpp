@@ -1,8 +1,9 @@
 #include "mu_test.h"
 #include "utils.hpp"
-#include <vector>
+#include "ball.hpp"
 #include "linear_algo.hpp"
-
+#include "quick_sort.hpp"
+#include <vector>
 BEGIN_TEST(random_vector)
    
     using std::vector;
@@ -40,7 +41,7 @@ BEGIN_TEST(odd_out)
     int_vector.reserve(N);
     createChaos(int_vector, N);
     ASSERT_EQUAL(int_vector.size(), N);
-    oddOut(int_vector, N);
+    oddsOut(int_vector, N);
     for (size_t i = 0; i < int_vector.size(); i++)
     {
         std::cout << int_vector[i] <<" item\n ";
@@ -54,43 +55,43 @@ BEGIN_TEST(min_max)
     using namespace cpp;
 
     int const N = 10;
-    vector<int> int_vector;
+    int numbs[] = {1,2,4,6,3,7,7,8,9,1};
+    vector<int> int_vector(numbs, numbs+10);
     int_vector.reserve(N);
-    int_vector.push_back(1); 
-    int_vector.push_back(4);
-    int_vector.push_back(6);
-    int_vector.push_back(3);
-    int_vector.push_back(6);
-    int_vector.push_back(8);
-    int_vector.push_back(9);
-    int_vector.push_back(9);
-    int_vector.push_back(6);
-    int_vector.push_back(4);
+    
     ASSERT_EQUAL(int_vector.size(), N);
-    int min, max;
-    extremes(int_vector, min, max);
-    ASSERT_EQUAL(max, 9);
-    ASSERT_EQUAL(min, 1);
+    std::pair<size_t, size_t> p = extremes(int_vector);
+    ASSERT_EQUAL(p.first, 1);
+    ASSERT_EQUAL(p.second, 9);
     
 END_TEST
 
-BEGIN_TEST(duplicate_test)
+BEGIN_TEST(min_max_2)
+    
+    using std::vector;
+    using namespace cpp;
+
+    int const N = 10;
+    int numbs[] = {1,2,4,6,3,7,7,8,9,1};
+    vector<size_t> int_vector(numbs, numbs+10);
+    int_vector.reserve(N);
+    
+    ASSERT_EQUAL(int_vector.size(), N);
+    std::pair<size_t, size_t> p = extremes2(int_vector);
+    ASSERT_EQUAL(p.first, 1);
+    ASSERT_EQUAL(p.second, 9);
+    
+END_TEST
+
+BEGIN_TEST(duplicate_int)
     
     using std::vector;
     using namespace cpp;
     
     int const N = 10;
-    vector<int> int_vector;
-    int_vector.push_back(1); 
-    int_vector.push_back(4);
-    int_vector.push_back(6);
-    int_vector.push_back(3);
-    int_vector.push_back(6);
-    int_vector.push_back(8);
-    int_vector.push_back(9);
-    int_vector.push_back(9);
-    int_vector.push_back(6);
-    int_vector.push_back(4);
+    int numbs[] = {1,2,4,6,3,7,7,8,9,1};
+    vector<int> int_vector(numbs, numbs+10);
+   
     int_vector.reserve(N);
    
     ASSERT_EQUAL(int_vector.size(), N);
@@ -99,12 +100,39 @@ BEGIN_TEST(duplicate_test)
     std::cout << first <<" first\n ";
         
 END_TEST
+
+// BEGIN_TEST(ball_duplicate)
+
+//      using std::vector;
+// 	using namespace cpp;
+
+//      int const N = 10;
+// 	Ball array[10];
+// 	array[0].setRadius(4);
+// 	array[1].setRadius(7);
+// 	array[2].setRadius(3);
+// 	array[3].setRadius(8);
+// 	array[4].setRadius(5);
+// 	array[5].setRadius(6);
+// 	array[6].setRadius(2);
+// 	array[7].setRadius(9);
+// 	array[8].setRadius(7);
+// 	array[9].setRadius(10);
+//     ASSERT_EQUAL(array.size(), N);
+//     int first;
+//     first = firstDuplicate(array);
+//     std::cout << first <<" first\n ";
+
+// END_TEST
+
 BEGIN_SUITE(TEST)
 
 	TEST(random_vector)
     TEST(sum_random_vector)
     TEST(odd_out)
     TEST(min_max)
-    TEST(duplicate_test)
+    TEST(duplicate_int)
+    TEST(min_max_2)
+    //TEST(ball_duplicate)
 	
 END_SUITE

@@ -18,7 +18,7 @@ void createChaos(std::vector<T> &a_vector, size_t a_size)
 {
     for(size_t i = 0; i < a_size; i++)
     {
-        T number =  random();
+        T number =  T(random()) / T(RAND_MAX) + random();
         a_vector.push_back(number);
     }
 }
@@ -35,7 +35,7 @@ double sum(std::vector<T> &a_vector, size_t a_size)
 }
 
 template <typename T>
-void oddOut(std::vector<T> &a_vector, size_t a_size)
+void oddsOut(std::vector<T> &a_vector, size_t a_size)
 {
     for (size_t i = 0; i < a_vector.size(); i++)
     {
@@ -47,24 +47,87 @@ void oddOut(std::vector<T> &a_vector, size_t a_size)
     }
 }
 
-template <typename T>
-void extremes(std::vector<T> &a_vector, int& a_min, int& a_max)
+template<typename T>
+static size_t findx(std::vector<T> const& a_vector, int a_type)
 {
-     a_min = a_vector[0], a_max = a_vector[0];
-    for (size_t i = 1; i < a_vector.size(); i++)
+    size_t const size = a_vector.size();
+    size_t index = 0;
+    size_t value = a_vector[0];
+
+    if(a_type == 0)
     {
-         if(a_vector[i] > a_max)
-         {
-            a_max = a_vector[i];
-         }
-         if(a_vector[i] < a_min)
-         {
-            a_min = a_vector[i];
-         }  
+        for(size_t i = 0; i < size; i++)
+        {
+            if(a_vector[i] < a_vector[index])
+            {
+                index = i;
+                value = a_vector[i];
+            }
+        }
     }
-    
+    if(a_type == 1)
+    {
+        for(size_t i = 0; i < size; i++)
+        {
+            if((a_vector[i] > a_vector[index]))
+            {
+                index = i;
+                value = a_vector[i];
+            }
+        }
+    }
+    return value;
 }
 
+template<typename T>
+std::pair<size_t, size_t> extremes(std::vector<T> const& a_vector)
+{
+    std::pair<size_t, size_t> minMax;
+
+    if(a_vector.size() == 0)
+    {
+        minMax.first = a_vector.size();
+        minMax.second = a_vector.size();
+        return minMax;
+    }
+
+    minMax.first = findx(a_vector, 0);
+    minMax.second = findx(a_vector, 1);
+    return minMax;
+}
+
+template<typename T>
+std::pair<size_t, size_t> extremes2(std::vector<T> const& a_vector)
+{
+    std::pair<size_t, size_t> minMax;
+    if(a_vector.size() == 0)
+    {
+        minMax.first = a_vector.size();
+        minMax.second = a_vector.size();
+        return minMax;
+    }
+    else if(a_vector.size() % 2 == 0)
+    {
+        minMax.first = std::min(a_vector[0], a_vector[1]);
+        minMax.second = std::max(a_vector[0], a_vector[1]);
+    }
+    else
+    {
+        minMax.first = minMax.second = a_vector[0];
+    }
+    for(size_t i = 2; i < a_vector.size(); i = i+2)
+    {
+        if( minMax.first > std::min(a_vector[i], a_vector[i+1]))
+        {
+            minMax.first = std::min(a_vector[i], a_vector[i+1]);
+        }
+        if( minMax.second < std::max(a_vector[i], a_vector[i+1]))
+        {
+            minMax.second = std::max(a_vector[i], a_vector[i+1]);
+        }
+    }
+    return minMax;
+}
 template <typename T>
 //requires: value's range in array size
 int firstDuplicate(std::vector<T> a_vector)
