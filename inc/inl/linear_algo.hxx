@@ -8,7 +8,7 @@
 #include <vector>
 #include "utils.hpp"
 #include <map>
-
+#include <set>
 
 namespace cpp
 {
@@ -48,44 +48,44 @@ void oddsOut(std::vector<T> &a_vector, size_t a_size)
          } 
     }
 }
+template <typename T>
+struct NaturalLess
+{
+    bool operator()(T const& a_first, T const& a_second) const
+    {
+        return a_first < a_second;
+    }
+};
 
-template<typename T>
-static size_t findx(std::vector<T> const& a_vector, int a_type)
+template <typename T>
+struct NaturalGreterThan
+{
+    bool operator()(T const& a_first, T const& a_second) const
+    {
+        return a_first > a_second;
+    }
+};
+
+template<typename T, typename Comparator>
+static size_t findx(std::vector<T> const& a_vector, Comparator a_compar)
 {
     size_t const size = a_vector.size();
     size_t index = 0;
-    size_t value = a_vector[0];
 
-    if(a_type == 0)
+    for(size_t i = 0; i < size; ++i)
     {
-        for(size_t i = 0; i < size; i++)
+        if(a_compar(a_vector[i], a_vector[index]))
         {
-            if(a_vector[i] < a_vector[index])
-            {
-                index = i;
-                value = a_vector[i];
-            }
+            index = i;
         }
     }
-    if(a_type == 1)
-    {
-        for(size_t i = 0; i < size; i++)
-        {
-            if((a_vector[i] > a_vector[index]))
-            {
-                index = i;
-                value = a_vector[i];
-            }
-        }
-    }
-    return value;
+    return index;
 }
 
 template<typename T>
 std::pair<size_t, size_t> extremes(std::vector<T> const& a_vector)
 {
     std::pair<size_t, size_t> minMax;
-
     if(a_vector.size() == 0)
     {
         minMax.first = a_vector.size();
@@ -93,40 +93,57 @@ std::pair<size_t, size_t> extremes(std::vector<T> const& a_vector)
         return minMax;
     }
 
-    minMax.first = findx(a_vector, 0);
-    minMax.second = findx(a_vector, 1);
+    minMax.first = findx(a_vector, NaturalLess<T>());
+    minMax.second = findx(a_vector, NaturalGreterThan<T>());
     return minMax;
 }
+    template<typename T>
+    void setMin(size_t index, std::vector<T> const& a_vec, std::pair<size_t, size_t>& minMax)
+    {
+        if( minMax.first > std::min(a_vec[index], a_vec[index+1]))
+        {
+            minMax.first = std::min(a_vec[index], a_vec[index+1]);
+        }
+    }
+    template<typename T>
+    void setMax(size_t index, std::vector<T> const& a_vec, std::pair<size_t, size_t>& minMax)
+    {
+        if( minMax.second < std::max(a_vec[index], a_vec[index+1]))
+        {
+            minMax.second = std::max(a_vec[index], a_vec[index+1]);
+        }
+    }
 
 template<typename T>
 std::pair<size_t, size_t> extremes2(std::vector<T> const& a_vector)
 {
+    size_t j = 0;
     std::pair<size_t, size_t> minMax;
+
     if(a_vector.size() == 0)
     {
         minMax.first = a_vector.size();
         minMax.second = a_vector.size();
         return minMax;
     }
+
     else if(a_vector.size() % 2 == 0)
     {
         minMax.first = std::min(a_vector[0], a_vector[1]);
         minMax.second = std::max(a_vector[0], a_vector[1]);
+       j = 2;
     }
+
     else
     {
         minMax.first = minMax.second = a_vector[0];
+        j = 1;
     }
-    for(size_t i = 2; i < a_vector.size(); i = i+2)
+    
+    for( size_t i = j; i < a_vector.size(); i = i+2)
     {
-        if( minMax.first > std::min(a_vector[i], a_vector[i+1]))
-        {
-            minMax.first = std::min(a_vector[i], a_vector[i+1]);
-        }
-        if( minMax.second < std::max(a_vector[i], a_vector[i+1]))
-        {
-            minMax.second = std::max(a_vector[i], a_vector[i+1]);
-        }
+        setMin(i,a_vector, minMax);
+        setMax(i,a_vector, minMax);
     }
     return minMax;
 }
@@ -173,6 +190,46 @@ size_t countCommontStrange(std::vector<T> &a_first, std::vector<T> &a_second, st
     return count;
 }
 
+namespace details_impl
+{
+template<typename T>
+struct EqualByPointer
+{
+    bool operator()(const T* a_first, const T* a_second) const
+    {
+        return *a_first < *a_second;
+    }
+};
+} // end if details_impl
+
+template <typename T>
+size_t countCommontStrange2(std::vector<T> const& a_first, std::vector<T> const& a_second, std::vector<T> const& a_third)
+{
+    using namespace std;
+    using namespace details_impl;
+    size_t count = 0;
+    size_t size = a_first.size();
+    set<T const*, EqualByPointer<T> > set;
+
+    for(size_t i = 0; i < size; i++)
+    {
+        set.insert(&a_first[i]);
+    }
+    
+    size = a_third.size();
+    for(size_t i = 0; i < size; i++)
+    {
+        set.erase(&a_third[i]);
+    }
+
+    size = a_second.size();
+    for(size_t i = 0; i < size; i++)
+    {
+        count += set.count(&a_second[i]);
+    }
+
+    return count;
+}
 } //cpp namespace
 
 #endif // QUICK_SORT_HXX

@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <map>
 #include <string>
+#include <vector>
+
 
 #define arraySize(T) sizeof(T)/sizeof(T[0])
 
@@ -26,6 +28,10 @@ void arrCopy(int* a_first, int* a_second, size_t n);
 int* randomIntArray(size_t n);
 
 //template <typename T>
-void letterFrequency(std::map<char, int> &a_map, std::string const& a_file);
+void letterFrequency(std::map<char, int> &a_map, std::ifstream& a_file);
+
+void topNWords(std::vector<std::string> &a_vector, std::ifstream& a_file, size_t a_numOfWords);
 
 #endif /*#ifndefUTILS_H*/
+
+

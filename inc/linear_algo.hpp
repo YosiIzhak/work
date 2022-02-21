@@ -27,6 +27,9 @@ std::pair<size_t, size_t> extremes2(std::vector<T> const& a_vector);
 
 template <typename T>
 size_t countCommontStrange(std::vector<T> &a_first, std::vector<T> &a_second, std::vector<T> &a_third);
+
+template<typename T>
+size_t countCommontStrange2(std::vector<T> const& a_first, std::vector<T> const& a_second, std::vector<T> const& a_third);
 }//end of namespace
 #include "./inl/linear_algo.hxx"
 

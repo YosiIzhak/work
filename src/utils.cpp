@@ -5,24 +5,75 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <vector>
+#include <queue>
 
-void letterFrequency(std::map<char, int> &a_map, std::string const& a_file)
+
+struct comparPairBySecond
 {
-    FILE* input_file = fopen(a_file.c_str(), "r");
-    if (input_file == 0)
+    bool operator()(std::pair<std::string, size_t> &a, std::pair<std::string, size_t> &b)
     {
-       return;
+        return a.second < b.second;
     }
-    char c;
-    while ((c = fgetc(input_file)) != EOF) 
+};
+
+void topNWords(std::vector<std::string> &a_vector, std::ifstream& a_file, size_t a_numOfWords)
+{
+    using namespace std;
+
+    if(a_file.peek() == std::ifstream::traits_type::eof() || !a_file.good())
     {
-       if (c == ' ')
+        cout << "problem in file!\n";
+        return;
+    }
+   
+    std::map<string, size_t> map;
+    string word;
+    word.clear();
+
+    while(a_file.good())
+    {
+        a_file >> word; 
+        ++map[word];
+        word.clear();
+    }
+    
+    priority_queue<pair<string, size_t> , vector<pair<string, size_t> >, comparPairBySecond> que;
+    
+    std::map<string, size_t>::iterator it = map.begin();
+    while (it != map.end())
+    {
+        que.push(pair<string, size_t> (it->first, it->second));
+        ++it;
+    }
+
+    for (size_t i = 0; i < a_numOfWords; i++)
+    {
+        a_vector[i] = que.top().first;
+        que.pop();
+        if(que.empty())
+        {
+            break;
+        }
+    }
+}
+
+
+
+void letterFrequency(std::map<char, int> &a_map, std::ifstream& a_file)
+{
+   char letter;
+    while (a_file >> letter) 
+    {
+       if ( a_file.is_open())
        {
-           continue;
+           if (isalpha(letter))
+            {
+                ++a_map[tolower(letter)];
+            }
        }
-       ++a_map[tolower(c)];
+       
     }
-    fclose(input_file);
 }
 
 

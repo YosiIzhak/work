@@ -60,14 +60,14 @@ BEGIN_TEST(min_max)
     using namespace cpp;
 
     int const N = 10;
-    int numbs[] = {1,2,4,6,3,7,7,8,9,1};
+    size_t numbs[] = {1,2,4,6,3,7,7,8,9,1};
     vector<size_t> int_vector(numbs, numbs+10);
     int_vector.reserve(N);
     
     ASSERT_EQUAL(int_vector.size(), N);
     std::pair<size_t, size_t> p = extremes(int_vector);
-    ASSERT_EQUAL(p.first, 1);
-    ASSERT_EQUAL(p.second, 9);
+    ASSERT_EQUAL(p.first, 0);
+    ASSERT_EQUAL(p.second, 8);
     
 END_TEST
 
@@ -162,13 +162,36 @@ BEGIN_TEST(count_test)
         
 END_TEST
 
+BEGIN_TEST(count_test_set)
+    
+    using std::vector;
+    using namespace cpp;
+    
+    int const N = 10;
+    int v1[] = {1,2,3,4,5,6,7,8,9,10};
+    vector<int> first(v1, v1+10);
+    int v2[] = {1,3,5,7,9,11,34,65,19,14};
+    vector<int> second(v2, v2+10);
+    int v3[] = {1,2,40,60,4,74,71,8,9,12};
+    vector<int> third(v3, v3+10);
+    first.reserve(N);
+    second.reserve(N);
+    third.reserve(N);
+    ASSERT_EQUAL(first.size(), N);
+    ASSERT_EQUAL(second.size(), N);
+    ASSERT_EQUAL(third.size(), N);
+
+    size_t res;
+    res = countCommontStrange2(first, second, third);
+    std::cout << res <<" res\n ";
+        
+END_TEST
 BEGIN_TEST(freq_letter)
    
     using std::map;
 	using namespace cpp;
-    using std::string;
     std::map<char, int> letterMap;
-    string filename("../book.txt");
+    std::ifstream filename("../book.txt");
     letterFrequency(letterMap ,filename);
     for (std::map<char, int>::iterator it = letterMap.begin(); it != letterMap.end(); ++it) 
     {
@@ -177,17 +200,136 @@ BEGIN_TEST(freq_letter)
     ASSERT_PASS();
 
 END_TEST
+BEGIN_TEST(extremes_test)
+
+    using std::vector;
+	using namespace cpp;
+
+	size_t const N = 10;
+	size_t const MAX = 10000;
+
+	size_t min = -15;
+	size_t max = MAX + 10;
+
+    vector<size_t> vec;
+	createChaos(vec, N - 2, MAX);
+	vec.push_back(min);
+	vec.push_back(max);
+
+
+	std::pair<size_t, size_t> result;
+	result =  extremes2(vec);
+
+	for(size_t i = 0; i < N; i++)
+	{
+		//std::cout <<"vec[" << i <<"] " << vec[i] << "\n";
+	}
+
+	// std::cout << "min: " << vec[result.first] << "\n";
+	// std::cout << "max: " << vec[result.second] << "\n";
+
+	ASSERT_EQUAL(vec[result.first], min);
+	ASSERT_EQUAL(vec[result.second], max);
+	
+END_TEST
+
+BEGIN_TEST(topNWords_test)
+   
+	using namespace std;
+
+	int const N = 4;
+    std::ifstream filename("../book.txt");
+   	vector<std::string> result(N);
+	
+	topNWords(result, filename, N);
+
+	for(size_t i = 0; i < N; i++)
+	{
+		std::cout << "vec[" << i <<"] " << result[i] << "\n";
+	}
+    ASSERT_PASS();
+
+END_TEST
+
+BEGIN_TEST(extremes2_test)
+
+    using std::vector;
+	using namespace cpp;
+
+	size_t const N = 10;
+	size_t const MAX = 100;
+
+	size_t min = 1;
+	size_t max = MAX + 10;
+
+    vector<size_t> vec;
+	createChaos(vec, N - 2, MAX);
+	vec.push_back(min);
+	vec.push_back(max);
+
+	std::pair<size_t, size_t> result;
+	result =  extremes2(vec);
+
+	for(size_t i = 0; i < N; i++)
+	{
+		std::cout <<"vec[" << i <<"] " << vec[i] << "\n";
+	}
+
+	// std::cout << "min: " << vec[result.first] << "\n";
+	// std::cout << "max: " << vec[result.second] << "\n";
+
+	ASSERT_EQUAL(result.first, min);
+	ASSERT_EQUAL(result.second, max);
+
+END_TEST
+
+BEGIN_TEST(extremes_test_new)
+
+    using std::vector;
+	using namespace cpp;
+
+	size_t const N = 100;
+	size_t const MAX = 10000;
+
+	size_t min = 1;
+	size_t max = MAX + 10;
+
+    vector<size_t> vec;
+	createChaos(vec, N - 2, MAX);
+	vec.push_back(min);
+	vec.push_back(max);
+
+	std::pair<size_t, size_t> result;
+	result =  extremes(vec);
+
+	for(size_t i = 0; i < N; i++)
+	{
+		//std::cout <<"vec[" << i <<"] " << vec[i] << "\n";
+	}
+
+	// std::cout << "min: " << vec[result.first] << "\n";
+	// std::cout << "max: " << vec[result.second] << "\n";
+
+	ASSERT_EQUAL(vec[result.first], min);
+	ASSERT_EQUAL(vec[result.second], max);
+
+END_TEST
 
 BEGIN_SUITE(TEST)
 
-	TEST(random_vector)
-    TEST(sum_random_vector)
-    TEST(odd_out)
+	IGNORE_TEST(random_vector)
+    IGNORE_TEST(sum_random_vector)
+    IGNORE_TEST(odd_out)
     TEST(min_max)
-    TEST(duplicate_int)
+    IGNORE_TEST(duplicate_int)
     TEST(min_max_2)
-    TEST(firstDuplicate_test)
-    TEST(count_test)
-    TEST(freq_letter)
-	
+    IGNORE_TEST(firstDuplicate_test)
+    IGNORE_TEST(count_test)
+    IGNORE_TEST(freq_letter)
+    IGNORE_TEST(extremes_test)
+    IGNORE_TEST(topNWords_test)
+	IGNORE_TEST(count_test_set)
+    TEST(extremes2_test)
+    TEST(extremes_test_new)
+
 END_SUITE

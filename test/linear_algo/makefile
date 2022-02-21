@@ -22,6 +22,11 @@ $(TARGET):$(OBJS)
 
 utest.o : $(INC_DIR)/linear_algo.hpp  $(INC_DIR)/utils.hpp 
 
+warpeace:
+	wget https://raw.githubusercontent.com/mmcky/nyu-econ-370/master/notebooks/data/book-war-and-peace.txt
+
+book.txt: warpeace
+	cat book-war-and-peace.txt| tr -d '[:punct:]' > book.txt
 
 check: $(TARGET)
 	./$(TARGET) -v
