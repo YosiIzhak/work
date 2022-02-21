@@ -231,7 +231,7 @@ Iterator::Iterator(Node* a_node)
 : m_current(a_node)
 {
 }
-
+ 
 Iterator& Iterator::next() 
 {
     m_current = m_current->getNext();
