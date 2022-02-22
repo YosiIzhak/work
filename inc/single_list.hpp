@@ -23,7 +23,7 @@ private:
 };
 
 
-class Iterator
+class Iterator: public std::iterator<std::input_iterator_tag, int>
 {
 public:
     Iterator(Node *a_node = 0);
@@ -33,7 +33,12 @@ public:
 
     bool equal(Iterator const& a_itr) const;
     bool notEqual(Iterator const &a_itr) const;
-
+    Iterator operator++(int);
+    Iterator& operator++();
+    int operator*() const;
+    Node* operator->() const;
+    bool operator!=(Iterator const& a_itr) const;
+    bool operator==(Iterator const& a_itr) const;
 private:
     Node* m_current;
 };

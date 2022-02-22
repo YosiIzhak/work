@@ -1,6 +1,8 @@
 #include "mu_test.h"
 #include "single_list.hpp"
-
+#include <algorithm>
+#include <list>
+#include <iostream>
 BEGIN_TEST(empty_list)
 
 	LinkedList list;
@@ -153,15 +155,53 @@ BEGIN_TEST(test_united)
     	
 END_TEST
 
+BEGIN_TEST(iterator_add)
+
+	LinkedList a;
+	Iterator it;
+	for (size_t i = 1; i < 6; i++)
+	{
+		a.add(i);
+	}
+
+	it = a.begin();
+	ASSERT_EQUAL(*it, 5);
+	it++;
+	ASSERT_EQUAL(*it, 4);
+
+END_TEST
+
+bool IsEven (int i) 
+{
+  return ((i % 2) == 0);
+}
+BEGIN_TEST(find_if)
+	
+	LinkedList a;
+	
+	for (size_t i = 1; i < 6; i++)
+	{
+		a.add(i);
+	}
+	
+	Iterator it = std::find_if (a.begin(), a.end(), IsEven);
+	std::cout << "the first: " << *it << '\n';
+	ASSERT_EQUAL(*it, 4);
+
+END_TEST
+
+
 BEGIN_SUITE(Its counts)
 
 IGNORE_TEST(empty_list)
-TEST(add_and_remove)
-TEST(all_function)
-TEST(test_cctor)
-TEST(test_operator_equal)
-TEST(test_find)
-TEST(test_united)
+IGNORE_TEST(add_and_remove)
+IGNORE_TEST(all_function)
+IGNORE_TEST(test_cctor)
+IGNORE_TEST(test_operator_equal)
+IGNORE_TEST(test_find)
+IGNORE_TEST(test_united)
+TEST(iterator_add)
+TEST(find_if)
 
 END_SUITE
 

@@ -51,8 +51,14 @@ inline Node* Iterator::operator->() const
 {
     return m_current;
 }
-
- 
+inline bool Iterator::operator!=(Iterator const& a_itr) const
+{
+    return notEqual(a_itr);
+}
+inline bool Iterator::operator==(Iterator const& a_itr) const
+{
+    return equal(a_itr);
+}
 #endif  // LINKED_LIST_HXX
 
 
