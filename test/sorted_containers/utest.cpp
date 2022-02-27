@@ -42,10 +42,26 @@ BEGIN_TEST(list_unique)
 
 END_TEST
 
+BEGIN_TEST(uniform_vec)
+	using namespace cpp;
+	SortedVector<int> vec(10);
+	ASSERT_EQUAL(vec.size(), 0);
+	vec.insert(7);
+	ASSERT_EQUAL(vec.size(), 1);
+	vec.insert(7);
+	ASSERT_EQUAL(vec.size(), 2);
+	vec.insert(7);
+	ASSERT_EQUAL(vec.size(), 3);
+	bool res = vec.isUniform();
+	ASSERT_EQUAL(res, true);
+
+END_TEST
+
 BEGIN_SUITE(不耻下问 this is a description)
  	
  	TEST(vec_new)
 	TEST(vec_unique)
 	TEST(list_unique)
-   
+    TEST(uniform_vec)
+
 END_SUITE
