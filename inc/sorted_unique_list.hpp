@@ -21,7 +21,7 @@ public:
     size_t remove(value_type a_item);
 
     size_t contains(value_type a_item) const;
-    size_t size()const;
+    size_t size() const;
     value_type front() const;
     value_type back() const;
 
