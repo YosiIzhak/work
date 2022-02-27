@@ -315,6 +315,23 @@ BEGIN_TEST(extremes_test_new)
 
 END_TEST
 
+BEGIN_TEST(unique_test)
+    
+    using std::vector;
+    using namespace cpp;
+
+    int const N = 10;
+    size_t numbs[] = {1,2,4,6,3,7,7,8,9,1};
+    vector<size_t> int_vector(numbs, numbs+10);
+    int_vector.reserve(N);
+    
+    ASSERT_EQUAL(int_vector.size(), N);
+    size_t p = findFirstUnique(int_vector);
+    ASSERT_EQUAL(p, 1);
+   
+    
+END_TEST
+
 BEGIN_SUITE(TEST)
 
 	IGNORE_TEST(random_vector)
@@ -331,5 +348,6 @@ BEGIN_SUITE(TEST)
 	IGNORE_TEST(count_test_set)
     TEST(extremes2_test)
     TEST(extremes_test_new)
+    TEST(unique_test)
 
 END_SUITE

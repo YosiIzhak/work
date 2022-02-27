@@ -13,6 +13,35 @@
 namespace cpp
 {
 
+template <typename T>
+struct compFunc
+{
+    bool operator()(const T* a, const T* b)
+    {
+        return *a < *b;
+    }
+};
+
+template <typename T>
+size_t findFirstUnique(std::vector<T> &a_vector)
+{
+    std::map<const T*, size_t, compFunc<T> > map;
+    for (size_t i = 0; i < a_vector.size(); ++i)
+    {
+        ++map[&a_vector[i]];
+    }
+    
+    for (size_t i = 0; i < a_vector.size(); ++i)
+    {
+        if(map[&a_vector[i]] == 1)
+        {
+            return i;
+        }
+    }
+    return a_vector.size() + 1;
+}
+
+
 template<typename T>
 void createChaos(std::vector<T>& a_vector, size_t a_size, size_t a_max)
 {
@@ -208,9 +237,10 @@ size_t countCommontStrange2(std::vector<T> const& a_first, std::vector<T> const&
     using namespace std;
     using namespace details_impl;
     size_t count = 0;
-    size_t size = a_first.size();
+    
     set<T const*, EqualByPointer<T> > set;
 
+    size_t size = a_first.size();
     for(size_t i = 0; i < size; i++)
     {
         set.insert(&a_first[i]);

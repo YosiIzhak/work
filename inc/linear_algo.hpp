@@ -30,6 +30,9 @@ size_t countCommontStrange(std::vector<T> &a_first, std::vector<T> &a_second, st
 
 template<typename T>
 size_t countCommontStrange2(std::vector<T> const& a_first, std::vector<T> const& a_second, std::vector<T> const& a_third);
+
+template<typename T>
+size_t findFirstUnique(std::vector<T> &a_vector);
 }//end of namespace
 #include "./inl/linear_algo.hxx"
 

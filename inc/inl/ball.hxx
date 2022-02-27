@@ -6,10 +6,10 @@ namespace cpp
 {
 
 
-Ball::Ball(char a_color, int a_radius)
-:m_color(a_color)
-, m_radius(a_radius)
+Ball::Ball(char a_color[], int a_radius)
+: m_radius(a_radius)
 {
+	strcpy(m_color,a_color);
 }
 
 int Ball::getRadius()const

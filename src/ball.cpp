@@ -9,9 +9,9 @@ namespace cpp
 Ball::Ball()
 : m_radius(0)
 {
-    strcpy(m_color,"yellow");
+    strcpy(m_color,'y');
 }
-Ball::Ball(const char* a_color, int a_radius)
+Ball::Ball( char a_color, int a_radius)
 : m_radius(a_radius)
 { 
    strcpy(m_color, a_color); 

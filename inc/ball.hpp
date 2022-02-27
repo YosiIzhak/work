@@ -2,7 +2,7 @@
 #define BALL_HPP
 
 #include <cstddef>
-
+#define COLOR_SIZE 10
 namespace cpp
 {
 
@@ -10,13 +10,13 @@ class Ball
 {
 public:
     Ball();
-    explicit Ball(char a_color = 'w', int a_radius = 1);
+    explicit Ball(char a_color[] = "w", int a_radius = 1);
     int getRadius()const;
     void setRadius(int a_radius);
     const char* getColor() const;
     void swap(Ball& a_other);
 private:
-    char m_color;
+   char m_color[COLOR_SIZE];
     int m_radius;
 };
 
@@ -26,3 +26,5 @@ void swap(Ball& a_first, Ball& a_second);
 #include "./inl/ball.hxx"
 
 #endif /*#ifndefBALL_H122*/
+
+
