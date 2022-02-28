@@ -112,18 +112,40 @@ bool SortedList<T>::isUniform()const
 }
 
 template<typename T>
-MyIterator<T> SortedList<T>::begin()const
+SortedListIterator<T>::SortedListIterator(typename std::list<T>::const_iterator a_it)
+ :m_it(a_it) 
+ {
+     
+ }
+
+template<typename T>
+void SortedListIterator<T>::operator++()
+ {
+    ++m_it;
+ }
+
+template<typename T>
+void SortedListIterator<T>::operator++(int) 
 {
-    return &m_list.front();
+    operator++(); 
 }
 
 template<typename T>
-MyIterator<T> SortedList<T>::end()const 
+T SortedListIterator<T>::operator*() const 
 {
-   MyIterator<T> last = &m_list.back();
-   ++last;
-   return last;
+    return *m_it;
 }
 
+template<typename T>
+ContainerIterator<T>* SortedList<T>::begin() const
+{
+    return new SortedListIterator<T>(m_list.begin());
+}
+
+template<typename T>
+ContainerIterator<T>* SortedList<T>::end()const 
+{
+   return new SortedListIterator<T>(m_list.end());
+}
 
 } //cpp namespace

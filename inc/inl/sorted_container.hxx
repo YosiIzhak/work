@@ -6,19 +6,22 @@ namespace cpp
 {
 
 template<typename T>
-MyIterator<T>::MyIterator(T const* x) :p(x) {}
+bool ContainerIterator<T>::operator==(const ContainerIterator<T>& a_rhs)const
+{
+    return **this == *a_rhs;
+}
+
 template<typename T>
-MyIterator<T>::MyIterator(const MyIterator<T>& mit) : p(mit.p) {}
+bool ContainerIterator<T>::operator!=(const ContainerIterator<T>& a_rhs)const
+{
+    return **this != *a_rhs;
+}
+
 template<typename T>
-MyIterator<T>& MyIterator<T>::operator++() {++p;return *this;}
+ContainerIterator<T>::ContainerIterator(){}
+
 template<typename T>
-MyIterator<T> MyIterator<T>::operator++(int) {MyIterator<T> tmp(*this); operator++(); return tmp;}
-template<typename T>
-bool MyIterator<T>::operator==(const MyIterator<T>& rhs) const {return p==rhs.p;}
-template<typename T>
-bool MyIterator<T>::operator!=(const MyIterator<T>& rhs) const {return p!=rhs.p;}
-template<typename T>
-T MyIterator<T>::operator*() const {return *p;}
+ContainerIterator<T>::~ContainerIterator(){}
 
 template<typename T>
 SortedContainer<T>::SortedContainer(){}
@@ -80,23 +83,54 @@ typename T::value_type containerMedian(T const& a_container)
 }
 
 template <typename T>
-bool isContainerSorted(T const& a_container)
+bool isSorted(T const& a_container)
 {
-    typename T::const_iterator prev = a_container.begin();
-    typename T::const_iterator it = a_container.begin();
-    typename T::const_iterator end = a_container.end();
-    ++it;
-    while(it != end)
+    ContainerIterator<T>* prev = a_container.begin();
+    ContainerIterator<T>* it = a_container.begin();
+    ContainerIterator<T>* end = a_container.end();
+     ++(*it);
+    while(*it != *end)
     {
-        if(*it < *prev)
+        if(**it < **prev)
         {
-            return false;
+           delete prev;
+           delete it;
+           delete end;
+           return false;
         }
-        ++it;
-        ++prev;
-    } 
+        ++(*it);
+        ++(*prev);
+    }
+    delete prev;
+    delete it;
+    delete end; 
     return true;
 }
 
+template<typename T>
+inline
+bool isUniform(cpp::SortedContainer<T> const& a_container)
+{
+    ContainerIterator<T>* prev = a_container.begin();
+    ContainerIterator<T>* it = a_container.begin();
+    ContainerIterator<T>* end = a_container.end();
+    ++(*it);
+    while(*it != *end)
+    {
+        if(!(**prev == **it))
+        {
+           delete prev;
+           delete it;
+           delete end;
+           return false;  
+        }
+        ++(*it);
+        ++(*prev);
+    }
+    delete prev;
+    delete it;
+    delete end;
+    return true;
+} 
 
 } //cpp namespace

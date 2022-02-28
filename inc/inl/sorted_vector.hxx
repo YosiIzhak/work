@@ -116,18 +116,40 @@ bool SortedVector<T>::isUniform()const
 }
 
 template<typename T>
-MyIterator<T> SortedVector<T>::begin()const
+SortedVectorIterator<T>::SortedVectorIterator(typename std::vector<T>::const_iterator a_it)
+ :m_it(a_it) 
+ {
+     
+ }
+
+template<typename T>
+void SortedVectorIterator<T>::operator++()
+ {
+    ++m_it;
+ }
+
+template<typename T>
+void SortedVectorIterator<T>::operator++(int) 
 {
-   MyIterator<T> first(&m_vector[0]);
-   return first;
+    operator++(); 
 }
 
 template<typename T>
-MyIterator<T> SortedVector<T>::end()const 
+T SortedVectorIterator<T>::operator*() const 
 {
-   MyIterator<T> last(&m_vector[size()]);
-   return last;
+    return *m_it;
 }
 
+template<typename T>
+ContainerIterator<T>* SortedVector<T>::begin()const
+{
+    return new SortedVectorIterator<T>(m_vector.begin());
+}
+
+template<typename T>
+ContainerIterator<T>* SortedVector<T>::end()const 
+{
+   return new SortedVectorIterator<T>(m_vector.end());
+}
 
 } //cpp namespace

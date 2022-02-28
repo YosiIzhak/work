@@ -10,6 +10,19 @@ namespace cpp
 {
 
 template<typename T>
+class SortedVectorIterator: public ContainerIterator<T>
+{
+public:
+    SortedVectorIterator(typename std::vector<T>::const_iterator a_it);
+    void operator++();
+    void operator++(int);
+    T operator*()const;
+
+private:
+   typename std::vector<T>::const_iterator m_it;
+};
+
+template<typename T>
 class SortedVector: public SortedContainer<T>
 {
 public:
@@ -32,9 +45,9 @@ public:
     bool isSorted()const;
     bool isUniform()const;
 
-    MyIterator<value_type> begin()const;
-    MyIterator<value_type> end()const;
-
+    ContainerIterator<T>* SortedVector<T>::begin()const;
+   ContainerIterator<T>* SortedVector<T>::end()const;
+   
 private:
     typedef std::vector<T> Container;
     typedef typename Container::const_iterator ConstItr;

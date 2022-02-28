@@ -50,7 +50,12 @@
         "iomanip": "cpp",
         "list": "cpp",
         "map": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "thread": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

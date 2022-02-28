@@ -8,20 +8,20 @@ namespace cpp
 {
 
 template<typename T>
-class MyIterator : public std::iterator<std::input_iterator_tag, T>
+class ContainerIterator
 {
 public:
-    typedef T value_type;
-    MyIterator(value_type const* x);
-    MyIterator(const MyIterator& mit);
-    MyIterator& operator++();
-    MyIterator operator++(int);
-    bool operator==(const MyIterator& rhs)const;
-    bool operator!=(const MyIterator& rhs)const;
-    value_type operator*()const;
+    ContainerIterator();
+    virtual ~ContainerIterator();
+    virtual void operator++() = 0;
+    virtual void operator++(int) = 0;
+    virtual T operator*()const = 0;
+    virtual bool operator==(const ContainerIterator<T>& a_rhs)const;
+    virtual bool operator!=(const ContainerIterator<T>& a_rhs)const;
 
 private:
-    value_type const* p;
+    ContainerIterator& operator=(ContainerIterator const& a_containerIterator);
+    ContainerIterator(ContainerIterator const& a_containeIteratorr);
 };
 
 template<typename T>
@@ -54,23 +54,8 @@ private:
 
 template<typename T>
 inline
-bool isContainerUniform(cpp::SortedContainer<T> const& a_container)
-{
-    MyIterator<T> prev(a_container.begin());
-    MyIterator<T> it (a_container.begin());
-    MyIterator<T> end (a_container.end());
-    ++it;
-    while(it != end)
-    {
-        if(!(*prev == *it))
-        {
-           return false;  
-        }
-        ++it;
-        ++prev;
-    }
-    return true;
-} 
+bool isUniform(cpp::SortedContainer<T> const& a_container);
+
 
 template<typename T>
 bool isContainerSorted(T const& a_container);

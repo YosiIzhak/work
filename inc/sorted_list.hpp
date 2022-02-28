@@ -10,6 +10,19 @@ namespace cpp
 {
 
 template<typename T>
+class SortedListIterator: public ContainerIterator<T>
+{
+public:
+    SortedListIterator(typename std::list<T>::const_iterator a_it);
+    void operator++();
+    void operator++(int);
+    T operator*()const;
+
+private:
+   typename std::list<T>::const_iterator m_it;
+};
+
+template<typename T>
 class SortedList: public SortedContainer<T>
 {
 public:
@@ -28,11 +41,11 @@ public:
     std::ostream& print(std::ostream& a_ostream = std::cout) const;
 
     value_type median()const;
-    bool isSorted() const;
-    bool isUniform()const;
+    //bool isSorted() const;
+    //bool isUniform()const;
 
-    MyIterator<value_type> begin()const;
-    MyIterator<value_type> end()const; 
+   ContainerIterator<T>* SortedList<T>::end() const;
+   ContainerIterator<T>* SortedList<T>::begin() const;
 
 private:
     typedef std::list<T> Container;
