@@ -8,11 +8,11 @@
 namespace cpp
 {
 
-template<typename T>
-size_t sumVector(std::vector<T> const& a_vec, size_t a_numOfThreads);
+template <typename T>
+T sumVector(std::vector<T>& a_vec, size_t a_numOfThreads);
 
 
-}
+} // namespace cpp
 
 #include "./inl/para_algo.hxx"
 

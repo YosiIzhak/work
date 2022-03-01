@@ -1,0 +1,42 @@
+SRC_DIR = ../../src
+TEST_DIR  = ../../test/block_queue
+INC_DIR = ../../inc
+
+CXX = g++
+CC = $(CXX)
+
+WARNINGS = -pedantic
+WARNINGS += -Wall -Werror
+
+DEBUG = -g3
+CXX_STD = c++03
+
+CXXFLAGS = $(WARNINGS) $(DEBUG) -std=$(CXX_STD)
+LDLIBS   = -lpthread
+
+CPPFLAGS = -I$(INC_DIR)
+
+TARGET = utest
+OBJS = utest.o $(SRC_DIR)/utils.o 
+
+$(TARGET):$(OBJS)
+
+utest.o : $(INC_DIR)/block_queue.hpp 
+
+
+check: $(TARGET)
+	./$(TARGET) -v
+
+prod: CXXFLAGS += -O2 -DNDEBUG
+prod: $(TARGET)
+	./$(TARGET) -v
+
+valgrind: $(TARGET)
+	valgrind --leak-check=full --track-origins=yes --log-file=logValgrind01.txt ./$(TARGET)
+	valgrind --tool=helgrind --log-file=loghelgrind01.txt ./$(TARGET)
+	valgrind --tool=drd --log-file=logdrd01.txt ./$(TARGET)
+
+clean:
+	@$(RM) $(TARGET) $(OBJS)
+
+.PHONY: check clean
