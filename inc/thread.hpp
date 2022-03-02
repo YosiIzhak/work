@@ -6,16 +6,19 @@ namespace mt{
 
 class Thread {
 public:
-    Thread(const pthread_attr_t * attr, void* (*func)(void*), void* arg); 
+    Thread(const pthread_attr_t * attr, void* (*func)(void *), void* arg); 
     ~Thread();
     void detach();
     static pthread_t self(Thread thread);
     static void join(pthread_t);
     void join();
     pthread_t self();
+    void* result();
 
 private:
+    Thread(Thread const& a_src);
     pthread_t m_tid;
+    void* m_result;
     bool m_wasJoined;
 };
 

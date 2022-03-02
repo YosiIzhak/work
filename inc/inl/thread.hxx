@@ -1,36 +1,47 @@
 #ifndef THREAD_HXX
 #define THREAD_HXX
 
-#include <iostream>
-#include <algorithm>
 #include <cassert>
-#include <pthread.h>
+#include <iostream>
+#include "pthread.h"
+
 
 namespace mt
 {
 
+
 Thread::Thread(const pthread_attr_t * attr, void* (*func)(void *), void* arg) 
 : m_tid(pthread_self())
+, m_result(0)
 , m_wasJoined(false)
 {
-    pthread_t thread;
-    pthread_create(&thread, attr, func, arg);       
+    pthread_create(&m_tid, attr, func, arg);       
 }
-   
-Thread::~Thread()
+
+inline Thread::Thread(Thread const& a_src)
+: m_tid(a_src.m_tid)
+, m_result(a_src.m_result)
+, m_wasJoined(a_src.m_wasJoined)
 {
-    //if(!wasJoined)   join(tid, 0);
+    Thread &t = const_cast<Thread &>(a_src);
+    t.m_wasJoined = false;
+    t.m_tid = 0;
+}
+
+inline Thread::~Thread() 
+{
     assert(m_wasJoined);
 }
 
-void detach()
+inline void Thread::join()
 {
-    pthread_detach(pthread_self());
-}
-
-pthread_t Thread::self()
-{
-    return pthread_self();
+    int r = pthread_join(m_tid, &m_result);
+    if (r != 0)
+    {
+        std::cout << "Error: pthread_create fail\n";
+        exit(EXIT_FAILURE);
+    }
+    m_wasJoined = true;
 }
 
 inline static pthread_t self(Thread thread)
@@ -42,15 +53,18 @@ inline static void join(pthread_t a_tid)
 {
     pthread_join(a_tid, 0);
 }
-    
-void Thread::join()
+
+void detach()
 {
-    pthread_join(m_tid, 0);
-    m_wasJoined = true;
+    pthread_detach(pthread_self());
 }
 
+inline void* Thread::result()
+{
+    return m_result;
+}
 
 
 } // namespace mt
 
-#endif//THREAD_HXX
+#endif //THREAD_HXX

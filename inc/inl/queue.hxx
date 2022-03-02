@@ -5,7 +5,7 @@
 #include <iterator>
 #include <numeric>
 
-namespace Cpp {
+namespace cpp {
 
 template <typename T>
 Queue<T>::Queue(size_t a_value)
@@ -58,8 +58,8 @@ template <typename T>
  void Queue<T>::enqueue(T const& a_data)
  {
       assert(!isFull());
-     m_array[m_head] = a_data;
-     m_head = (m_head +1)%m_capacity;
+     m_array[m_tail] = a_data;
+     m_tail = (m_tail +1)% m_capacity;
      m_size++;
  }
 
@@ -67,8 +67,8 @@ template <typename T>
 T Queue<T>::dequeue()
  {
     assert(!isEmpty());
-   T item  = m_array[m_tail];
-   m_tail = (m_tail +1)%m_capacity;
+   T item  = m_array[m_head];
+   m_head = (m_head +1)%m_capacity;
      m_size--;
      return item;
  }

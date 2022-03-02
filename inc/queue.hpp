@@ -2,7 +2,7 @@
 #define QUEUE_HPP
 #include <cstddef> 
 
-namespace Cpp {
+namespace cpp {
 
 template <typename T>
 class Queue

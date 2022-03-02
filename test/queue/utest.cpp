@@ -6,13 +6,13 @@
 
 /*------------------------------------*/
 BEGIN_TEST(new_queue)
-    using Cpp::Queue;
+    using cpp::Queue;
     Queue<int> a(10);
 	ASSERT_EQUAL(a.size(),0);
 
 END_TEST
 BEGIN_TEST(enqueue_items)
- using Cpp::Queue;
+ using cpp::Queue;
     Queue<int> a(10);
 	a.enqueue(1);
     a.enqueue(2);
@@ -23,7 +23,7 @@ BEGIN_TEST(enqueue_items)
 END_TEST
 
 BEGIN_TEST(dequeue_items)
- using Cpp::Queue;
+ using cpp::Queue;
     Queue<int> a(10);
 	a.enqueue(1);
     a.enqueue(2);
@@ -42,7 +42,7 @@ public:
 
 };
 BEGIN_TEST(dog_items)
-using Cpp::Queue;
+using cpp::Queue;
     Queue<Dog> a(10);
     Dog d;
     Dog d1;
@@ -56,7 +56,7 @@ END_TEST
 
 BEGIN_TEST(queue_queue)
 
-	using namespace Cpp;
+	using namespace cpp;
 
 	Queue< Queue<int> > q(2);
 
@@ -101,7 +101,7 @@ BEGIN_TEST(queue_queue)
 END_TEST
 
 BEGIN_TEST(claer_test)
-using Cpp::Queue;
+using cpp::Queue;
     Queue<Dog> a(10);
     Dog d;
     Dog d1;

@@ -3,33 +3,34 @@
 
 //#include <cstddef> 
 #include <pthread.h>
-
-namespace cpp {
+#include "mutex.hpp"
+#include "queue.hpp"
+namespace mt {
 
 template <typename T>
 class BlockQueue
 {
 public:
-    BlockQueue(size_t a_size = 64);
-    BlockQueue(BlockQueue const& a_source);
-    BlockQueue& operator=(BlockQueue const& a_source);
+    explicit BlockQueue(size_t a_size = 64);
+    
     ~BlockQueue();
-    void enqueue(T const& item);
-    T dequeue();
+    bool enqueue(T const& item);
+    T dequeue(T* data, bool* ok);
     T getHead();
     bool isEmpty() const;
     bool isFull() const;
     size_t size() const;
     void clear();
    
+private:
+    BlockQueue(BlockQueue const& a_source); //no impl by design
+    BlockQueue& operator=(BlockQueue const& a_source);
+    bool nonLockEmpty() const;
+    bool nonLockFull() const;
 
 private:
-    size_t m_capacity;
-    T* m_array;
-    size_t m_size;
-    size_t m_head;
-    size_t m_tail;
-
+   cpp::Queue<T> m_queue;
+   mutable mt::Mutex m_mutex;
 };
 }//namespace
 #include "./inl/block_queue.hxx"
