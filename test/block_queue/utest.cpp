@@ -5,6 +5,7 @@
 #include <ostream> 
 #include <iostream>
 #include <unistd.h>
+#include <queue>
 #include "thread.hpp"
 #include "mutex.hpp"
 #include "block_queue.hpp"
@@ -37,31 +38,7 @@ BEGIN_TEST(check_thread)
 
     ASSERT_PASS();
 END_TEST
-// const size_t N = 1000000;
-// void* producer(void* a_arg)
-// {
-//     mt::BlockQueue<int>* enque = static_cast<mt::BlockQueue<int>* >(a_arg);
-//     size_t count = 1;
-//     while(count < N)
-//     {
-//         enque->enqueue(count);
-//         ++count;
-//         usleep(100);
-//     }
-// }
-// void* consumer(void* a_arg)
-// {
-//     mt::BlockQueue<int>* enque = static_cast<mt::BlockQueue<int>* >(a_arg);
-//     size_t countOut = 1;
-//     bool ok = false;
-//     int data;
-//     while(countOut < N)
-//     {
-//         enque->dequeue(&data,&ok);
-//         ++countOut;
-//         usleep(100);
-//     }
-// }
+
 
 template <typename T>
 struct Parameter
@@ -103,7 +80,7 @@ BEGIN_TEST(enqueue_2_threads)
     t1.join();
     // cout << "size: "<< que.size() <<'\n';
     t2.join();
-     cout << "size: "<< que.size() <<'\n';
+     //cout << "size: "<< que.size() <<'\n';
     
     ASSERT_EQUAL(que.size(), size);
     //ASSERT_PASS();
@@ -114,7 +91,7 @@ BEGIN_TEST(enqueue_5_threads)
     using namespace std;
     using namespace mt;
      using namespace mt;
-    const size_t size = 1000000; 
+    const size_t size = 1000; 
     BlockQueue<int> que(size);
 
     Parameter<int> param(que, size/5);
@@ -133,7 +110,7 @@ BEGIN_TEST(enqueue_5_threads)
 
     // cout << "size: "<< que.size() <<'\n';
   
-    ASSERT_EQUAL(50, 40);
+     ASSERT_EQUAL(que.size(), size);
     ASSERT_PASS();
 END_TEST
 
@@ -144,15 +121,16 @@ void* dequeueMany(void* a_parameter)
     Parameter<T>* par = static_cast<Parameter<T>* >(a_parameter);
     amount = par->m_amount;
     mt::BlockQueue<T>& que = par->m_queue;
-
+    std::queue<T> final;
     while (amount > 0)
     {
         bool ok = false;
         T data = T();
-        que.dequeue(&data, &ok);
+        data = que.dequeue(ok);
         if(ok)
         {
            amount--;
+           final.push(data);
         }
         else
         {
@@ -189,38 +167,38 @@ BEGIN_TEST(dequeue_2_threads)
 END_TEST
 
 
-BEGIN_TEST(three_enqueue_2_dequeue)
+BEGIN_TEST(two_enqueue_two_dequeue)
     using namespace std;
     using namespace mt;
      using namespace mt;
-    const size_t size = 3000000; 
+    const size_t size = 1000000; 
     BlockQueue<int> que(size);
 
-    Parameter<int> param(que, size/3);
+    Parameter<int> param(que, size/2);
    
     Thread t1(0, enqueueMany<int>, static_cast<void*>(&param)); 
     Thread t2(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t3(0, enqueueMany<int>, static_cast<void*>(&param));
+ 
     t1.join();
     t2.join();
+    
+
+    Parameter<int> remove(que, size/2);
+
+    Thread t3(0, dequeueMany<int>, static_cast<void*>(&remove)); 
+    Thread t4(0, dequeueMany<int>, static_cast<void*>(&remove)); 
     t3.join();
-
-    Parameter<int> removeHalf(que, size/4);
-
-    Thread t4(0, dequeueMany<int>, static_cast<void*>(&removeHalf)); 
-    Thread t5(0, dequeueMany<int>, static_cast<void*>(&removeHalf)); 
     t4.join();
-    t5.join();
 
-    ASSERT_EQUAL(que.size(), size/2);
-    ASSERT_PASS();
+    ASSERT_EQUAL(que.size(), 0);
+   
 END_TEST
 
 BEGIN_SUITE(不耻下问 this is a description)
     IGNORE_TEST(check_thread)
     TEST(enqueue_2_threads)
-    IGNORE_TEST(enqueue_5_threads)
+    TEST(enqueue_5_threads)
     IGNORE_TEST(dequeue_2_threads)
-    IGNORE_TEST(three_enqueue_2_dequeue)
+    TEST(two_enqueue_two_dequeue)
 
 END_SUITE

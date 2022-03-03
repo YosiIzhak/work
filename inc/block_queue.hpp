@@ -2,7 +2,7 @@
 #define BLOCK_QUEUE_HPP
 
 //#include <cstddef> 
-#include <pthread.h>
+#include <pthread.h> 
 #include "mutex.hpp"
 #include "queue.hpp"
 namespace mt {
@@ -15,7 +15,7 @@ public:
     
     ~BlockQueue();
     bool enqueue(T const& item);
-    T dequeue(T* data, bool* ok);
+    T dequeue(bool& ok);
     T getHead();
     bool isEmpty() const;
     bool isFull() const;

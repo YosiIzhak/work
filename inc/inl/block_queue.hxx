@@ -26,7 +26,7 @@ template <typename T>
  {
       m_mutex.lock();
     if(nonLockFull())
-    {
+    { 
         m_mutex.unlock();
         return false;
     }
@@ -36,15 +36,18 @@ template <typename T>
  }
 
 template <typename T>
-T BlockQueue<T>::dequeue(T* data, bool* ok)
+T BlockQueue<T>::dequeue(bool& ok)
  {
      m_mutex.lock();
+    
    if(nonLockEmpty())
    {
+       ok = false;
        m_mutex.unlock();
-       return false;
+       return 0;
    }
     T res = m_queue.dequeue();
+    ok = true;
     m_mutex.unlock();
     return res;
  }
