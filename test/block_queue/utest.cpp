@@ -195,10 +195,10 @@ BEGIN_TEST(two_enqueue_two_dequeue)
 END_TEST
 
 BEGIN_SUITE(不耻下问 this is a description)
-    IGNORE_TEST(check_thread)
+    TEST(check_thread)
     TEST(enqueue_2_threads)
     TEST(enqueue_5_threads)
-    IGNORE_TEST(dequeue_2_threads)
+    TEST(dequeue_2_threads)
     TEST(two_enqueue_two_dequeue)
 
 END_SUITE
