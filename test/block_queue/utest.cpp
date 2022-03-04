@@ -53,7 +53,7 @@ struct Parameter
 };
 
 template <typename T>
-void* enqueueMany(void* a_parameter)
+void* enqueuePlus(void* a_parameter)
 {
     Parameter<T>* par = static_cast<Parameter<T>* >(a_parameter);
     T amount = par->m_amount;
@@ -88,8 +88,8 @@ BEGIN_TEST(enqueue_2_threads)
 
     Parameter<int> param(que, size/2);
    
-    Thread t1(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t2(0, enqueueMany<int>, static_cast<void*>(&param)); 
+    Thread t1(0, enqueuePlus<int>, static_cast<void*>(&param)); 
+    Thread t2(0, enqueuePlus<int>, static_cast<void*>(&param)); 
 
     t1.join();
     // cout << "size: "<< que.size() <<'\n';
@@ -110,11 +110,11 @@ BEGIN_TEST(enqueue_5_threads)
 
     Parameter<int> param(que, size/5);
    
-    Thread t1(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t2(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t3(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t4(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t5(0, enqueueMany<int>, static_cast<void*>(&param)); 
+    Thread t1(0, enqueuePlus<int>, static_cast<void*>(&param)); 
+    Thread t2(0, enqueuePlus<int>, static_cast<void*>(&param)); 
+    Thread t3(0, enqueuePlus<int>, static_cast<void*>(&param)); 
+    Thread t4(0, enqueuePlus<int>, static_cast<void*>(&param)); 
+    Thread t5(0, enqueuePlus<int>, static_cast<void*>(&param)); 
 
     t1.join();
     t2.join();
@@ -181,13 +181,12 @@ return 0;
 BEGIN_TEST(dequeue_2_threads)
     using namespace std;
     using namespace mt;
-     using namespace mt;
     const size_t size = 1000000; 
     BlockQueue<int> que(size);
 
     Parameter<int> param(que, size);
 
-    enqueueMany<int>(static_cast<void*>(&param));
+    enqueuePlus<int>(static_cast<void*>(&param));
     ASSERT_EQUAL(size, que.size());
 
     Parameter<int> removeHalf(que, size/2);
@@ -214,7 +213,7 @@ BEGIN_TEST(two_enqueue_one_dequeue)
 
     Parameter<int> param(que, size/2);
    
-    Thread t1(0, enqueueMany<int>, static_cast<void*>(&param)); 
+    Thread t1(0, enqueuePlus<int>, static_cast<void*>(&param)); 
     Thread t2(0, enqueueMinus<int>, static_cast<void*>(&param)); 
  
     t1.join();
