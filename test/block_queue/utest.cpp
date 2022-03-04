@@ -66,6 +66,20 @@ void* enqueueMany(void* a_parameter)
     return 0;
 }
 
+template <typename T>
+void* enqueueMinus(void* a_parameter)
+{
+    Parameter<T>* par = static_cast<Parameter<T>* >(a_parameter);
+    T amount = par->m_amount;
+    mt::BlockQueue<T>& que = par->m_queue;
+
+    for (T i = 1; i <= amount; i++)
+    {
+        que.enqueue(i * -1);
+    }
+    return 0;
+}
+
 BEGIN_TEST(enqueue_2_threads)
     using namespace std;
     using namespace mt;
@@ -121,17 +135,41 @@ void* dequeueMany(void* a_parameter)
     Parameter<T>* par = static_cast<Parameter<T>* >(a_parameter);
     amount = par->m_amount;
     mt::BlockQueue<T>& que = par->m_queue;
-    std::queue<T> final;
+    T data = T();
+    T prevPos = 0;
+    T prevNeg = 0;
     while (amount > 0)
     {
         bool ok = false;
-        T data = T();
+       
         data = que.dequeue(ok);
         if(ok)
         {
-           amount--;
-           final.push(data);
-        }
+           if (data > 0)
+           {
+               if(data > prevPos)
+               {
+                   amount--;
+                   prevPos = data;
+               }
+               else
+               {
+                 break;
+               }
+           }
+           if (data < 0)
+           {
+               if(data < prevNeg)
+               {
+                   amount--;
+                   prevNeg = data;
+               }
+               else
+               {
+                 break;
+               }
+           }
+       }
         else
         {
             break;
@@ -167,29 +205,28 @@ BEGIN_TEST(dequeue_2_threads)
 END_TEST
 
 
-BEGIN_TEST(two_enqueue_two_dequeue)
+
+BEGIN_TEST(two_enqueue_one_dequeue)
     using namespace std;
     using namespace mt;
-     using namespace mt;
     const size_t size = 1000000; 
     BlockQueue<int> que(size);
 
     Parameter<int> param(que, size/2);
    
     Thread t1(0, enqueueMany<int>, static_cast<void*>(&param)); 
-    Thread t2(0, enqueueMany<int>, static_cast<void*>(&param)); 
+    Thread t2(0, enqueueMinus<int>, static_cast<void*>(&param)); 
  
     t1.join();
     t2.join();
     
 
-    Parameter<int> remove(que, size/2);
+    Parameter<int> remove(que, size);
 
     Thread t3(0, dequeueMany<int>, static_cast<void*>(&remove)); 
-    Thread t4(0, dequeueMany<int>, static_cast<void*>(&remove)); 
+   
     t3.join();
-    t4.join();
-
+   
     ASSERT_EQUAL(que.size(), 0);
    
 END_TEST
@@ -199,6 +236,6 @@ BEGIN_SUITE(不耻下问 this is a description)
     TEST(enqueue_2_threads)
     TEST(enqueue_5_threads)
     TEST(dequeue_2_threads)
-    TEST(two_enqueue_two_dequeue)
+    TEST(two_enqueue_one_dequeue)
 
 END_SUITE
