@@ -44,19 +44,19 @@ inline void Thread::join()
     m_wasJoined = true;
 }
 
-inline static pthread_t self(Thread thread)
+inline pthread_t Thread::self(Thread thread)
 {
     return thread.self();
 }
 
-inline static void join(pthread_t a_tid)
+inline void Thread::join(pthread_t a_tid)
 {
     pthread_join(a_tid, 0);
 }
 
 void detach()
 {
-    pthread_detach(pthread_self());
+    pthread_detach(pthread_self()); 
 }
 
 inline void* Thread::result()
