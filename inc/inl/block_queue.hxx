@@ -4,7 +4,7 @@
 #include <vector>
 #include <iterator>
 
-//#include <numeric>
+//#include <numeric> 
 
 namespace mt {
 
@@ -12,7 +12,15 @@ template <typename T>
 BlockQueue<T>::BlockQueue(size_t a_value)
 {
     m_queue = cpp::Queue<T>(a_value);
-    m_mutex = mt::Mutex();
+    try
+    { 
+        m_mutex = mt::Mutex();
+    }
+    catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw;
+    }
 }
 
 template <typename T>
@@ -24,15 +32,23 @@ BlockQueue<T>::~BlockQueue()
 template <typename T>
  bool BlockQueue<T>::enqueue(T const& a_data)
  {
-      m_mutex.lock();
-    if(nonLockFull())
-    { 
+    try
+    {
+        m_mutex.lock();
+        if(nonLockFull())
+        { 
+            m_mutex.unlock();
+            return false;
+        }
+        m_queue.enqueue(a_data);
         m_mutex.unlock();
-        return false;
+        return true;
     }
-    m_queue.enqueue(a_data);
-    m_mutex.unlock();
-    return true;
+    catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
  }
 
 template <typename T>
