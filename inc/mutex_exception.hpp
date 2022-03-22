@@ -1,23 +1,59 @@
+
+
+#ifndef MUTEX_EXCEPTIONS_HPP
+
+#define MUTEX_EXCEPTIONS_HPP
+
+
 #include <string>
-#include <iostream>
-#include <exception>
 
-namespace cpp{
+#include <stdexcept>
 
-class MutexExceptions : public std::exception
+#include <errno.h>
+
+
+namespace cpp
+
 {
-public:
-    MutexExceptions( std::string const& a_function, int const& a_errorNumber);
-    ~MutexExceptions()throw();
-    virtual const char* what() const throw();
-    std::string getFunctionName()const throw();
-    int getErrorNumber()const throw();
 
-private:
-    std::string m_function;
-    int m_errorNumber;
+
+//Mutex exceptions
+
+struct MutexExceptions: public std::exception
+
+{
+
+    MutexExceptions();
+
+    virtual const char* what() const throw();
+
 };
+
+
+struct MutexInitExceptions: public MutexExceptions
+
+{
+
+    MutexInitExceptions();
+
+    virtual const char* what() const throw();
+
+};
+
+
+struct MutexLockExceptions: public MutexExceptions
+
+{
+
+    MutexLockExceptions();
+
+    virtual const char* what() const throw();
+
+};
+
 
 }//namespace cpp
 
-#include "./inl/mutex_exception.hxx"
+
+#endif//MUTEX_EXCEPTIONS_HPP
+

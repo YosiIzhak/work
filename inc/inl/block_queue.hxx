@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-
+#include "mutex_exception.hpp"
 //#include <numeric> 
 
 namespace mt {
@@ -52,70 +52,133 @@ template <typename T>
  }
 
 template <typename T>
-T BlockQueue<T>::dequeue(bool& ok)
+void BlockQueue<T>::dequeue(bool& ok, T& a_res)
  {
-     m_mutex.lock();
+     try
+     {
+       
+    m_mutex.lock();
     
    if(nonLockEmpty())
    {
        ok = false;
        m_mutex.unlock();
-       return 0;
+       return;
    }
-    T res = m_queue.dequeue();
+    m_queue.dequeue(a_res);
     ok = true;
     m_mutex.unlock();
-    return res;
+    
+     }
+     catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
  }
 
 template <typename T>
 T BlockQueue<T>::getHead()
 {
-    m_mutex.lock();
+    try
+    {
+         m_mutex.lock();
     T res = m_queue.getHead();
     m_mutex.unlock();
     return res;
+    }
+    catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
+    
+  
 }
 
 template <typename T>
 bool BlockQueue<T>::isEmpty() const
 {
-   m_mutex.lock();
+   try
+   {
+       m_mutex.lock();
    bool res =  m_queue.isEmpty();
    m_mutex.unlock();
     return res;
+   }
+   catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
 }
 
 template <typename T>
 bool BlockQueue<T>::nonLockEmpty() const
 {
+    try
+   {
+    m_mutex.lock();
     bool res =  m_queue.isEmpty();
+     m_mutex.unlock();
     return res;
+   }
+   catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
 }
 
 template <typename T>
 bool BlockQueue<T>::isFull() const
 {
+    try
+   {
    m_mutex.lock();
    bool res = m_queue.isFull();
    m_mutex.unlock();
    return res;
+   }
+   catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
 }
 
 template <typename T>
 bool BlockQueue<T>::nonLockFull() const
 {
+    try
+   {
+   m_mutex.lock();
     bool res = m_queue.isFull();
+     m_mutex.unlock();
     return res;
+    }
+   catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
 }
 
 template <typename T>
 size_t BlockQueue<T>::size() const
  {
+     try
+   {
     m_mutex.lock(); 
     size_t res =  m_queue.size();
     m_mutex.unlock();
     return res;
+     }
+   catch(cpp::MutexExceptions const& a_exception)
+    {
+        std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+        throw; 
+    }
  }
 
 template <typename T>

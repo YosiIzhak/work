@@ -57,20 +57,26 @@ Queue<T>::~Queue()
 template <typename T>
  void Queue<T>::enqueue(T const& a_data)
  {
-      assert(!isFull());
+     if (m_size == m_capacity)
+     {
+        std::cout << "#$%$%$%$#";
+     }
      m_array[m_tail] = a_data;
      m_tail = (m_tail +1)% m_capacity;
      m_size++;
  }
 
 template <typename T>
-T Queue<T>::dequeue()
+void Queue<T>::dequeue(T& a_item)
  {
-    assert(!isEmpty());
-   T item  = m_array[m_head];
+    if (m_size == 0)
+     {
+       //  throw;
+     }
+   a_item  = m_array[m_head];
    m_head = (m_head +1)%m_capacity;
      m_size--;
-     return item;
+     return;
  }
 
 template <typename T>

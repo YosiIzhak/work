@@ -9,6 +9,7 @@
 #include "thread.hpp"
 #include "mutex.hpp"
 #include "block_queue.hpp"
+#include "thread_exception.hpp"
 
 mt::Mutex mtx;
 size_t global;
@@ -142,7 +143,7 @@ void* dequeueMany(void* a_parameter)
     {
         bool ok = false;
        
-        data = que.dequeue(ok);
+        que.dequeue(ok, data);
         if(ok)
         {
            if (data > 0)
@@ -230,11 +231,33 @@ BEGIN_TEST(two_enqueue_one_dequeue)
    
 END_TEST
 
+// BEGIN_TEST(stress_test)
+//     using namespace mt;
+//      using namespace cpp;
+//     try
+//     {
+// 		mt::BlockQueue<int> q(1000);
+// 		Thread p(0, enqueuePlus<int>, static_cast<void*>(&q));
+// 		Thread c(0, dequeueMany<int>, static_cast<void*>(&q));
+// 		p.join();
+// 		c.join();
+
+// 		ASSERT_EQUAL(q.size(), 0);
+// 	}
+// 	catch(ThreadExceptions const& a_exception)
+//     {
+//         std::clog << a_exception.getFunctionName() << " fail! error number: " << a_exception.getErrorNumber() << "\n";
+//         throw; 
+//     }
+	
+// END_TEST
+
 BEGIN_SUITE(不耻下问 this is a description)
     TEST(check_thread)
     TEST(enqueue_2_threads)
     TEST(enqueue_5_threads)
     TEST(dequeue_2_threads)
     TEST(two_enqueue_one_dequeue)
+    //IGNORE_TEST(stress_test)
 
 END_SUITE
