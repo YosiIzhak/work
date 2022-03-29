@@ -2,7 +2,7 @@
 #include <iostream>
 #include <exception>
 
-
+namespace cpp{
 class ThreadExceptions : public std::exception
 {
 public:
@@ -17,4 +17,5 @@ private:
     int m_errorNumber;
 };
 
+} //namespace cpp
 #include "./inl/thread_exception.hxx"

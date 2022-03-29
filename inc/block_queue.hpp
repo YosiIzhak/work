@@ -15,7 +15,7 @@ public:
     
     ~BlockQueue();
     bool enqueue(T const& item);
-    T dequeue(bool& ok);
+    void dequeue(bool& ok, T& a_res);
     T getHead();
     bool isEmpty() const;
     bool isFull() const;

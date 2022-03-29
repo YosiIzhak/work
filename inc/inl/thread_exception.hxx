@@ -1,5 +1,7 @@
 #include <iostream>
 
+namespace cpp{
+    
 inline ThreadExceptions::ThreadExceptions( std::string const& a_function, int const& a_errorNumber)
 : m_function(a_function)
 , m_errorNumber(a_errorNumber)
@@ -26,3 +28,5 @@ inline int ThreadExceptions:: getErrorNumber()const throw()
 {
     return m_errorNumber;
 }
+
+}//namespace cpp

@@ -13,7 +13,7 @@ public:
     Queue& operator=(Queue const& a_source);
     ~Queue();
     void enqueue(T const& item);
-    T dequeue();
+    void dequeue(T& a_item);
     T getHead();
     bool isEmpty() const;
     bool isFull() const;

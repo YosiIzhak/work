@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib> 
 #include <cstring>
+#include <map>
 #include "store.hpp"
 
 
@@ -31,6 +32,7 @@ Store& Store::operator=(Store const& a_source)
 
 inline int Store::get(int const& a_index) const
 {
+    
     return m_array[a_index];
 }
  
@@ -41,10 +43,8 @@ void Store::set(int const& a_index, int const a_value)
 
 inline void Store::reset(int const& value)
 {
-    for(size_t i = 0; i < m_size; ++i)
-    {
-        m_array[i] = value;
-    }
+   
+
 }
 
 

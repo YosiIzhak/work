@@ -1,6 +1,7 @@
 #ifndef STORE_H
 #define STORE_H
 #include <cstdlib> 
+#include <map>
 
 
     
@@ -19,6 +20,9 @@ public:
 private:
     int* m_array;
     size_t m_size;
+    bool m_reset;
+    int m_setAllValue;
+   
 
 };
 
