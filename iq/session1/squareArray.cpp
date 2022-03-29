@@ -48,23 +48,3 @@ int main()
 }
 
 
-// int main () {   
-//   const int N = 100;
-//   array<long, N> array; 
-  
-//   for(size_t i = 0; i < N; ++i)
-//   {
-//       array[i] = i;
-//   }
-//   squareArray(array);
-    
-//     for (int i = 0; i < N; ++i)
-//     {
-//           cout << array[i] << " ";
-//     }
-//     cout << endl;
-   
-    
-// return 0;   
-// }   
-//auto isPositive = [](int a_num){return a_num >= 0;};
