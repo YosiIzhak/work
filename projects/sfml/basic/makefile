@@ -19,7 +19,7 @@ CXXFLAGS = $(WARNINGS) $(DEBUG) -std=$(CXX_STD) $(LDLIBS)
 CPPFLAGS = -I$(INC_DIR)
 
 TARGET = main
-OBJS = ./main.o  ./ball.o ./rectangle.o ./paddle.o
+OBJS = ./main.o  ./ball.o ./rectangle.o ./paddle.o ./collision.o ./level.o
 
 $(TARGET):$(OBJS)
 
@@ -27,6 +27,8 @@ main.o :
 ball.o : ./ball.hpp 
 rectangle.o: ./rectangle.hpp
 paddle.o: ./paddle.hpp
+collision: ./collision.hpp
+level: ./level.hpp
 
 check: $(TARGET)
 	./$(TARGET) -v  

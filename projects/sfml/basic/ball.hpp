@@ -15,10 +15,10 @@ public:
     void setXposition(int a_x);
     void setYposition(int a_y);
     void setSpeed(size_t a_speed);
-
-    void changeXdirection();
+    void setXdirection(int a_num);
+    void changeXdirection(int a_num);
     void changeYdirection();
-
+    void getGlobalBounds();
     int getXposition()const;
     int getYposition()const;
     int getXdirection()const;

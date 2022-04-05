@@ -1,16 +1,21 @@
 #include <SFML/Graphics.hpp>
 #include <unistd.h>
 #include <utility>
-#include <unordered_map>
 #include <cmath>
 #include "ball.hpp"
 #include "rectangle.hpp"
 #include "paddle.hpp"
+#include "collision.hpp"
+#include "level.hpp"
 
-int SCREEN_WIDTH = 700;
+int SCREEN_WIDTH = 1000;
 int SCREEN_HEIGHT = 400;
+int GAME_BOUND = SCREEN_WIDTH * 0.75;
 
-void isEqual(shape::ball& a_first, shape::ball& a_second);
+//void isEqual(shape::ball& a_first, shape::ball& a_second);
+
+   
+
 
 
 void setPosition(shape::ball& a_ball)
@@ -40,11 +45,10 @@ void setPaddlePosition(shape::paddle& a_paddle)
     {   
         a_paddle.setXdirection(1);
        int x =  a_paddle.getXposition();
-       if (x < SCREEN_WIDTH - a_paddle.getWidth())
+       if (x < GAME_BOUND - a_paddle.getWidth())
        x += a_paddle.getXdirection()*a_paddle.getSpeed();
        a_paddle.setXposition(x);
     }
-
 }
 
 void setPositionRect(shape::rectangle& a_rectangle)
@@ -55,75 +59,60 @@ void setPositionRect(shape::rectangle& a_rectangle)
     a_rectangle.setYposition(y);
 }
 
-void changeDirection(shape::ball& a_ball, size_t a_width, size_t a_length, std::vector<shape::ball>& a_balls)
-{
-    if(a_ball.getXposition() >= (int)(a_width - a_ball.getRadius()*2)
-    ||
-       a_ball.getXposition() <=  0 )
-    {
-        a_ball.changeXdirection();
-    }
 
-    if(a_ball.getYposition() >= (int)(a_length - a_ball.getRadius()*2)
-    ||
-        a_ball.getYposition() <=  0)
-    {
-        a_ball.changeYdirection();
-    }
-}
+
+
 
 void setBalls(std::vector<shape::ball>& a_balls)
 {
-    a_balls.push_back(shape::ball(15, sf::Color::Blue,100, 0, 2));
-    a_balls.push_back(shape::ball(20, sf::Color::Red,0, 50));
-    a_balls.push_back(shape::ball(15, sf::Color::Green,200, 0, 3));
-    a_balls.push_back(shape::ball(20, sf::Color::Yellow,0, 300));
-    a_balls.push_back(shape::ball(20, sf::Color::Cyan,300, 0, 2));
-    a_balls.push_back(shape::ball(15, sf::Color::Magenta ,0, 450));
-    a_balls.push_back(shape::ball(15, sf::Color::White,400, 0));
+    //a_balls.push_back(shape::ball(15, sf::Color::Blue,100, 0, 2));
+    //a_balls.push_back(shape::ball(20, sf::Color::Red,0, 50));
+    a_balls.push_back(shape::ball(10, sf::Color::Green,GAME_BOUND / 2- 20, SCREEN_HEIGHT /2 +5, 1));
+    // a_balls.push_back(shape::ball(20, sf::Color::Yellow,0, 300));
+    // a_balls.push_back(shape::ball(20, sf::Color::Cyan,300, 0, 2));
+    // a_balls.push_back(shape::ball(15, sf::Color::Magenta ,0, 450));
+    // a_balls.push_back(shape::ball(15, sf::Color::White,400, 0));
 }
 
+void setLiveBalls(std::vector<shape::ball>& a_lives)
+{
+    for(int i = 0; i < 5; ++i)
+    {
+        a_lives.push_back(shape::ball(10, sf::Color::Green,GAME_BOUND +20 + i*40, 40, 1));
+    }
+    
+}
 void setRectangles(std::vector<shape::rectangle>& a_rectangles)
 {
     sf::Vector2f size1 = {40, 20}; 
-    a_rectangles.push_back(shape::rectangle(size1, sf::Color::Blue,100, 200, 1));
-    a_rectangles.push_back(shape::rectangle(size1, sf::Color::Red, 400, 200, 2));
-
+    int count = 0;
+    for(int i = size1.y; i < SCREEN_HEIGHT /2; i = i+ size1.y* 1.5)
+    {
+        for(int j = size1.x; j < GAME_BOUND - size1.x; j = j + size1.x + 10)
+        {
+            if (count % 2 == 0)
+            {
+                a_rectangles.push_back(shape::rectangle(size1, sf::Color::Blue,j, i, 1));
+            }
+            else
+            {
+                a_rectangles.push_back(shape::rectangle(size1, sf::Color::Red, j, i, 2));
+            }
+        }
+        ++count;
+    }
 }
 
 void setPaddle(std::vector<shape::paddle>& a_paddle)
 {
-    sf::Vector2f size1 = {80, 20}; 
-    a_paddle.push_back(shape::paddle(size1, sf::Color::Blue,350, 350, 1));
-}
-
-void CheckCollision(shape::ball& a_ball, std::vector<shape::ball>& a_balls)
-{
-    for(auto& e : a_balls)
-    {
-        if(a_ball == e){}
-        else{
-            isEqual(a_ball, e);
-        }
-    }
-}
-
-void isEqual(shape::ball& a_first, shape::ball& a_second)
-{
-    float dx = a_first.getXposition() - a_second.getXposition();
-    float dy = a_first.getYposition() - a_second.getYposition();
-    float distance = std::sqrt((dx*dx) +(dy*dy));
-    if(distance <= a_first.getRadius() + a_second.getRadius())
-    {
-        a_second.changeXdirection();
-        a_second.changeYdirection();
-    }
+    sf::Vector2f size1 = {150, 20}; 
+    a_paddle.push_back(shape::paddle(size1, sf::Color::Blue,GAME_BOUND / 2 - size1.x /2, SCREEN_HEIGHT - 40, 1));
 }
 
 bool intersects(shape::ball& circle, shape::rectangle& rect)
 {
-    float dist_x = abs(circle.getXposition() - rect.getXposition());
-    float dist_y = abs(circle.getYposition() - rect.getYposition());
+    float dist_x = abs(circle.getXposition() - (rect.getXposition() + rect.getWidth() /2));
+    float dist_y = abs(circle.getYposition() - (rect.getYposition() + rect.getHeight() /2));
 
     if (dist_x > (rect.getWidth()/2 + circle.getRadius())) { return false; }
     if (dist_y > (rect.getHeight()/2 + circle.getRadius())) { return false; }
@@ -131,17 +120,25 @@ bool intersects(shape::ball& circle, shape::rectangle& rect)
     if (dist_x <= (rect.getWidth()/2)) { return true; } 
     if (dist_y <= (rect.getHeight()/2)) { return true; }
 
-    float cornerDis = pow((dist_x - rect.getWidth()/2),2) +
-                         pow((dist_y - rect.getHeight()/2),2);
+   // float cornerDis = pow((dist_x - rect.getWidth()/2),2) +
+     //                    pow((dist_y - rect.getHeight()/2),2);
+    float cornerDis = pow((dist_x),2) +
+                         pow((dist_y),2);
 
     return (cornerDis <= (circle.getRadius()^2));
 }
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!");
-
+    sf::RectangleShape frame(sf::Vector2f(GAME_BOUND, SCREEN_HEIGHT)); 
+    frame.setFillColor(sf::Color::Transparent);
+    frame.setOutlineColor(sf::Color::White);
+    frame.setOutlineThickness(2);
     std::vector<shape::ball> balls;
     setBalls(balls);
+    std::vector<shape::ball> lives;
+    setLiveBalls(lives);
     std::vector<shape::rectangle> rectangles;
     setRectangles(rectangles);
     std::vector<shape::paddle> paddle;
@@ -157,12 +154,18 @@ int main()
         }
 
         window.clear();
+        window.draw(frame);
         for(auto& f: paddle)
         {
             setPaddlePosition(f); 
             f.drawPaddle(window); 
         }
         
+        for(auto& e: lives)
+        {
+            e.drawBall(window);
+        }
+
         for(auto& e: balls)
         {
             setPosition(e);  
@@ -176,7 +179,8 @@ int main()
        
         for(auto& e: balls)
         {
-            changeDirection(e, 700, 400, balls);
+            checkFall(e, SCREEN_WIDTH, SCREEN_HEIGHT, lives);
+            changeDirection(e, GAME_BOUND, SCREEN_HEIGHT, balls);
             CheckCollision(e, balls);
             e.drawBall(window);
         }
@@ -187,8 +191,36 @@ int main()
             {   
                 if ( intersects(e ,k))
                 {
-                    e.changeXdirection();
+                    if(k.getCollision() > 0)
+                    {
+                        e.changeXdirection(-1);
+                        e.changeYdirection();
+                        k.setCollision();
+                    }
+                    else
+                    {
+                        k.setColor();
+                    }
+                    
+                }
+            }
+        }
+
+        for(auto& e: balls)
+        { 
+             for(auto& k: paddle)
+            {   
+                if ( intersectPaddle(e ,k))
+                {
                     e.changeYdirection();
+                    if(e.getXposition() < k.getXposition() + k.getWidth() /2)
+                    {
+                        e.setXdirection(-1);
+                    }
+                    else
+                    {
+                        e.setXdirection(1);
+                    }
                 }
             }
         }

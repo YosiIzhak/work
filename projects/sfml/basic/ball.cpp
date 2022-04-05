@@ -39,9 +39,19 @@ void ball::setSpeed(size_t a_speed)
     m_speed = a_speed;
 }
 
-void ball::changeXdirection()
+void ball::getGlobalBounds()
 {
-    m_Xdirection *= -1;
+    m_name.getGlobalBounds();
+}
+
+void ball::setXdirection(int a_num)
+{
+    m_Xdirection = a_num;
+}
+
+void ball::changeXdirection(int a_num)
+{
+    m_Xdirection *= a_num;
 }
 
 void ball::changeYdirection()

@@ -3,13 +3,13 @@
 namespace shape
 {
 
-rectangle::rectangle(sf::Vector2f& a_size, sf::Color a_color, int a_x, int a_y, size_t a_id)
+rectangle::rectangle(sf::Vector2f& a_size, sf::Color a_color, int a_x, int a_y, size_t a_collision)
 : m_width(a_size.x)
 , m_height(a_size.y)
 , m_color(a_color)
 , m_x(a_x)
 , m_y(a_y)
-, m_id(a_id)
+, m_collision(a_collision)
 , m_name(a_size)
 {
     m_name.setFillColor(m_color);
@@ -27,6 +27,20 @@ void rectangle::setYposition(int a_y)
     m_y = a_y;
     setPosition();
 }
+void rectangle::setOutLine()
+{
+    m_name.setOutlineThickness(2);
+    m_name.setOutlineColor(sf::Color::White);
+}
+
+int rectangle::getCollision() const
+{
+    return m_collision;
+}
+void rectangle::setCollision()
+{
+    m_collision--;
+}
 
 void rectangle::setPosition()
 {
@@ -41,6 +55,11 @@ int rectangle::getXposition()const
 int rectangle::getYposition()const
 {
     return m_y;
+}
+
+void rectangle::setColor()
+{
+    m_name.setFillColor(sf::Color::Transparent);
 }
 
 size_t rectangle::getWidth()const

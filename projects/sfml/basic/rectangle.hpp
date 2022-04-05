@@ -14,10 +14,12 @@ public:
     rectangle(sf::Vector2f& a_size, sf::Color a_color,  int a_x = 0, int a_y = 0, size_t a_id = 0);
     void setXposition(int a_x);
     void setYposition(int a_y);
-    
+    int getCollision() const;
+    void setCollision();
     int getXposition()const;
     int getYposition()const;
-       
+    void setColor();
+    void setOutLine();
     size_t getWidth()const;
     size_t getHeight()const;
     void drawRectangle(sf::RenderWindow& a_window);
@@ -36,7 +38,7 @@ private:
     sf::Color m_color;
     int m_x;
     int m_y;
-    size_t m_id;
+    size_t m_collision;
     sf::RectangleShape m_name;
 };
 
