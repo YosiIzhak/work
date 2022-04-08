@@ -3,14 +3,15 @@
 namespace shape
 {
 
-ball::ball(size_t a_radius, sf::Color a_color,  int a_x, int a_y, size_t a_speed)
+ball::ball(size_t a_radius, sf::Color a_color,  int a_x, int a_y, size_t a_Xspeed, size_t a_Yspeed)
 : m_radius(a_radius)
 , m_color(a_color)
 , m_x(a_x)
 , m_y(a_y)
 , m_Xdirection(1)
 , m_Ydirection(1)
-, m_speed(a_speed)
+, m_Xspeed(a_Xspeed)
+, m_Yspeed(a_Yspeed)
 , m_name(m_radius)
 {
     m_name.setFillColor(m_color);
@@ -34,9 +35,14 @@ void ball::setPosition()
     m_name.setPosition(m_x, m_y);
 }
 
-void ball::setSpeed(size_t a_speed)
+void ball::setXSpeed(size_t a_Xspeed)
 {
-    m_speed = a_speed;
+    m_Xspeed = a_Xspeed;
+}
+
+void ball::setYSpeed(size_t a_Yspeed)
+{
+    m_Yspeed = a_Yspeed;
 }
 
 void ball::getGlobalBounds()
@@ -74,9 +80,14 @@ size_t ball::getRadius()const
     return m_radius;
 }
 
-int ball::getSpeed()const
+int ball::getXSpeed()const
 {
-    return m_speed;
+    return m_Xspeed;
+}
+
+int ball::getYSpeed()const
+{
+    return m_Yspeed;
 }
 
 int ball::getXdirection()const
@@ -105,7 +116,7 @@ bool ball::operator==(ball const& a_balls)
         && (m_y == a_balls.m_y)
         && (m_color == a_balls.m_color) 
         && (m_radius == a_balls.m_radius)
-        && (m_speed == a_balls.m_speed)
+        && (m_Xspeed == a_balls.m_Xspeed)
         && (m_Xdirection == a_balls.m_Xdirection)
         && (m_Ydirection == a_balls.m_Ydirection); 
 }

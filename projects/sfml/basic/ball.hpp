@@ -11,10 +11,11 @@ namespace shape
 class ball
 {
 public:
-    ball(size_t a_radius, sf::Color a_color,  int a_x = 0, int a_y = 0, size_t a_speed = 1);
+    ball(size_t a_radius, sf::Color a_color,  int a_x = 0, int a_y = 0, size_t a_Xspeed = 1, size_t a_Yspeed = 1);
     void setXposition(int a_x);
     void setYposition(int a_y);
-    void setSpeed(size_t a_speed);
+    void setXSpeed(size_t a_Xspeed);
+    void setYSpeed(size_t a_Yspeed);
     void setXdirection(int a_num);
     void changeXdirection(int a_num);
     void changeYdirection();
@@ -24,7 +25,8 @@ public:
     int getXdirection()const;
     int getYdirection()const;
     size_t getRadius()const;
-    int getSpeed()const;
+    int getXSpeed()const;
+    int getYSpeed()const;
 
     void drawBall(sf::RenderWindow& a_window);
     sf::CircleShape& getBallName();
@@ -43,7 +45,8 @@ private:
     int m_y;
     int m_Xdirection;
     int m_Ydirection;
-    size_t m_speed;
+    size_t m_Xspeed;
+    size_t m_Yspeed;
     sf::CircleShape m_name;
 };
 
