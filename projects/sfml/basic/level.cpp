@@ -31,19 +31,18 @@ void playBreakMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound)
    a_sound.play();
 }
 
-// void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound)
-// {
-//    a_buffer.loadFromFile("fall.wav");
-//    a_sound.setBuffer(a_buffer);
-//    a_sound.play();
-//    usleep(3000);
-// }
+void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound)
+{
+   a_buffer.loadFromFile("fall.wav");
+   a_sound.setBuffer(a_buffer);
+   a_sound.play();
+}
 
 bool checkFinishLevel(shape::rectangle& a_rect, std::vector<shape::rectangle>& a_rectangles)
 {
     for(auto& k: a_rectangles)
     {
-        if(k.getCollision() != 0)
+        if(k.getCollision() != 0 && k.getCollision() != 5)
         {
             return false; 
         }
@@ -74,9 +73,10 @@ void lives(std::vector<shape::ball>& a_balls, sf::RenderWindow& a_window)
     }
 }
 
-void endLevel(sf::RenderWindow& a_window)
+void endLevel(sf::RenderWindow& a_window, std::vector<shape::rectangle>& a_rectangles)
 {
     a_window.clear();
+    a_rectangles.clear();
     sf::Texture texture;
     texture.setRepeated(true);
     texture.loadFromFile("prize.jpeg");

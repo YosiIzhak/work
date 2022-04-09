@@ -58,7 +58,7 @@ void setBalls(std::vector<shape::ball>& a_balls)
 {
     //a_balls.push_back(shape::ball(15, sf::Color::Blue,100, 0, 2));
     //a_balls.push_back(shape::ball(20, sf::Color::Red,0, 50));
-    a_balls.push_back(shape::ball(10, sf::Color::Green,shape::level::GAME_BOUND / 2- 20, shape::level::SCREEN_HEIGHT /2 +5, 1));
+    a_balls.push_back(shape::ball(10, sf::Color::Green,shape::level::GAME_BOUND / 2- 20, 50, 1));
     // a_balls.push_back(shape::ball(20, sf::Color::Yellow,0, 300));
     // a_balls.push_back(shape::ball(20, sf::Color::Cyan,300, 0, 2));
     // a_balls.push_back(shape::ball(15, sf::Color::Magenta ,0, 450));
@@ -83,15 +83,16 @@ void setRectanglesLevel1(std::vector<shape::rectangle>& a_rectangles)
         {
            a_rectangles.push_back(shape::rectangle(size1, sf::Color::Blue,shape::level::GAME_BOUND/2-50+10*j+size1.x*j, shape::level::SCREEN_HEIGHT *0.3+10*i+size1.y*i, 1));
         }
+    a_rectangles.push_back(rectangle(size1, sf::Color::Magenta,shape::level::GAME_BOUND/3+220*i,shape::level::SCREEN_HEIGHT/2+10, 5));
     }
 }
 
-// void setBlocksLevel1(std::vector<shape::block>& a_blocks)
+// void setBlocksLevel1(std::vector<shape::rectangle>& a_blocks)
 // {
 //     sf::Vector2f size1 = {40, 20}; 
-//     for(int j = 0; j < 2; ++j)
+//     for(int j = 0; j < 3; ++j)
 //     {
-//       a_blocks.push_back(block(size1, sf::Color::Magenta,shape::level::GAME_BOUND/2+30, 50+150*j, 5));
+//       a_blocks.push_back(rectangle(size1, sf::Color::Magenta,shape::level::GAME_BOUND*(0.15 +0.3*j) ,shape::level::SCREEN_HEIGHT/2, 5));
 //     }
 // }
 
@@ -113,6 +114,10 @@ void setRectanglesLevel2(std::vector<shape::rectangle>& a_rectangles)
             }
         }
         ++count;
+    }
+    for(int i = 0; i < 3; ++i)
+    {
+        a_rectangles.push_back(rectangle(size1, sf::Color::Magenta,shape::level::GAME_BOUND*(0.1 +0.4*i) ,shape::level::SCREEN_HEIGHT/2+10, 5));
     }
 }
 

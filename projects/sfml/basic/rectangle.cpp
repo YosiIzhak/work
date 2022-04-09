@@ -105,6 +105,3 @@ bool rectangle::operator==(rectangle const& a_rectangle)
 
 
 }//namespace shape
-
-
-

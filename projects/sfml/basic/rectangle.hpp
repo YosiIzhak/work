@@ -50,3 +50,18 @@ private:
 
 
 }//namespace shape
+
+// class block : public rectangle 
+// {
+// public:    
+//    block(sf::Vector2f& a_size, sf::Color a_color,  int a_x = 0, int a_y = 0, size_t a_id = 5)
+//    : rectangle(a_size, a_color, a_x, a_y, a_id)
+//    {
+      
+//    }
+    
+//     void setCollision();
+// };
+
+
+

@@ -19,7 +19,7 @@ void setBalls(std::vector<shape::ball>& a_balls);
  
 void setLiveBalls(std::vector<shape::ball>& a_lives);
 
-//void setBlocksLevel1(std::vector<shape::block>& a_blocks);
+//void setBlocksLevel1(std::vector<shape::rectangle>& a_blocks);
 
 void setRectanglesLevel1(std::vector<shape::rectangle>& a_rectangles);
 

@@ -73,15 +73,15 @@ void changeDirection(shape::ball& a_ball, size_t a_width, size_t a_length, std::
     }
 } 
 
-void checkFall(shape::ball& a_ball, size_t a_width, size_t a_length, std::vector<shape::ball>& a_balls, sf::RenderWindow& a_window)
+void checkFall(shape::ball& a_ball, size_t a_width, size_t a_length, std::vector<shape::ball>& a_balls, sf::SoundBuffer& a_buffer, sf::Sound& a_sound, sf::RenderWindow& a_window)
 {
     if(a_ball.getYposition() >= (int)(a_length - a_ball.getRadius()*2))
     {
         usleep(3000);
         lives(a_balls, a_window);
-        a_ball.setXposition(a_width /2);
-        a_ball.setYposition(a_length / 2 + 5);
-        //playFallMusic(a_buffer, a_sound);
+        a_ball.setXposition(shape::level::GAME_BOUND /2);
+        a_ball.setYposition(50);
+        playFallMusic(a_buffer, a_sound);
     }
 }
 

@@ -52,9 +52,9 @@ int main()
     setLiveBalls(lives);
 
     std::vector<shape::rectangle> rectangles;
-    setRectanglesLevel2(rectangles);
+    setRectanglesLevel1(rectangles);
    
-    //std::vector<shape::block> blocks;
+    //std::vector<shape::rectangle> blocks;
     //setBlocksLevel1(blocks);
 
     std::vector<shape::paddle> paddle;
@@ -111,7 +111,7 @@ int main()
 
         for(auto& e: balls)
         {
-            checkFall(e, shape::level::SCREEN_WIDTH, shape::level::SCREEN_HEIGHT, lives, window);
+            checkFall(e, shape::level::SCREEN_WIDTH, shape::level::SCREEN_HEIGHT, lives, buffer, sound, window);
             changeDirection(e, shape::level::GAME_BOUND, shape::level::SCREEN_HEIGHT, balls);
             CheckCollision(e, balls);
             e.drawBall(window);
@@ -123,7 +123,13 @@ int main()
             {   
                 if ( intersects(e ,k))
                 {
-                    if(k.getCollision() > 1)
+                    if(k.getCollision() == 5 )
+                    {
+                        shape::playHitMusic(buffer, sound);
+                        e.changeXdirection(-1);
+                        e.changeYdirection();
+                    }
+                    else if(k.getCollision() > 1)
                     {
                         shape::playHitMusic(buffer, sound);
                         e.changeXdirection(-1);
@@ -140,7 +146,7 @@ int main()
                 }
                 if(checkFinishLevel(k, rectangles))
                 {
-                    shape::endLevel(window);
+                    shape::endLevel(window, rectangles);
                     shape::level::LEVEL_NUMBER++;
                     shape::newLevel(shape::level::LEVEL_NUMBER, rectangles);
                     

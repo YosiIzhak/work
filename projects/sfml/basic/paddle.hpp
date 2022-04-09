@@ -26,9 +26,7 @@ public:
     sf::RectangleShape& getRectangleName();
 
     bool operator==(paddle const& a_paddle);
-    // bool compare(Rectangle const& a_rectangle);
-    // bool const operator<(Rectangle const& a_rectangle);
-
+    
 private:
     void setPosition();
 

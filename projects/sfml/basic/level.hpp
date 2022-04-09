@@ -24,12 +24,12 @@ public:
 
     void newLevel(int level_num, std::vector<shape::rectangle>& rectangles);
 
-    void endLevel(sf::RenderWindow& a_window);
+    void endLevel(sf::RenderWindow& a_window, std::vector<shape::rectangle>& a_rectangles);
 
     void playHitMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
     void playBreakMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
-    //void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
+    void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
 }//namespace
