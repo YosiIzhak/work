@@ -44,7 +44,7 @@ void level::playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound)
    a_sound.play();
 }
 
-bool level::checkFinishLevel(shape::brick& a_rect, std::vector<std::unique_ptr<shape::brick> >& a_rectangles)
+bool level::checkFinishLevel(std::vector<std::unique_ptr<shape::brick> >& a_rectangles)
 {
     for(auto& k: a_rectangles)
     {
@@ -103,16 +103,6 @@ void level::newLevel(int level_num, std::vector<std::unique_ptr<shape::brick> >&
         //setRectanglesLevel1(rectangles);
         levelBuild(rectangles, level_num);
     
-    // else if(level_num == 2)
-    // {
-    //     //setRectanglesLevel2(rectangles);
-    //     levelBuild2(rectangles);
-    // }
-    // else if(level_num == 3)
-    // {
-    //     //setRectanglesLevel2(rectangles);
-    //     levelBuild2(rectangles);
-    // }
 }
 
 Color level::intToColor(std::string& a_color) 
@@ -144,7 +134,7 @@ void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangle
     std::ifstream file ("level" +std::to_string(a_level) + ".txt");
     sf::Vector2f size;
     Color color;
-    
+    a_rectangles.clear();
     int x, y, w, h;
     std::string c;
     size_t type;
@@ -165,7 +155,7 @@ void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangle
           }
           else
           {
-            a_rectangles.push_back(std::unique_ptr<shape::brick>(new shape::block(size, color, w, h, type)));
+            a_rectangles.push_back(std::unique_ptr<shape::brick>(new shape::block(size, color, w, h)));
           }
         }
     }

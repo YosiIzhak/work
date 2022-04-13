@@ -98,7 +98,7 @@ int main()
 
         game1.collisionPaddle(collision1, level1, balls, paddle, window, buffer, sound);
         game1.collisionTreat(collision1,  level1, balls, rectangles, window, buffer, sound);
-        
+        game1.changeLevel(level1, rectangles, window);
 
 
         window.display();

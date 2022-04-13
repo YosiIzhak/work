@@ -35,6 +35,8 @@ void collisionPaddle(shape::collision& collision1, shape::level& level1, std::ve
 
 void collisionTreat(shape::collision& collision1, shape::level& a_level1, std::vector<shape::ball>& a_balls, std::vector<std::unique_ptr<shape::brick> >& rectangles, sf::RenderWindow& a_window, sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
+void changeLevel(shape::level& level1, std::vector<std::unique_ptr<shape::brick> >& rectangles, sf::RenderWindow& window);
+
 };
 
 }//namespace

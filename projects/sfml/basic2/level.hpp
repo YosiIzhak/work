@@ -19,7 +19,7 @@ public:
     static int LEVEL_NUMBER;
  
 
-   bool checkFinishLevel(shape::brick& a_rect, std::vector<std::unique_ptr<shape::brick> >& a_rectangles);
+   bool checkFinishLevel(std::vector<std::unique_ptr<shape::brick> >& a_rectangles);
     
     void lives(std::vector<shape::ball>& a_balls, sf::RenderWindow& a_window);
 

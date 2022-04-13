@@ -152,54 +152,20 @@ void game::collisionTreat(shape::collision& collision1, shape::level& level1, st
                     }
                     
                 }
-                if(level1.checkFinishLevel(*k, rectangles))
-                {
-                    level1.endLevel(window, rectangles);
-                    shape::level::LEVEL_NUMBER++;
-                    level1.newLevel(shape::level::LEVEL_NUMBER, rectangles);
-                    
-                }
+                
             }
         }
 }
 
-// void setRectanglesLevel1(std::vector<shape::rectangle>& a_rectangles)
-// {
-//     sf::Vector2f size1 = {40, 20}; 
-//     for(int i = 0; i < 2; ++i)
-//     {
-//         for(int j = 0; j < 2; ++j)
-//         {
-//            a_rectangles.push_back(shape::rectangle(size1, sf::Color::Blue,shape::level::GAME_BOUND/2-50+10*j+size1.x*j, shape::level::SCREEN_HEIGHT *0.3+10*i+size1.y*i, 1));
-//         }
-//     a_rectangles.push_back(rectangle(size1, sf::Color::Magenta,shape::level::GAME_BOUND/3+200*i,shape::level::SCREEN_HEIGHT/2+10, 5));
-//     }
-// }
-
-// void setRectanglesLevel2(std::vector<shape::rectangle>& a_rectangles)
-// {
-//     sf::Vector2f size1 = {40, 20}; 
-//     int count = 0;
-//    for(int i = 0; i < 5; ++i)
-//     {
-//         for(int j = 0; j < 5; ++j)
-//         {
-//             if (count % 2 == 0)
-//             {
-//                 a_rectangles.push_back(shape::rectangle(size1, sf::Color::Blue,shape::level::GAME_BOUND/2-2*size1.x +(size1.x+10)*j, shape::level::SCREEN_HEIGHT *0.1+10*i+size1.y*i, 1));
-//             }
-//             else
-//             {
-//                 a_rectangles.push_back(shape::rectangle(size1, sf::Color::Red, shape::level::GAME_BOUND/2-2*size1.x+(size1.x+10)*j, shape::level::SCREEN_HEIGHT *0.1+10*i+size1.y*i, 2));
-//             }
-//         }
-//         ++count;
-//     }
-//     for(int i = 0; i < 3; ++i)
-//     {
-//         a_rectangles.push_back(rectangle(size1, sf::Color::Magenta,shape::level::GAME_BOUND*(0.2 +0.35*i) ,shape::level::SCREEN_HEIGHT/2+10, 5));
-//     }
-// }
+void game::changeLevel(shape::level& level1, std::vector<std::unique_ptr<shape::brick> >& rectangles, sf::RenderWindow& window)
+{
+    if(level1.checkFinishLevel(rectangles))
+    {
+      level1.endLevel(window, rectangles);
+      shape::level::LEVEL_NUMBER++;
+      level1.newLevel(shape::level::LEVEL_NUMBER, rectangles);
+    }
+}
 
 
 
