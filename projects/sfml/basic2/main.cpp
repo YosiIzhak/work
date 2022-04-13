@@ -32,7 +32,7 @@ int main()
 
     std::vector<std::unique_ptr<shape::brick> > rectangles;
     //setRectanglesLevel1(rectangles);
-    level1.levelBuild(rectangles);
+    level1.levelBuild(rectangles, 1);
     //std::vector<shape::rectangle> blocks;
     //setBlocksLevel1(blocks);
 

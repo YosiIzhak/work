@@ -99,16 +99,20 @@ void level::endLevel(sf::RenderWindow& a_window, std::vector<std::unique_ptr<sha
 
 void level::newLevel(int level_num, std::vector<std::unique_ptr<shape::brick> >& rectangles)
 {
-    if (level_num == 1)
-    {
+   
         //setRectanglesLevel1(rectangles);
-        levelBuild(rectangles);
-    }
-    else if(level_num == 2)
-    {
-        //setRectanglesLevel2(rectangles);
-         levelBuild(rectangles);
-    }
+        levelBuild(rectangles, level_num);
+    
+    // else if(level_num == 2)
+    // {
+    //     //setRectanglesLevel2(rectangles);
+    //     levelBuild2(rectangles);
+    // }
+    // else if(level_num == 3)
+    // {
+    //     //setRectanglesLevel2(rectangles);
+    //     levelBuild2(rectangles);
+    // }
 }
 
 Color level::intToColor(std::string& a_color) 
@@ -135,9 +139,9 @@ Color level::intToColor(std::string& a_color)
 }
 
 
-void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles)
+void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles, int a_level)
 {
-    std::ifstream file ("level1.txt");
+    std::ifstream file ("level" +std::to_string(a_level) + ".txt");
     sf::Vector2f size;
     Color color;
     
@@ -166,5 +170,6 @@ void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangle
         }
     }
 }
+
 
 }//namespace

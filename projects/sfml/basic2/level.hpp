@@ -33,8 +33,9 @@ public:
 
     void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
-    void levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles);
+    void levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles, int level);
 
+   
     Color intToColor(std::string& a_color);
 
     
