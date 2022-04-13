@@ -7,6 +7,7 @@
 #include "brick.hpp"
 #include "ball.hpp"
 
+using namespace sf;
 namespace shape
 {
 
@@ -33,6 +34,10 @@ public:
     void playFallMusic(sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
     void levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles);
+
+    Color intToColor(std::string& a_color);
+
+    
 
 };
 

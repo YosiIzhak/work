@@ -15,6 +15,9 @@
 namespace shape
 {
 
+using namespace sf;
+
+
 int level::SCREEN_WIDTH = 1000;
 int level::SCREEN_HEIGHT = 400;
 int level::GAME_BOUND = 750;
@@ -108,25 +111,58 @@ void level::newLevel(int level_num, std::vector<std::unique_ptr<shape::brick> >&
     }
 }
 
+Color level::intToColor(std::string& a_color) 
+{
+    static Color lut[] = 
+    {
+        Color::Black, 
+        Color::White, 
+        Color::Red, 
+        Color::Green, 
+        Color::Blue, 
+        Color::Yellow, 
+        Color::Magenta,
+        Color::Cyan,
+        Color::Transparent
+    };
+
+    int color = stoi(a_color);
+    if( 0 <= color &&  color <= 9)
+    {
+        return lut[color];
+    }
+    return Color::Yellow;
+}
+
+
 void level::levelBuild (std::vector<std::unique_ptr<shape::brick> >& a_rectangles)
 {
     std::ifstream file ("level1.txt");
     sf::Vector2f size;
-    sf::Color red;
+    Color color;
     
-    int x, y, w, h ,c;
+    int x, y, w, h;
+    std::string c;
     size_t type;
     while(file.good())
     {
         file >> x >> y >> c >> w >> h >> type;
         if (file.good())
         {
-            std::cout << x << y << c << w << h << type << std::endl;
+            //std::cout << x << y << c << w << h << type << std::endl;
             size.x = x;
             size.y = y;
-            red = sf::Color::Red;
-            a_rectangles.push_back(std::unique_ptr<shape::brick>(new shape::brick(size, red, w, h, type)));
-            
+            std::string numOfColor = c;
+            Color color = intToColor(numOfColor);
+         
+          if (type)
+          {
+            a_rectangles.push_back(std::unique_ptr<shape::brick>(new shape::brick(size, color, w, h, type)));
+          }
+          else
+          {
+            a_rectangles.push_back(std::unique_ptr<shape::brick>(new shape::block(size, color, w, h, type)));
+          }
         }
     }
 }

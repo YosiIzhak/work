@@ -9,6 +9,7 @@ paddle::paddle(sf::Vector2f& a_size, sf::Color a_color, int a_x, int a_y, size_t
 , m_color(a_color)
 , m_x(a_x)
 , m_y(a_y)
+, m_speed(a_speed)
 , m_name(a_size)
 {
     m_name.setFillColor(m_color);

@@ -31,6 +31,8 @@ void setLiveBalls(std::vector<shape::ball>& a_lives);
 
 //void setRectanglesLevel2(std::vector<shape::brick>& a_rectangles);
 
+void collisionPaddle(shape::collision& collision1, shape::level& level1, std::vector<shape::ball>& balls, std::vector<shape::paddle>& paddle, sf::RenderWindow& window, sf::SoundBuffer& buffer, sf::Sound& sound);
+
 void collisionTreat(shape::collision& collision1, shape::level& a_level1, std::vector<shape::ball>& a_balls, std::vector<std::unique_ptr<shape::brick> >& rectangles, sf::RenderWindow& a_window, sf::SoundBuffer& a_buffer, sf::Sound& a_sound);
 
 };

@@ -67,7 +67,7 @@ void game::setBalls(std::vector<shape::ball>& a_balls)
 void game::setPaddle(std::vector<shape::paddle>& a_paddle)
 {
     sf::Vector2f size1 = {150, 20}; 
-    a_paddle.push_back(shape::paddle(size1, sf::Color::Blue, shape::level::GAME_BOUND/ 2 - size1.x /2, shape::level::SCREEN_HEIGHT - 40, 1));
+    a_paddle.push_back(shape::paddle(size1, sf::Color::Blue, shape::level::GAME_BOUND/ 2 - size1.x /2, shape::level::SCREEN_HEIGHT - 40, 3));
 }
 
 void game::setLiveBalls(std::vector<shape::ball>& a_lives)
@@ -78,6 +78,51 @@ void game::setLiveBalls(std::vector<shape::ball>& a_lives)
     }
     
 }
+void game::collisionPaddle(shape::collision& collision1, shape::level& level1, std::vector<shape::ball>& balls, std::vector<shape::paddle>& paddle, sf::RenderWindow& window, sf::SoundBuffer& buffer, sf::Sound& sound)
+{
+   for(auto& e: balls)
+        { 
+             for(auto& k: paddle)
+            {   
+                if ( collision1.intersectPaddle(e ,k))
+                {
+                    e.changeYdirection();
+                    if(e.getXposition() < k.getXposition() + k.getWidth() /5)
+                    {
+                        e.setXdirection(-1);
+                        e.setXSpeed(3);
+                        e.setYSpeed(2); 
+                    }
+                    else if (e.getXposition() < k.getXposition() + k.getWidth() *0.4)
+                    {
+                        e.setXdirection(-1);
+                         e.setXSpeed(2);
+                         e.setYSpeed(2); 
+                    }
+                    else if (e.getXposition() < k.getXposition() + k.getWidth() *0.6)
+                    {
+                        e.setXdirection(0);
+                         e.setXSpeed(1);
+                         e.setYSpeed(2); 
+                    }
+                    else if (e.getXposition() < k.getXposition() + k.getWidth() *0.8)
+                    {
+                        e.setXdirection(1);
+                         e.setXSpeed(2);
+                         e.setYSpeed(2); 
+                    }
+                    else 
+                    {
+                        e.setXdirection(1);
+                        e.setXSpeed(3);
+                        e.setYSpeed(2); 
+                    }
+
+                }
+            }
+        }
+}
+
 void game::collisionTreat(shape::collision& collision1, shape::level& level1, std::vector<shape::ball>& a_balls, std::vector<std::unique_ptr<shape::brick> >& rectangles, sf::RenderWindow& window, sf::SoundBuffer& buffer, sf::Sound& sound)
 {
     for(auto& e: a_balls)
