@@ -55,6 +55,27 @@ void setDirections(vector<pair<int, int> >& directionsVec, string directions)
     }
 }
 
+void printMatrix(std::vector<vector<char> >& a_matrix)
+{    
+    for(size_t i = 0; i < a_matrix.size(); ++i)
+    {
+        for(size_t j = 0; j < a_matrix[i].size(); ++j)
+        {
+            std::cout << a_matrix[i][j];
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+}
+
+void printWords(vector<string>& a_words)
+{    
+    for(size_t i = 0; i < a_words.size(); ++i)
+    {
+        cout << a_words[i] << endl;
+    }
+}
+
 void fillMatrix(std::ifstream& a_file ,vector<vector<char> >& a_matrix)
 {
     while(a_file.good())
@@ -87,68 +108,84 @@ void getWords(std::ifstream& a_file, vector<string>& words)
     }
 }
 
-bool scan2D(vector<vector<char> >& a_matrix, string a_word, vector<pair<int, int> >& directionsVec)
+
+int scan2D(vector<vector<char> >& a_matrix, string a_word, vector<pair<int, int> >& directionsVec)
  {
      int rows = a_matrix.size();
      int columns = a_matrix[0].size();
-   
-    int len = a_word.length();
-     for (int row = 0; row < rows; row++)
-     {
+     int len = a_word.length();
+     int count = 0;
+    for (int dir = 0; dir < directionsVec.size(); dir++) 
+    {
         for (int col = 0; col < columns; col++)
         {
-            for (int dir = 0; dir < directionsVec.size(); dir++) 
+            for (int row = 0; row < rows; row++)
             {
-            int k, rd = row + directionsVec[dir].first, cd = col + directionsVec[dir].second;
-             
-             if (a_matrix[directionsVec[dir].first][directionsVec[dir].second] != a_word[0])
-             return false;
-                for (k = 1; k < len; k++) 
+                int k = 0;
+                int rd = row;
+                int cd = col;
+                //cout  << rd << cd << " rd+ cd" << endl;
+               // cout  << cd << " cd" << endl;
+                if (a_matrix[rd][cd] != a_word[0])
                 {
-                if (rd >= rows || rd < 0 || cd >= columns || cd < 0)
-                    break;
- 
-                if (a_matrix[rd][cd] != a_word[k])
-                    break;
- 
-                rd += directionsVec[dir].first, cd += directionsVec[dir].second;
+                    continue;
                 }
-             if (k == len)
-            return true;
+                    
+                for (k = 0; k < len; k++) 
+                {
+                    if (rd >= rows || rd < 0 || cd >= columns || cd < 0)
+                        break;
+ 
+                    if (a_matrix[rd][cd] != a_word[k])
+                    {
+                        break;
+                    }
+                   
+                    cd += directionsVec[dir].first;
+                    rd += directionsVec[dir].second;
+                    //cout << rd << cd <<"***rd+cd**" <<endl;
+                }
+                
+                if (k == len)
+                    count++;
             }
         }
-     }
-    return false;
+    }
+    //cout << "count" << count << endl;
+    return count;
 }
  
 
 
-int main () 
+int main (int argc, char** argv) 
 {
    vector<vector<char> > matrix;
    vector<pair<int, int> >directionsVec;
    vector<string> words;
-   ifstream matrixFile {"mat.txt"};
-   ifstream wordsFile {"words.txt"};
-   ofstream result{ "result.txt" };
-   string directions = "ud";
+   ifstream matrixFile {argv[1]};
+   ifstream wordsFile {argv[2]};
+   ofstream resultFile {argv[3]};
+   string directions = argv[4];
+   
    setDirections(directionsVec, directions);
    fillMatrix(matrixFile, matrix);
+   printMatrix(matrix);
    getWords(wordsFile, words);
+   printWords(words);
    unordered_map<string, int> mp;
     
     for(auto& w: words)
     { 
-        if(scan2D(matrix, w, directionsVec))
+        int res = scan2D(matrix, w, directionsVec);
         {
-            mp[w]++;
+            mp[w] = res;
         }
     }
 
     for(auto k : mp)
     {
         cout << k.first << " " << k.second << endl;
-        result << k.first << " " << k.second << endl;
+        resultFile << k.first << " " << k.second << endl;
     }
 
    return 0;
