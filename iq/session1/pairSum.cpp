@@ -25,8 +25,8 @@ int pairSum(array<int, N>& a_array, int a_number)
 
 int main () 
 {
-   array<int, 10> myArray = {1,2,3,4,5,6,7,8,9,10};
-   int res = pairSum(myArray, 17);
+   array<int, 10> myArray = {1,9,1};
+   int res = pairSum(myArray, 10);
     cout << "res " << res << endl;
 
     return 0;
