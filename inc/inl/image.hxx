@@ -198,11 +198,19 @@ Image<T>& read (std::ifstream &inFile, Image<T>& result)
 template<typename T>
 Image<T> save(Image<T>& a_src, std::ofstream &outFile)
 {
-    outFile << 
+    outFile << type;
     outFile << a_src.getX();
     outFile << a_src.getY();
     outFile << a_src.getScale();
-    
+
+    for(size_t i = 0; i < result.getY(); ++i)
+        {
+            for(size_t j = 0; j < result.getX(); ++j)
+            {
+                outFile << result[j][i];
+            }
+        }
+
 }
 // template<typename T>
 // bool Image<T>::operator==(Image const& a_source)
