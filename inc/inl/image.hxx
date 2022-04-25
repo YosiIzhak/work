@@ -177,6 +177,38 @@ void brighten (Image& a_src, int a_factor)
         }
     }
 }
+
+static int calcAverage(Image& a_src, size_t a_i, size_t a_j)
+{
+    int sum =0;
+    for(int a = 0; a < 2; a = a + a_src.getWidth())
+    {
+        for(int b = 0; b < 2; ++b)
+        {
+           sum += a_src.getPixel(a_i+ a, a_j+ b);
+        }  
+    }
+    return sum/ 9;
+}
+
+void blur(Image& a_src)
+{
+    for(size_t i = 0; i < a_src.getHeigth()-2; i= i+3)
+    {
+        for(size_t j = 0; j < a_src.getWidth()-2; j= j+3)
+        {
+            int blur = calcAverage(a_src, j, i);
+            for(int a = 0; a < 2; a = a + a_src.getWidth())
+            {
+                for(int b = 0; b < 2; ++b)
+                {
+                   a_src.setPixel(i+a, j+b, blur);
+                }  
+            }
+        }
+    }
+}
+
 size_t Image::setWidth(size_t a_value)
 {
     m_width = a_value;
