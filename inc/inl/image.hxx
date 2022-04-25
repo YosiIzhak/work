@@ -209,6 +209,26 @@ void blur(Image& a_src)
     }
 }
 
+void sharp(Image& a_src)
+{
+    int sharpMatrix[] = {0,-1,0,-1,5,-1,0,-1,0};
+
+    for(size_t i = 0; i < a_src.getHeigth()-2; i= i+3)
+    {
+        for(size_t j = 0; j < a_src.getWidth()-2; j= j+3)
+        {
+            int count = 0;
+            for(int a = 0; a < 2; a = a + a_src.getWidth())
+            {
+                for(int b = 0; b < 2; ++b)
+                {
+                   a_src.setPixelbright(i+a, j+b, sharpMatrix[count]);
+                }  
+            }
+        }
+    }
+}
+
 size_t Image::setWidth(size_t a_value)
 {
     m_width = a_value;
