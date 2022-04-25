@@ -7,216 +7,232 @@
 namespace cpp
 {
 
-template<typename T>
-Image<T>::Image(size_t a_x, size_t a_y, int a_scaleOfBright)
-: m_x(a_x)
-, m_y (a_y)
+
+Image::Image(size_t a_width, size_t a_heigth, std::string a_type, int a_scaleOfBright)
+: m_width(a_width)
+, m_heigth (a_heigth)
+, m_type (a_type)
 , m_scaleOfBright(a_scaleOfBright)
 {
     std::cout << "ctor\n";
-    m_matrix = new T*[a_x];
-    for(size_t i = 0; i < a_x; ++i)
-    {
-        m_pixels[i] = new T[a_y];
-    }
+    m_matrix = new int[a_width * a_heigth];
+    
 }
 
-template<typename T>
-Image<T>::Image(Image const& a_source)
-: m_x(a_source.m_x)
-, m_y (a_source.m_y)
+
+Image::Image(Image const& a_source)
+: m_width(a_source.m_width)
+, m_heigth (a_source.m_heigth)
+, m_type (a_source.m_type)
 , m_scaleOfBright(a_source.m_scaleOfBright)
 {
     std::cout << "cctor\n";
-    m_matrix = new T*[m_x];
-    for(size_t i = 0; i < m_x; ++i)
-    {
-        m_matrix[i] = new T[m_y];
-        std::copy(a_source.m_matrix[i], a_source.m_matrix[i] + m_y, m_matrix[i]);
-    }
+    m_matrix = new int[m_width * m_heigth];
+    
+       std::copy(a_source.m_matrix[0], a_source.m_matrix[m_width * m_heigth], m_matrix[0]);
+    
 }
 
-template<typename T>
-Image<T>::Image(Image&& a_source)
-: m_x(a_source.m_x)
-, m_y (a_source.m_y)
+
+Image::Image(Image&& a_source)
+: m_width(a_source.m_width)
+, m_heigth (a_source.m_heigth)
+, m_type (a_source.m_type)
 , m_scaleOfBright(a_source.m_scaleOfBright)
-, m_pixels(a_source.m_matrix)
+, m_matrix(a_source.m_matrix)
 {
     std::cout << "move cctor\n";
     a_source.m_matrix = nullptr;
-    a_source.m_x = 0;
+    a_source.m_width = 0;
+    a_source.m_heigth = 0;
 }
 
-template<typename T>
-Image<T>& Image<T>::operator=(Image<T> const& a_source)
+
+Image& Image::operator=(Image const& a_source)
 {
     if(*this == a_source){return *this;}
 
     std::cout << "copy\n";
 
-    T** temp = new T*[a_source.m_x];
-    for(size_t i = 0; i < a_source.m_x; ++i)
-    {
-        temp[i] = new T[a_source.m_y];
-        std::copy(a_source.m_matrix[i], a_source.m_matrix[i] + a_source.m_y, temp[i]);
-    }
+    int* temp = new int[a_source.m_width *a_source.m_heigth];
+    
+   
+    std::copy(a_source.m_matrix[0], a_source.m_matrix[m_width * m_heigth], temp[0]);
+        
+    delete m_matrix;
 
-    for(size_t i = 0; i < m_x; ++i)
-    {
-        delete[] m_matrix[i];
-    }
-    delete[] m_matrix;
-
-    m_x = a_source.m_x;
-    m_y = a_source.m_y;
+    m_width = a_source.m_width;
+    m_heigth = a_source.m_heigth;
     m_scaleOfBright = a_source.m_scaleOfBright;
     m_matrix = temp;
 
     return *this;
 }
 
-template<typename T>
-Image<T>& Image<T>::operator=(Image<T>&& a_source)
+
+Image& Image::operator=(Image&& a_source)
 {
     if(*this == a_source){return *this;}
 
     std::cout << "move copy\n";
 
-    for(size_t i = 0; i < m_x; ++i)
-    {
-        delete[] m_matrix[i];
-    }
     delete[] m_matrix;
 
-    m_x = a_source.m_x;
-    m_y = a_source.m_y;
+    m_width = a_source.m_width;
+    m_heigth = a_source.m_heigth;
     m_scaleOfBright = a_source.m_scaleOfBright;
     m_matrix = a_source.m_matrix;
     a_source.m_matrix = nullptr;
-    a_source.m_x = 0;
+    a_source.m_width = 0;
 
     return *this;
 }
 
-template<typename T>
-Image<T>::~Image()
+
+Image::~Image()
 {
      std::cout << "dtor\n";
-    for(size_t i = 0; i < m_x; ++i)
-    {
-        delete[] m_matrix[i];
-    }
-    delete[] m_matrix;
+     delete[] m_matrix;
 } 
 
 
 
-template<typename T>
-T Image<T>::getPixel(size_t a_x, size_t a_y)const
+
+int Image::getPixel(size_t a_x, size_t a_y) const
 {
-    if(a_x >= m_x || a_y >= m_y)
+    if(a_x >= m_width || a_y >= m_heigth)
     {
-        std::cout << "Error: Point outside the image range" << "\n";
-        return m_matrix[m_x - 1][m_y - 1];;
+        return 0;
     }
-    return m_matrix[a_x][a_y];
+    if (a_y == 0)
+    {
+        return m_matrix[a_x];
+    }
+    return m_matrix[m_width * (a_y -1) + a_x];
 }
 
-template<typename T>
-void Image<T>::setPixel(size_t a_x, size_t a_y, T a_factor)
+
+void Image::setPixel(size_t a_x, size_t a_y, int a_value)
 {
-    if(a_x >= m_x || a_y >= m_y)
+    if(a_x >= m_width || a_y >= m_heigth)
     {
-        std::cout << "Error: Point outside the image range" << "\n";
+       return;
+    }
+    if (a_y == 0)
+    {
+         m_matrix[a_x] = a_value;
+         return;
+    }
+   m_matrix[m_width * (a_y -1) + a_x] = a_value;
+}
+
+
+void Image::setPixelbright(size_t a_x, size_t a_y, int a_factor)
+{
+    if(a_x >= m_width || a_y >= m_heigth)
+    {
         return;
     }
-    if(getPixel(a_x, a_y) > a_factor)
+    if (a_y == 0 && m_matrix[a_x] != 0)
     {
-        m_matrix[a_x][a_y] = getPixel(a_x, a_y) - a_factor;
+         m_matrix[a_x] = getPixel(a_x, a_y) + a_factor;
+         return;
     }
-    else
+    if (m_matrix[m_width * (a_y -1) + a_x] == 0)
     {
-         m_matrix[a_x][a_y] = 0;
+        return;
     }
+    m_matrix[m_width * (a_y -1) + a_x] = getPixel(a_x, a_y) + a_factor;
 }
 
-template<typename T>
-size_t Image<T>::getX()const
+
+size_t Image::getWidth()const
 {
-    return m_x;
+    return m_width;
 }
 
-template<typename T>
-int Image<T>::getScale() const
+std::string Image::getType() const
+{
+    return m_type;
+}
+
+int Image::getScale() const
 {
     return m_scaleOfBright;
 }
 
-template<typename T>
-size_t Image<T>::getY()const
+
+size_t Image::getHeigth()const
 {
-    return m_y;
+    return m_heigth;
 }
-template<typename T>
-void brighten (Image<T>& src, int a_factor)
+
+void brighten (Image& a_src, int a_factor)
 {
-    for(size_t i = 0; i < m_x; ++i)
+    for(size_t i = 0; i < a_src.getWidth(); ++i)
     {
-        for(size_t j = 0; j < m_y; ++j)
+        for(size_t j = 0; j < a_src.getHeigth(); ++j)
         {
-            src.setPixel(i, j, a_factor);
+            a_src.setPixelbright(i, j, a_factor);
         }
     }
 }
+size_t Image::setWidth(size_t a_value)
+{
+    m_width = a_value;
+}
+    
+size_t Image::setHeigth(size_t a_value)
+{
+    m_heigth = a_value;
+}
 
-template<typename T>
-Image<T>& read (std::ifstream &inFile, Image<T>& result)
+Image& read (std::ifstream &inFile)
 {
     int x, y, scale;
     std::string type;
     int num;
     
     inFile >> type >> x >> y >> scale;
-    result.m_x = x;
-    result.m_y = y;
-
+    cpp::Image result(x, y, type, scale);
+    
     while(inFile.good())
     {
-        for(size_t i = 0; i < result.getY(); ++i)
+        for(size_t i = 0; i < result.getHeigth(); ++i)
         {
-            for(size_t j = 0; j < result.getX(); ++j)
+            for(size_t j = 0; j < result.getWidth(); ++j)
             {
                 inFile >> num;
-                result[j][i] << num;
+                result.setPixel(j, i, num);
             }
         }
     }
     return result;
 }
 
-template<typename T>
-Image<T> save(Image<T>& a_src, std::ofstream &outFile)
+
+Image save(Image& a_src, std::ofstream &outFile)
 {
-    outFile << type;
-    outFile << a_src.getX();
-    outFile << a_src.getY();
+    outFile << a_src.getType();
+    outFile << a_src.getWidth();
+    outFile << a_src.getHeigth();
     outFile << a_src.getScale();
 
-    for(size_t i = 0; i < result.getY(); ++i)
+    for(size_t i = 0; i < a_src.getHeigth(); ++i)
         {
-            for(size_t j = 0; j < result.getX(); ++j)
+            for(size_t j = 0; j < a_src.getWidth(); ++j)
             {
-                outFile << result[j][i];
+                outFile << a_src.getPixel(j, i) << " ";
             }
+            outFile << std::endl;
         }
 
 }
-// template<typename T>
-// bool Image<T>::operator==(Image const& a_source)
-// {
-//     return m_pixels == a_source.m_pixels;
-// }
+
+bool Image::operator==(Image const& a_source)
+{
+    return m_matrix == a_source.m_matrix;
+}
 
 // template<typename T>
 // bool isExists(Image<T> const& a_image, T a_pixels)
