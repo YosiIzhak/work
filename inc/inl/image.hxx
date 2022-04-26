@@ -84,7 +84,7 @@ Image& Image::operator=(Image&& a_source)
     m_matrix = a_source.m_matrix;
     a_source.m_matrix = nullptr;
     a_source.m_width = 0;
-
+    a_source.m_heigth = 0;
     return *this;
 }
 
@@ -104,11 +104,8 @@ int Image::getPixel(size_t a_x, size_t a_y) const
     {
         return 0;
     }
-    if (a_y == 0)
-    {
-        return m_matrix[a_x];
-    }
-    return m_matrix[m_width * (a_y -1) + a_x];
+    
+    return m_matrix[m_width * (a_y) + a_x];
 }
 
 
@@ -118,12 +115,8 @@ void Image::setPixel(size_t a_x, size_t a_y, int a_value)
     {
        return;
     }
-    if (a_y == 0)
-    {
-         m_matrix[a_x] = a_value;
-         return;
-    }
-   m_matrix[m_width * (a_y -1) + a_x] = a_value;
+    
+   m_matrix[m_width * (a_y) + a_x] = a_value;
 }
 
 
@@ -133,16 +126,11 @@ void Image::setPixelbright(size_t a_x, size_t a_y, int a_factor)
     {
         return;
     }
-    if (a_y == 0 && m_matrix[a_x] != 0)
-    {
-         m_matrix[a_x] = getPixel(a_x, a_y) + a_factor;
-         return;
-    }
-    if (m_matrix[m_width * (a_y -1) + a_x] == 0)
+    if (m_matrix[m_width * (a_y) + a_x] == 0)
     {
         return;
     }
-    m_matrix[m_width * (a_y -1) + a_x] = getPixel(a_x, a_y) + a_factor;
+    m_matrix[m_width * (a_y) + a_x] = getPixel(a_x, a_y) + a_factor;
 }
 
 
