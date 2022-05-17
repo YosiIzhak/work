@@ -33,7 +33,7 @@ vector<vector<int> > permutation(vector<int>& a_nums)
 
 int main () 
 {
-    vector<int> input = {1,2,3};
+    vector<int> input = {1,2,3, 4};
     vector<vector<int> > res = permutation(input);
     
     for (int i = 0; i < res.size(); i++) {
